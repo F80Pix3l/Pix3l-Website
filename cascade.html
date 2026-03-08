@@ -94,6 +94,13 @@
       background-clip: text;
     }
 
+    @keyframes scrollDot {
+      0%, 100% { transform: translateY(0); opacity: 1; }
+      60%       { transform: translateY(10px); opacity: 0; }
+      61%       { transform: translateY(0); opacity: 0; }
+      80%       { opacity: 1; }
+    }
+
     /* ── MARQUEE ── */
     @keyframes marquee {
       0%   { transform: translateX(0); }
@@ -262,13 +269,14 @@
       .btn-primary, .btn-outline, .agent-card, .service-card, .stat-card, .pipeline-card { transition: none; }
     }
   </style>
+  <link rel="stylesheet" href="glow.css">
 </head>
 <body class="bg-[#000623] text-white font-body overflow-x-hidden">
 
   <!-- ═══════════════════════════════════════════════
        NAVBAR
   ═══════════════════════════════════════════════ -->
-  <nav id="navbar" class="fixed top-0 inset-x-0 z-50 transition-opacity duration-300">
+  <nav id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
     <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
 
       <a href="index.html" aria-label="Pix3l Home" class="shrink-0 focus-visible:outline-2 focus-visible:outline-[#FF1673] focus-visible:outline-offset-4 rounded">
@@ -284,8 +292,8 @@
         <a href="#platforms" class="nav-link">Platforms</a>
         <a href="#contact"   class="nav-link">Contact</a>
       </div>
-      <a href="#contact" class="hidden lg:inline-flex btn-primary py-2.5 px-5 text-sm">
-        Get Early Access
+      <a href="viki.html" class="hidden lg:inline-flex btn-primary py-2.5 px-5 text-sm">
+        View VIKI
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
 
@@ -304,7 +312,7 @@
       <a href="#agents"    class="nav-link py-3 border-b border-white/8">Agents</a>
       <a href="#platforms" class="nav-link py-3 border-b border-white/8">Platforms</a>
       <a href="#contact"   class="nav-link py-3 border-b border-white/8">Contact</a>
-      <a href="#contact"   class="btn-primary mt-3 justify-center">Get Early Access</a>
+      <a href="viki.html" class="btn-primary mt-3 justify-center">View VIKI</a>
     </div>
   </nav>
 
@@ -357,74 +365,15 @@
       </div>
     </div>
 
-    <!-- Scroll nudge -->
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 opacity-40 pointer-events-none select-none">
-      <span class="label" style="color:rgba(255,255,255,0.4);">scroll</span>
-      <div class="w-px h-10 bg-gradient-to-b from-white/35 to-transparent"></div>
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2" aria-hidden="true">
+      <div style="width:24px; height:38px; border:1.5px solid rgba(255,255,255,0.2); border-radius:12px; display:flex; justify-content:center; padding-top:6px;">
+        <div style="width:4px; height:8px; background:rgba(255,255,255,0.4); border-radius:2px; animation: scrollDot 2s ease-in-out infinite;"></div>
+      </div>
     </div>
   </section>
 
 
-  <!-- ═══════════════════════════════════════════════
-       TECH MARQUEE
-  ═══════════════════════════════════════════════ -->
-  <div class="relative py-4 overflow-hidden border-y border-white/[0.06]" style="background: rgba(0,9,71,0.45);">
-    <div class="absolute left-0 inset-y-0 w-28 z-10 pointer-events-none"
-         style="background: linear-gradient(to right, #000623, transparent);"></div>
-    <div class="absolute right-0 inset-y-0 w-28 z-10 pointer-events-none"
-         style="background: linear-gradient(to left, #000623, transparent);"></div>
-
-    <div class="marquee-track">
-      <div class="flex items-center gap-12 px-7 shrink-0">
-        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">LangGraph</span>
-        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
-        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">GPT-4o</span>
-        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
-        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">Claude 3.5 Sonnet</span>
-        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
-        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">WhisperX</span>
-        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
-        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">YOLOv11</span>
-        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
-        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">Qdrant</span>
-        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
-        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">FFmpeg</span>
-        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
-        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">BullMQ</span>
-        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
-        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">Gemini 2.0 Flash</span>
-        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
-        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">C2PA</span>
-        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
-        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">Deepgram Nova-3</span>
-        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
-      </div>
-      <div class="flex items-center gap-12 px-7 shrink-0" aria-hidden="true">
-        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">LangGraph</span>
-        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
-        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">GPT-4o</span>
-        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
-        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">Claude 3.5 Sonnet</span>
-        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
-        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">WhisperX</span>
-        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
-        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">YOLOv11</span>
-        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
-        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">Qdrant</span>
-        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
-        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">FFmpeg</span>
-        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
-        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">BullMQ</span>
-        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
-        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">Gemini 2.0 Flash</span>
-        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
-        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">C2PA</span>
-        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
-        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">Deepgram Nova-3</span>
-        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
-      </div>
-    </div>
-  </div>
 
 
   <!-- ═══════════════════════════════════════════════
@@ -732,7 +681,7 @@
           </div>
         </a>
 
-        <a href="agents/viki.html" class="agent-card reveal" style="transition-delay:.24s; text-decoration:none; display:block;">
+        <a href="viki.html" class="agent-card reveal" style="transition-delay:.24s; text-decoration:none; display:block;">
           <div class="agent-img-wrap">
             <img src="assets/cascade/agents/viki.png" alt="VIKI">
           </div>
@@ -1039,5 +988,6 @@
       document.querySelectorAll('#hero .reveal').forEach(el => el.classList.add('visible'));
     }, 80);
   </script>
+  <script src="glow.js"></script>
 </body>
 </html>

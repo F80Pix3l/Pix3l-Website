@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIKI — Voice Intelligence Neural Interface | Pix3l LLC</title>
+  <meta name="description" content="VIKI is a local, voice-first AI brainstorming partner. Think it. Say it. Build it.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'big-red': '#FF1635',
+            'pinky': '#FF1673',
+            'purple': '#A100FF',
+            'vista': '#8599FF',
+            'navy': '#000947',
+            'dark-navy': '#000623'
+          },
+          fontFamily: {
+            display: ['Space Grotesk', 'sans-serif'],
+            body: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-bg:          #000623;
+      --color-surface:     #000947;
+      --color-border:      rgba(255,255,255,0.09);
+      --color-text-primary:#ffffff;
+      --color-text-muted:  #A3A3A3;
+      --color-accent:      #A100FF;
+      --color-accent-2:    #8599FF;
+      --color-cta:         #FF1673;
+      --color-cta-alt:     #FF1635;
+      --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+      --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-16: 64px;
+      --radius: 12px;
+      --text-xs: 11px; --text-sm: 13px; --text-base: 15px;
+      --text-lg: 18px; --text-xl: 22px; --text-2xl: 28px;
+      --text-display: clamp(2.6rem, 7vw, 5rem);
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+      --duration-fast: 150ms; --duration-base: 250ms; --duration-slow: 500ms;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--color-bg);
+      color: var(--color-text-primary);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── GRAIN OVERLAY ── */
+    .grain::after {
+      content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 0; opacity: 0.022;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 180px;
+    }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      background: linear-gradient(135deg, var(--color-cta-alt) 0%, var(--color-cta) 100%);
+      color: #fff; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 14px;
+      padding: 12px 28px; border-radius: 8px; border: none; cursor: pointer; text-decoration: none;
+      transition: opacity var(--duration-base) var(--ease), transform var(--duration-base) var(--ease);
+      letter-spacing: -0.01em;
+    }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-primary:active { transform: translateY(0); opacity: 1; }
+    .btn-primary:focus-visible { outline: 2px solid var(--color-accent-2); outline-offset: 2px; }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      background: transparent; color: rgba(255,255,255,0.75);
+      font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 14px;
+      padding: 11px 28px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15);
+      cursor: pointer; text-decoration: none;
+      transition: border-color var(--duration-base) var(--ease), background var(--duration-base) var(--ease), color var(--duration-base) var(--ease);
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.05); color: #fff; }
+    .btn-ghost:focus-visible { outline: 2px solid var(--color-accent-2); outline-offset: 2px; }
+
+    /* ── NAV ── */
+    .nav-link {
+      font-family: 'Space Grotesk', sans-serif; font-size: 13.5px; font-weight: 500;
+      color: rgba(255,255,255,0.65); text-decoration: none;
+      position: relative; letter-spacing: -0.005em;
+      transition: color 0.2s ease;
+    }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 2px;
+      background: #FF1635; border-radius: 1px; transition: width 0.25s ease;
+    }
+    .nav-link:hover { color: #fff; }
+    .nav-link:hover::after { width: 100%; }
+    .nav-link:focus-visible { outline: 2px solid #FF1673; outline-offset: 4px; border-radius: 2px; }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity var(--duration-slow) var(--ease), transform var(--duration-slow) var(--ease);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── HERO ── */
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0; overflow: hidden;
+    }
+    .hero-orb {
+      position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.28;
+      animation: drift 12s ease-in-out infinite alternate;
+    }
+    .hero-orb-1 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, #A100FF 0%, transparent 70%);
+      top: -180px; left: -100px;
+      animation-duration: 14s;
+    }
+    .hero-orb-2 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, #8599FF 0%, transparent 70%);
+      top: -120px; right: -80px;
+      animation-duration: 10s; animation-delay: -4s;
+    }
+    .hero-orb-3 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, #FF1673 0%, transparent 70%);
+      bottom: -50px; left: 40%;
+      opacity: 0.15; animation-duration: 16s; animation-delay: -7s;
+    }
+    @keyframes drift {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(30px, 20px) scale(1.06); }
+    }
+
+    /* ── WAVEFORM ── */
+    .waveform {
+      display: flex; align-items: center; gap: 3px; height: 40px;
+    }
+    .wave-bar {
+      width: 3px; border-radius: 2px;
+      background: linear-gradient(to top, var(--color-accent), var(--color-accent-2));
+      animation: wave 1.4s ease-in-out infinite;
+      transform-origin: bottom;
+    }
+    .wave-bar:nth-child(1)  { height: 20%; animation-delay: 0s; }
+    .wave-bar:nth-child(2)  { height: 55%; animation-delay: .1s; }
+    .wave-bar:nth-child(3)  { height: 80%; animation-delay: .2s; }
+    .wave-bar:nth-child(4)  { height: 40%; animation-delay: .3s; }
+    .wave-bar:nth-child(5)  { height: 90%; animation-delay: .15s; }
+    .wave-bar:nth-child(6)  { height: 65%; animation-delay: .25s; }
+    .wave-bar:nth-child(7)  { height: 35%; animation-delay: .05s; }
+    .wave-bar:nth-child(8)  { height: 75%; animation-delay: .35s; }
+    .wave-bar:nth-child(9)  { height: 50%; animation-delay: .12s; }
+    .wave-bar:nth-child(10) { height: 25%; animation-delay: .22s; }
+    .wave-bar:nth-child(11) { height: 70%; animation-delay: .08s; }
+    .wave-bar:nth-child(12) { height: 45%; animation-delay: .18s; }
+    @keyframes wave {
+      0%, 100% { transform: scaleY(1); }
+      50%       { transform: scaleY(0.35); }
+    }
+
+    /* ── FEATURE CARDS ── */
+    .feature-card {
+      background: linear-gradient(135deg, rgba(161,0,255,0.10) 0%, rgba(0,9,71,0.60) 100%);
+      border: 1px solid rgba(161,0,255,0.22);
+      border-radius: var(--radius);
+      padding: var(--space-8);
+      transition: border-color var(--duration-base) var(--ease), background var(--duration-base) var(--ease);
+      position: relative; overflow: hidden;
+    }
+    .feature-card::before {
+      content: ''; position: absolute; inset: 0; border-radius: inherit;
+      background: linear-gradient(135deg, rgba(161,0,255,0.18) 0%, rgba(133,153,255,0.06) 60%, transparent 100%);
+      opacity: 0; transition: opacity var(--duration-base) var(--ease);
+    }
+    .feature-card:hover { border-color: rgba(161,0,255,0.55); background: linear-gradient(135deg, rgba(161,0,255,0.18) 0%, rgba(0,9,71,0.75) 100%); box-shadow: 0 0 32px rgba(161,0,255,0.12), 0 8px 32px rgba(0,0,0,0.4); }
+    .feature-card:hover::before { opacity: 1; }
+
+    .feature-icon {
+      width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      background: rgba(161,0,255,0.18); border: 1px solid rgba(161,0,255,0.35);
+      box-shadow: 0 0 16px rgba(161,0,255,0.15);
+      margin-bottom: var(--space-4);
+    }
+
+    /* ── TECH CHIPS ── */
+    .tech-chip {
+      display: flex; align-items: flex-start; gap: var(--space-3);
+      background: linear-gradient(135deg, rgba(161,0,255,0.10) 0%, rgba(0,9,71,0.55) 100%);
+      border: 1px solid rgba(161,0,255,0.2);
+      border-radius: 10px; padding: var(--space-4) 18px;
+      transition: border-color 0.2s cubic-bezier(0.4,0,0.2,1), box-shadow 0.2s cubic-bezier(0.4,0,0.2,1);
+    }
+    .tech-chip:hover {
+      border-color: rgba(161,0,255,0.45);
+      box-shadow: 0 0 24px rgba(161,0,255,0.1), 0 4px 16px rgba(0,0,0,0.4);
+    }
+    .tech-dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+      background: var(--color-accent-2); margin-top: 4px;
+    }
+
+    /* ── FLOW STEP ── */
+    .flow-step {
+      position: relative; display: flex; flex-direction: column; align-items: center; text-align: center;
+    }
+    .flow-num {
+      width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 500; color: var(--color-accent-2);
+      border: 1px solid rgba(133,153,255,0.3); background: rgba(133,153,255,0.07);
+      margin-bottom: var(--space-4);
+    }
+    .flow-connector {
+      position: absolute; top: 20px; left: calc(50% + 28px); right: calc(-50% + 28px);
+      height: 1px; background: linear-gradient(to right, rgba(133,153,255,0.4), rgba(133,153,255,0.1));
+    }
+
+    /* ── CAP PILL ── */
+    .cap-pill {
+      display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase; color: #FF1673;
+    }
+    .red-rule { width: 44px; height: 3px; background: linear-gradient(90deg, #FF1635, #FF1673); border-radius: 2px; }
+
+    /* ── MARQUEE ── */
+    .marquee-wrapper { overflow: hidden; position: relative; }
+    .marquee-wrapper::before,
+    .marquee-wrapper::after {
+      content: ''; position: absolute; top: 0; bottom: 0; width: 120px; z-index: 1;
+    }
+    .marquee-wrapper::before { left: 0; background: linear-gradient(to right, var(--color-bg), transparent); }
+    .marquee-wrapper::after  { right: 0; background: linear-gradient(to left, var(--color-bg), transparent); }
+    .marquee-track {
+      display: flex; gap: var(--space-8); width: max-content;
+      animation: marquee 22s linear infinite;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .marquee-item {
+      font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 500;
+      color: rgba(255,255,255,0.35); letter-spacing: 0.04em; white-space: nowrap;
+      display: flex; align-items: center; gap: var(--space-3);
+    }
+    .marquee-item span.dot {
+      width: 5px; height: 5px; border-radius: 50%; background: rgba(161,0,255,0.7); flex-shrink: 0;
+    }
+
+    /* ── AGENT NAV CARD ── */
+    .agent-nav-card {
+      display: flex; align-items: center; gap: 14px; padding: 16px 20px;
+      background: rgba(255,255,255,0.04); border: 1px solid var(--color-border);
+      border-radius: var(--radius); text-decoration: none; color: #fff;
+      transition: border-color var(--duration-base) var(--ease), background var(--duration-base) var(--ease);
+    }
+    .agent-nav-card:hover { border-color: rgba(255,255,255,0.22); background: rgba(255,255,255,0.07); }
+    .agent-nav-card:focus-visible { outline: 2px solid var(--color-accent-2); outline-offset: 2px; }
+    .agent-nav-card img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 3px; }
+
+    /* ── AGENT AVATARS ── */
+    .agent-avatar-link {
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      text-decoration: none;
+    }
+    .agent-avatar-img {
+      width: 72px; height: 72px; border-radius: 50%; overflow: hidden;
+      border: 1.5px solid rgba(255,255,255,0.15);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+      transition: transform 0.2s cubic-bezier(0.4,0,0.2,1), border-color 0.2s cubic-bezier(0.4,0,0.2,1), box-shadow 0.2s cubic-bezier(0.4,0,0.2,1);
+    }
+    .agent-avatar-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .agent-avatar-name {
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      color: rgba(255,255,255,0.4); letter-spacing: 0.08em;
+      transition: color 0.2s cubic-bezier(0.4,0,0.2,1);
+    }
+    .agent-avatar-link:hover .agent-avatar-img {
+      transform: scale(1.12);
+      border-color: rgba(133,153,255,0.6);
+      box-shadow: 0 0 24px rgba(133,153,255,0.25), 0 8px 24px rgba(0,0,0,0.5);
+    }
+    .agent-avatar-link:hover .agent-avatar-name { color: #fff; }
+    .agent-avatar-link:focus-visible .agent-avatar-img { outline: 2px solid #8599FF; outline-offset: 3px; }
+
+    @media (max-width: 767px) {
+      .capabilities-layout { grid-template-columns: 1fr !important; }
+      .capabilities-layout > div:first-child { display: flex; justify-content: center; position: static !important; }
+      .capabilities-layout img { width: 200px !important; height: 200px !important; }
+    }
+
+    /* ── REDUCED MOTION ── */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .wave-bar, .hero-orb { animation: none; }
+      .marquee-track { animation: none; }
+      .btn-primary, .btn-ghost { transition: none; }
+    }
+  </style>
+  <link rel="stylesheet" href="glow.css">
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════════════ -->
+<nav id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
+
+    <a href="../index.html" aria-label="Pix3l Home" class="shrink-0 focus-visible:outline-2 focus-visible:outline-[#FF1673] focus-visible:outline-offset-4 rounded">
+      <img src="assets/logos/logo-meet-dark-white.svg" alt="PIX3L" class="h-7 w-auto">
+    </a>
+
+    <!-- Desktop links -->
+    <div class="hidden lg:flex items-center gap-7">
+      <a href="../index.html#about"     class="nav-link">About</a>
+      <a href="../index.html#solutions" class="nav-link">Design Solutions</a>
+      <a href="../index.html#products"  class="nav-link">AI Agents</a>
+      <a href="../index.html#devops"    class="nav-link">Dev Ops</a>
+      <a href="../index.html#contact"   class="nav-link">Contact</a>
+    </div>
+    <a href="../cascade.html" class="hidden lg:inline-flex btn-primary py-2.5 px-5 text-sm">
+      View Cascade
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+
+    <!-- Mobile hamburger -->
+    <button id="hamburger" class="lg:hidden flex flex-col gap-[5px] p-2 rounded focus-visible:outline-2 focus-visible:outline-[#FF1673]" aria-label="Toggle menu" aria-expanded="false">
+      <span id="h1" class="block w-6 h-[2px] bg-white rounded-full origin-center transition-transform duration-300"></span>
+      <span id="h2" class="block w-6 h-[2px] bg-white rounded-full transition-opacity duration-300"></span>
+      <span id="h3" class="block w-6 h-[2px] bg-white rounded-full origin-center transition-transform duration-300"></span>
+    </button>
+  </div>
+
+  <!-- Mobile drawer -->
+  <div id="mobile-drawer" class="hidden lg:hidden flex-col px-6 pb-6 pt-2 gap-3" style="background: rgba(0,6,35,0.97); border-bottom: 1px solid rgba(255,255,255,0.06);">
+    <a href="../index.html#about"     class="nav-link py-3 border-b border-white/8">About</a>
+    <a href="../index.html#solutions" class="nav-link py-3 border-b border-white/8">Design Solutions</a>
+    <a href="../index.html#products"  class="nav-link py-3 border-b border-white/8">AI Agents</a>
+    <a href="../index.html#devops"    class="nav-link py-3 border-b border-white/8">Dev Ops</a>
+    <a href="../index.html#contact"   class="nav-link py-3 border-b border-white/8">Contact</a>
+    <a href="../cascade.html"         class="btn-primary mt-3 justify-center">View Cascade</a>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════ -->
+<header class="relative min-h-screen flex flex-col items-center justify-center text-center overflow-hidden grain" style="padding: 120px 24px 80px;">
+  <!-- WebGL shader canvas -->
+  <canvas id="viki-shader" style="position:absolute; inset:0; width:100%; height:100%; z-index:0; opacity:0.35;"></canvas>
+  <!-- gradient overlay at 0.25 opacity -->
+  <div style="position:absolute; inset:0; z-index:1; background: linear-gradient(135deg, rgba(255,22,115,0.22) 0%, rgba(0,6,35,0.7) 100%); opacity:0.25;"></div>
+  <div class="hero-bg" style="z-index:2;">
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
+  </div>
+
+  <div class="relative max-w-4xl mx-auto" style="z-index:10; text-align:center;">
+
+
+    <h1 style="font-family:'Space Grotesk',sans-serif; font-size: clamp(3.5rem, 10vw, 7.5rem); font-weight:700; letter-spacing:-0.04em; line-height:1.0; animation: fadeUp 0.6s var(--ease) .12s both;">
+      Meet
+      <span style="background: linear-gradient(135deg, #A100FF 0%, #8599FF 50%, #FF1673 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">VIKI</span>
+    </h1>
+
+    <p style="font-family:'Space Grotesk',sans-serif; font-size:clamp(1.6rem,3.5vw,2.25rem); font-weight:600; letter-spacing:-0.02em; color:rgba(255,255,255,0.5); margin-top:24px; animation: fadeUp 0.6s var(--ease) .2s both;">
+      <span style="color:#fff;">Think it.</span>&nbsp;
+      <span style="background: linear-gradient(90deg, #A100FF, #8599FF); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">Say it.</span>&nbsp;
+      <span style="color:#FF1673;">Build it.</span>
+    </p>
+
+    <p style="font-size:clamp(1.05rem,2.5vw,1.3rem); color:#fff; line-height:1.65; max-width:680px; margin: 24px auto 0; animation: fadeUp 0.6s var(--ease) .3s both;">
+      A local, voice-first AI brainstorming partner built on Claude. She listens continuously, thinks out loud with you, and captures every exchange so no idea gets lost between the moment it's spoken and the moment it gets built.
+    </p>
+
+    <div class="flex flex-wrap justify-center gap-4 mt-10" style="animation: fadeUp 0.6s var(--ease) .4s both;">
+      <a href="#how-it-works" class="btn-primary">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
+        See How It Works
+      </a>
+      <a href="#features" class="btn-ghost">Explore Features</a>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2" style="z-index:10; animation: fadeUp 0.6s var(--ease) .6s both;" aria-hidden="true">
+    <div style="width:24px; height:38px; border:1.5px solid rgba(255,255,255,0.2); border-radius:12px; display:flex; justify-content:center; padding-top:6px;">
+      <div style="width:4px; height:8px; background:rgba(255,255,255,0.4); border-radius:2px; animation: scrollDot 2s ease-in-out infinite;"></div>
+    </div>
+  </div>
+</header>
+
+
+<!-- ════════════════════════════════════════════════
+     WHO IS VIKI
+════════════════════════════════════════════════ -->
+<section class="py-36 relative" style="background: linear-gradient(180deg, var(--color-bg) 0%, #04013a 100%);">
+  <div class="max-w-5xl mx-auto px-6">
+    <div class="max-w-3xl mx-auto text-center reveal">
+      <p class="cap-pill mb-3">Designed for thinkers</p>
+      <div class="red-rule mx-auto mb-7"></div>
+      <h2 style="font-family:'Space Grotesk',sans-serif; font-size:clamp(1.8rem,4vw,2.8rem); font-weight:700; letter-spacing:-0.03em; line-height:1.1;">
+        You move faster than you type.<br>
+        <span style="color: rgba(255,255,255,0.45);">VIKI keeps up.</span>
+      </h2>
+      <p style="font-size:var(--text-base); color:var(--color-text-muted); line-height:1.75; margin-top:20px;">
+        VIKI bridges the gap between raw creative thinking and real implementation. Brainstorm by voice, then push sessions directly into Claude Code as structured markdown references, turning conversations into buildable context.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6 mt-16">
+      <div class="feature-card reveal" style="transition-delay: 0s;">
+        <div class="feature-icon">
+          <svg width="20" height="20" fill="none" stroke="#A100FF" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:16px; margin-bottom:8px;">Continuous Listening</h3>
+        <p style="font-size:var(--text-sm); color:var(--color-text-muted); line-height:1.7;">VIKI stays on, always ready. No wake words, no interruptions. Just speak and she captures it all.</p>
+      </div>
+      <div class="feature-card reveal" style="transition-delay: .1s;">
+        <div class="feature-icon">
+          <svg width="20" height="20" fill="none" stroke="#A100FF" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:16px; margin-bottom:8px;">Thinks Out Loud With You</h3>
+        <p style="font-size:var(--text-sm); color:var(--color-text-muted); line-height:1.7;">Powered by Claude, VIKI responds with natural AI voice via ElevenLabs, making every session feel like a real conversation.</p>
+      </div>
+      <div class="feature-card reveal" style="transition-delay: .2s;">
+        <div class="feature-icon">
+          <svg width="20" height="20" fill="none" stroke="#A100FF" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <h3 style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:16px; margin-bottom:8px;">Zero Ideas Lost</h3>
+        <p style="font-size:var(--text-sm); color:var(--color-text-muted); line-height:1.7;">Every session is captured, structured, and synced to Supabase. Your ideas are always there, wherever you build next.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════
+     FEATURES
+════════════════════════════════════════════════ -->
+<section id="features" class="py-36 relative" style="background: linear-gradient(180deg, #04013a 0%, #07023f 40%, #050228 70%, #030118 100%);">
+  <div style="position:absolute; inset:0; background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(161,0,255,0.08) 0%, transparent 70%); pointer-events:none;"></div>
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-16 reveal">
+      <p class="cap-pill mb-3">Capabilities</p>
+      <div class="red-rule mx-auto mb-7"></div>
+      <h2 style="font-family:'Space Grotesk',sans-serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; letter-spacing:-0.03em;">Everything VIKI can do</h2>
+    </div>
+
+    <div style="display:grid; grid-template-columns:auto 1fr; align-items:start; gap:64px;" class="capabilities-layout">
+
+      <!-- VIKI portrait -->
+      <div class="reveal" style="position:sticky; top:120px;">
+        <div style="position:relative; display:inline-block;">
+          <div style="position:absolute; inset:-16px; border-radius:50%; background: radial-gradient(ellipse at center, rgba(161,0,255,0.4) 0%, rgba(133,153,255,0.15) 50%, transparent 70%); filter:blur(20px);"></div>
+          <img src="assets/cascade/agents/viki.png" alt="VIKI"
+               style="position:relative; width:260px; height:260px; object-fit:cover; border-radius:50%;
+                      border: 1.5px solid rgba(161,0,255,0.4);
+                      box-shadow: 0 0 40px rgba(161,0,255,0.25), 0 0 80px rgba(133,153,255,0.1), 0 24px 48px rgba(0,0,0,0.5);">
+        </div>
+      </div>
+
+      <!-- Feature cards -->
+      <div class="grid md:grid-cols-2 gap-6">
+
+      <div class="feature-card reveal" style="transition-delay:0s;">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+          <div class="feature-icon" style="margin-bottom:0; background:rgba(133,153,255,0.15); border-color:rgba(133,153,255,0.3);">
+            <svg width="20" height="20" fill="none" stroke="#8599FF" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3 style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:16px;">Claude Code Integration</h3>
+        </div>
+        <p style="font-size:var(--text-sm); color:var(--color-text-muted); line-height:1.75;">Push any session directly into Claude Code as a structured markdown reference. Your spoken brainstorm becomes buildable context with one command.</p>
+      </div>
+
+      <div class="feature-card reveal" style="transition-delay:.1s;">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+          <div class="feature-icon" style="margin-bottom:0; background:rgba(133,153,255,0.15); border-color:rgba(133,153,255,0.3);">
+            <svg width="20" height="20" fill="none" stroke="#8599FF" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3 style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:16px;">Supabase Session Sync</h3>
+        </div>
+        <p style="font-size:var(--text-sm); color:var(--color-text-muted); line-height:1.75;">Every session automatically syncs to your Supabase instance. Your ideas are accessible across every device, every context, every build environment.</p>
+      </div>
+
+      <div class="feature-card reveal" style="transition-delay:.15s;">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+          <div class="feature-icon" style="margin-bottom:0;">
+            <svg width="20" height="20" fill="none" stroke="#A100FF" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3 style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:16px;">Runs Entirely Local</h3>
+        </div>
+        <p style="font-size:var(--text-sm); color:var(--color-text-muted); line-height:1.75;">VIKI runs on your machine. No cloud processing of your raw voice data, no latency surprises. Your thinking stays yours.</p>
+      </div>
+
+      <div class="feature-card reveal" style="transition-delay:.2s;">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+          <div class="feature-icon" style="margin-bottom:0;">
+            <svg width="20" height="20" fill="none" stroke="#A100FF" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          </div>
+          <h3 style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:16px;">Natural AI Voice</h3>
+        </div>
+        <p style="font-size:var(--text-sm); color:var(--color-text-muted); line-height:1.75;">VIKI speaks back via ElevenLabs, delivering studio-quality, natural voice responses. Brainstorming feels like a real conversation, not a command prompt.</p>
+      </div>
+
+      </div><!-- end feature cards grid -->
+    </div><!-- end capabilities-layout -->
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════
+     HOW IT WORKS
+════════════════════════════════════════════════ -->
+<section id="how-it-works" class="py-36 relative" style="background: linear-gradient(180deg, #030118 0%, #020014 100%);">
+  <div class="max-w-5xl mx-auto px-6">
+    <div class="text-center mb-16 reveal">
+      <p class="cap-pill mb-3">Workflow</p>
+      <div class="red-rule mx-auto mb-7"></div>
+      <h2 style="font-family:'Space Grotesk',sans-serif; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:700; letter-spacing:-0.03em;">From thought to implementation</h2>
+      <p style="font-size:var(--text-base); color:var(--color-text-muted); max-width:500px; margin:16px auto 0; line-height:1.7;">Three steps. No friction. No lost ideas.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8 relative">
+      <div class="flow-step reveal" style="transition-delay:0s;">
+        <div class="flow-connector hidden md:block"></div>
+        <div class="flow-num">01</div>
+        <div class="workflow-card" style="background:rgba(255,255,255,0.03); border:1px solid var(--color-border); border-radius:var(--radius); padding:var(--space-8); text-align:left; width:100%;">
+          <p style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:16px; margin-bottom:8px; color:#fff;">Think it</p>
+          <p style="font-size:var(--text-sm); color:var(--color-text-muted); line-height:1.7;">Just speak. VIKI listens continuously in the background, capturing your raw thinking as it happens, no typing required.</p>
+        </div>
+      </div>
+      <div class="flow-step reveal" style="transition-delay:.12s;">
+        <div class="flow-connector hidden md:block"></div>
+        <div class="flow-num">02</div>
+        <div class="workflow-card" style="background:rgba(255,255,255,0.03); border:1px solid var(--color-border); border-radius:var(--radius); padding:var(--space-8); text-align:left; width:100%;">
+          <p style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:16px; margin-bottom:8px; color:#fff;">Say it</p>
+          <p style="font-size:var(--text-sm); color:var(--color-text-muted); line-height:1.7;">VIKI responds with Claude's intelligence through a natural ElevenLabs voice. She refines ideas, asks questions, and builds on your thinking in real time.</p>
+        </div>
+      </div>
+      <div class="flow-step reveal" style="transition-delay:.24s;">
+        <div class="flow-num">03</div>
+        <div class="workflow-card" style="background:rgba(255,255,255,0.03); border:1px solid rgba(161,0,255,0.3); border-radius:var(--radius); padding:var(--space-8); text-align:left; width:100%;">
+          <p style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:16px; margin-bottom:8px; color:#fff;">Build it</p>
+          <p style="font-size:var(--text-sm); color:var(--color-text-muted); line-height:1.7;">Push the session to Claude Code as structured markdown. Your conversation becomes buildable context, synced to Supabase and ready to implement.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════
+     TECH STACK
+════════════════════════════════════════════════ -->
+<section class="py-28 relative" style="background: linear-gradient(180deg, #020014 0%, #0a0130 50%, #000947 100%);">
+  <div style="position:absolute; inset:0; background: radial-gradient(ellipse 70% 50% at 50% 50%, rgba(161,0,255,0.07) 0%, transparent 70%); pointer-events:none;"></div>
+  <div class="max-w-5xl mx-auto px-6 relative z-10">
+    <p class="cap-pill mb-3 reveal" style="display:block; width:fit-content; margin-left:auto; margin-right:auto;">Powered by</p>
+    <div class="red-rule mx-auto mb-7"></div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 reveal" style="transition-delay:.05s;">
+      <div class="tech-chip">
+        <div class="tech-dot" style="background:#A100FF;"></div>
+        <div>
+          <p style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:14px; margin-bottom:4px;">Claude</p>
+          <p style="font-size:12px; color:var(--color-text-muted); line-height:1.5;">Conversational intelligence and context understanding</p>
+        </div>
+      </div>
+      <div class="tech-chip">
+        <div class="tech-dot" style="background:#8599FF;"></div>
+        <div>
+          <p style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:14px; margin-bottom:4px;">ElevenLabs</p>
+          <p style="font-size:12px; color:var(--color-text-muted); line-height:1.5;">Natural, studio-quality AI voice synthesis</p>
+        </div>
+      </div>
+      <div class="tech-chip">
+        <div class="tech-dot" style="background:#FF1673;"></div>
+        <div>
+          <p style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:14px; margin-bottom:4px;">Supabase</p>
+          <p style="font-size:12px; color:var(--color-text-muted); line-height:1.5;">Session storage and cross-device sync</p>
+        </div>
+      </div>
+      <div class="tech-chip">
+        <div class="tech-dot" style="background:#A3A3A3;"></div>
+        <div>
+          <p style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:14px; margin-bottom:4px;">Claude Code</p>
+          <p style="font-size:12px; color:var(--color-text-muted); line-height:1.5;">Direct pipeline for turning sessions into buildable context</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════
+     CTA
+════════════════════════════════════════════════ -->
+<section class="py-40 relative overflow-hidden grain" style="background: linear-gradient(180deg, #000947 0%, #000623 100%);">
+  <div style="position:absolute; inset:0; background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(161,0,255,0.12) 0%, transparent 70%); pointer-events:none;" aria-hidden="true"></div>
+  <div class="max-w-3xl mx-auto px-6 text-center relative z-10">
+    <div class="reveal">
+      <p class="cap-pill mb-3">Ready to start</p>
+      <div class="red-rule mx-auto mb-7"></div>
+      <h2 style="font-family:'Space Grotesk',sans-serif; font-size:clamp(2rem,5vw,3.5rem); font-weight:700; letter-spacing:-0.04em; line-height:1.05; margin-bottom:20px;">
+        Your next idea is already<br>
+        <span style="background: linear-gradient(135deg, #A100FF 0%, #8599FF 60%, #FF1673 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">waiting to be spoken.</span>
+      </h2>
+      <p style="font-size:var(--text-base); color:var(--color-text-muted); line-height:1.7; max-width:480px; margin:0 auto 40px;">
+        VIKI is part of the Cascade AI agent suite, built by Pix3l LLC for knowledge workers who think faster than they type.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="../cascade.html" class="btn-primary">
+          Explore Cascade
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="../index.html#contact" class="btn-ghost">Get in Touch</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════
+     AGENT NAVIGATION
+════════════════════════════════════════════════ -->
+<section class="py-28" style="background: linear-gradient(180deg, #000623 0%, var(--color-bg) 100%);">
+  <div class="max-w-4xl mx-auto px-6 text-center">
+    <p class="cap-pill mb-3 reveal">Meet the Team</p>
+    <div class="red-rule mx-auto mb-7"></div>
+    <h2 style="font-family:'Space Grotesk',sans-serif; font-size:clamp(2.2rem,5vw,3.5rem); font-weight:700; letter-spacing:-0.03em; line-height:1.1; margin-bottom:16px;" class="reveal">The Cascade Agents</h2>
+    <p style="font-size:var(--text-base); color:var(--color-text-muted); max-width:560px; margin:0 auto 48px; line-height:1.75;" class="reveal">Each agent inside Cascade has a distinct role, voice, and personality. They think, specialize, and collaborate as a team — built to handle the full arc of content creation from first idea to final output.</p>
+
+    <div class="flex flex-wrap justify-center gap-6 reveal">
+
+      <a href="agents/syra.html" class="agent-avatar-link" title="Syra">
+        <div class="agent-avatar-img">
+          <img src="assets/cascade/agents/syra.png" alt="Syra">
+        </div>
+        <span class="agent-avatar-name">Syra</span>
+      </a>
+
+      <a href="agents/oracle.html" class="agent-avatar-link" title="Oracle">
+        <div class="agent-avatar-img">
+          <img src="assets/cascade/agents/oracle.png" alt="Oracle">
+        </div>
+        <span class="agent-avatar-name">Oracle</span>
+      </a>
+
+      <a href="agents/echo.html" class="agent-avatar-link" title="Echo">
+        <div class="agent-avatar-img">
+          <img src="assets/cascade/agents/echo.png" alt="Echo">
+        </div>
+        <span class="agent-avatar-name">Echo</span>
+      </a>
+
+      <a href="agents/nikola.html" class="agent-avatar-link" title="Nikola">
+        <div class="agent-avatar-img">
+          <img src="assets/cascade/agents/nikola.png" alt="Nikola">
+        </div>
+        <span class="agent-avatar-name">Nikola</span>
+      </a>
+
+      <a href="agents/iris.html" class="agent-avatar-link" title="Iris">
+        <div class="agent-avatar-img">
+          <img src="assets/cascade/agents/iris.png" alt="Iris">
+        </div>
+        <span class="agent-avatar-name">Iris</span>
+      </a>
+
+      <a href="agents/davinci.html" class="agent-avatar-link" title="DaVinci">
+        <div class="agent-avatar-img">
+          <img src="assets/cascade/agents/davinci.png" alt="DaVinci">
+        </div>
+        <span class="agent-avatar-name">DaVinci</span>
+      </a>
+
+      <a href="agents/chronos.html" class="agent-avatar-link" title="Chronos">
+        <div class="agent-avatar-img">
+          <img src="assets/cascade/agents/chronos.png" alt="Chronos">
+        </div>
+        <span class="agent-avatar-name">Chronos</span>
+      </a>
+
+      <a href="agents/atlas.html" class="agent-avatar-link" title="Atlas">
+        <div class="agent-avatar-img">
+          <img src="assets/cascade/agents/atlas.png" alt="Atlas">
+        </div>
+        <span class="agent-avatar-name">Atlas</span>
+      </a>
+
+      <a href="agents/nova.html" class="agent-avatar-link" title="Nova">
+        <div class="agent-avatar-img">
+          <img src="assets/cascade/agents/nova.png" alt="Nova">
+        </div>
+        <span class="agent-avatar-name">Nova</span>
+      </a>
+
+      <a href="agents/viki.html" class="agent-avatar-link" title="VIKI" aria-current="page">
+        <div class="agent-avatar-img" style="border-color: rgba(161,0,255,0.7); box-shadow: 0 0 20px rgba(161,0,255,0.35);">
+          <img src="assets/cascade/agents/viki.png" alt="VIKI">
+        </div>
+        <span class="agent-avatar-name" style="color:#A100FF;">VIKI</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════ -->
+<footer class="relative py-12 border-t border-white/[0.06]" style="background: #000623;">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+      <img src="assets/logos/logo-meet-dark-white.svg" alt="Pix3l LLC" class="h-7 w-auto opacity-60">
+
+      <div class="flex flex-wrap justify-center gap-6">
+        <a href="index.html#solutions" class="nav-link text-[13px]">Design Solutions</a>
+        <a href="index.html#products"  class="nav-link text-[13px]">AI Agents</a>
+        <a href="index.html#about"     class="nav-link text-[13px]">About</a>
+        <a href="index.html#contact"   class="nav-link text-[13px]">Contact</a>
+      </div>
+
+      <div class="text-center md:text-right">
+        <a href="mailto:trey@pix3l.co" class="text-[#FF1673] text-sm transition-colors duration-200 hover:text-[#FF1635]">trey@pix3l.co</a>
+      </div>
+    </div>
+
+    <div class="mt-8 pt-6 border-t border-white/[0.05] flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p class="font-mono text-[11px] text-white/25">© 2026 Pix3l LLC. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  @keyframes scrollDot {
+    0%, 100% { transform: translateY(0); opacity: 1; }
+    60%       { transform: translateY(10px); opacity: 0; }
+    61%       { transform: translateY(0); opacity: 0; }
+    80%       { opacity: 1; }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<script>
+  // Navbar scroll transparency
+  const navbar = document.getElementById('navbar');
+  const updateNav = () => {
+    if (window.scrollY > 64) {
+      navbar.style.cssText = 'background:rgba(0,6,35,0.93);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid rgba(255,255,255,0.06);';
+    } else {
+      navbar.style.cssText = 'background:transparent;';
+    }
+  };
+  window.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+
+  // Mobile menu
+  const hamburger = document.getElementById('hamburger');
+  const drawer    = document.getElementById('mobile-drawer');
+  const h1 = document.getElementById('h1');
+  const h2 = document.getElementById('h2');
+  const h3 = document.getElementById('h3');
+  let open = false;
+
+  hamburger.addEventListener('click', () => {
+    open = !open;
+    hamburger.setAttribute('aria-expanded', open);
+    drawer.classList.toggle('hidden', !open);
+    drawer.classList.toggle('flex',   open);
+    h1.style.transform = open ? 'rotate(45deg) translate(4px,4px)'  : '';
+    h2.style.opacity   = open ? '0' : '1';
+    h3.style.transform = open ? 'rotate(-45deg) translate(4px,-4px)' : '';
+  });
+
+  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    open = false;
+    hamburger.setAttribute('aria-expanded', false);
+    drawer.classList.add('hidden'); drawer.classList.remove('flex');
+    h1.style.transform = ''; h2.style.opacity = '1'; h3.style.transform = '';
+  }));
+
+  // Scroll reveals
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+<script>
+/* ── VIKI HERO SHADER ── */
+(function () {
+  const canvas = document.getElementById('viki-shader');
+  if (!canvas) return;
+
+  const gl = canvas.getContext('webgl');
+  if (!gl) return;
+
+  const vsSource = `
+    attribute vec4 aVertexPosition;
+    void main() { gl_Position = aVertexPosition; }
+  `;
+
+  const fsSource = `
+    precision highp float;
+    uniform vec2 iResolution;
+    uniform float iTime;
+
+    const float overallSpeed = 0.2;
+    const float gridSmoothWidth = 0.015;
+    const float axisWidth = 0.05;
+    const float majorLineWidth = 0.025;
+    const float minorLineWidth = 0.0125;
+    const float majorLineFrequency = 5.0;
+    const float minorLineFrequency = 1.0;
+    const float scale = 5.0;
+    const vec4 lineColor = vec4(0.4, 0.2, 0.8, 1.0);
+    const float minLineWidth = 0.01;
+    const float maxLineWidth = 0.2;
+    const float lineSpeed = 1.0 * overallSpeed;
+    const float lineAmplitude = 1.0;
+    const float lineFrequency = 0.2;
+    const float warpSpeed = 0.2 * overallSpeed;
+    const float warpFrequency = 0.5;
+    const float warpAmplitude = 1.0;
+    const float offsetFrequency = 0.5;
+    const float offsetSpeed = 1.33 * overallSpeed;
+    const float minOffsetSpread = 0.6;
+    const float maxOffsetSpread = 2.0;
+    const int linesPerGroup = 16;
+
+    #define drawCircle(pos, radius, coord) smoothstep(radius + gridSmoothWidth, radius, length(coord - (pos)))
+    #define drawSmoothLine(pos, halfWidth, t) smoothstep(halfWidth, 0.0, abs(pos - (t)))
+    #define drawCrispLine(pos, halfWidth, t) smoothstep(halfWidth + gridSmoothWidth, halfWidth, abs(pos - (t)))
+
+    float random(float t) {
+      return (cos(t) + cos(t * 1.3 + 1.3) + cos(t * 1.4 + 1.4)) / 3.0;
+    }
+
+    float getPlasmaY(float x, float horizontalFade, float offset) {
+      return random(x * lineFrequency + iTime * lineSpeed) * horizontalFade * lineAmplitude + offset;
+    }
+
+    void main() {
+      vec2 fragCoord = gl_FragCoord.xy;
+      vec2 uv = fragCoord / iResolution.xy;
+      vec2 space = (fragCoord - iResolution.xy / 2.0) / iResolution.x * 2.0 * scale;
+
+      float horizontalFade = 1.0 - (cos(uv.x * 6.28) * 0.5 + 0.5);
+      float verticalFade   = 1.0 - (cos(uv.y * 6.28) * 0.5 + 0.5);
+
+      space.y += random(space.x * warpFrequency + iTime * warpSpeed) * warpAmplitude * (0.5 + horizontalFade);
+      space.x += random(space.y * warpFrequency + iTime * warpSpeed + 2.0) * warpAmplitude * horizontalFade;
+
+      vec4 lines = vec4(0.0);
+      vec4 bgColor1 = vec4(0.1, 0.1, 0.3, 1.0);
+      vec4 bgColor2 = vec4(0.3, 0.1, 0.5, 1.0);
+
+      for (int l = 0; l < linesPerGroup; l++) {
+        float normalizedLineIndex = float(l) / float(linesPerGroup);
+        float offsetTime     = iTime * offsetSpeed;
+        float offsetPosition = float(l) + space.x * offsetFrequency;
+        float rand      = random(offsetPosition + offsetTime) * 0.5 + 0.5;
+        float halfWidth = mix(minLineWidth, maxLineWidth, rand * horizontalFade) / 2.0;
+        float offset    = random(offsetPosition + offsetTime * (1.0 + normalizedLineIndex)) * mix(minOffsetSpread, maxOffsetSpread, horizontalFade);
+        float linePos   = getPlasmaY(space.x, horizontalFade, offset);
+        float line      = drawSmoothLine(linePos, halfWidth, space.y) / 2.0
+                        + drawCrispLine(linePos, halfWidth * 0.15, space.y);
+
+        float circleX = mod(float(l) + iTime * lineSpeed, 25.0) - 12.0;
+        vec2  circlePos = vec2(circleX, getPlasmaY(circleX, horizontalFade, offset));
+        float circle    = drawCircle(circlePos, 0.01, space) * 4.0;
+
+        lines += (line + circle) * lineColor * rand;
+      }
+
+      vec4 fragColor = mix(bgColor1, bgColor2, uv.x);
+      fragColor *= verticalFade;
+      fragColor.a = 1.0;
+      fragColor  += lines;
+      gl_FragColor = fragColor;
+    }
+  `;
+
+  function compileShader(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+      console.error(gl.getShaderInfoLog(s));
+      gl.deleteShader(s);
+      return null;
+    }
+    return s;
+  }
+
+  const prog = gl.createProgram();
+  gl.attachShader(prog, compileShader(gl.VERTEX_SHADER,   vsSource));
+  gl.attachShader(prog, compileShader(gl.FRAGMENT_SHADER, fsSource));
+  gl.linkProgram(prog);
+
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+
+  const aPos  = gl.getAttribLocation(prog, 'aVertexPosition');
+  const uRes  = gl.getUniformLocation(prog, 'iResolution');
+  const uTime = gl.getUniformLocation(prog, 'iTime');
+
+  function resize() {
+    const header = canvas.parentElement;
+    canvas.width  = header.offsetWidth;
+    canvas.height = header.offsetHeight;
+    gl.viewport(0, 0, canvas.width, canvas.height);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+
+  const t0 = Date.now();
+  function render() {
+    gl.clearColor(0, 0, 0, 1);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.useProgram(prog);
+    gl.uniform2f(uRes, canvas.width, canvas.height);
+    gl.uniform1f(uTime, (Date.now() - t0) / 1000);
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(aPos);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+})();
+</script>
+<script src="glow.js"></script>
+</body>
+</html>
