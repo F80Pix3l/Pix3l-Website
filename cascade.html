@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cascade — AI Social Video Automation by Pix3l</title>
+  <meta name="description" content="Cascade by Pix3l turns long-form video into optimized short-form content for every platform — powered by a pipeline of 10 AI agents.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'big-red':      '#FF1635',
+            'pinky':        '#FF1673',
+            'purple-spark': '#A100FF',
+            'vista-blue':   '#8599FF',
+            'navy':         '#000947',
+            'dark-navy':    '#000623',
+            'night':        '#0A0A0A',
+            'silver':       '#A3A3A3',
+          },
+          fontFamily: {
+            display: ['Space Grotesk', 'sans-serif'],
+            body:    ['Inter', 'sans-serif'],
+            mono:    ['JetBrains Mono', 'monospace'],
+          },
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── GRAIN OVERLAY ── */
+    .grain::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.028;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* ── SHADOWS ── */
+    .shadow-red  { box-shadow: 0 4px 24px rgba(255,22,53,0.28), 0 1px 6px rgba(255,22,53,0.12); }
+    .shadow-card { box-shadow: 0 8px 40px rgba(0,9,71,0.7), 0 2px 10px rgba(0,0,0,0.5); }
+    .shadow-soft { box-shadow: 0 2px 16px rgba(0,0,0,0.35), 0 1px 4px rgba(0,0,0,0.2); }
+
+    /* ── GRADIENTS ── */
+    .hero-glow {
+      background:
+        radial-gradient(ellipse 80% 70% at 20% 10%,  rgba(161,0,255,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 55% at 80% 80%,  rgba(133,153,255,0.12) 0%, transparent 55%),
+        radial-gradient(ellipse 100% 60% at 50% 100%, rgba(0,9,71,0.95) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 50% 40%,  rgba(255,22,53,0.06) 0%, transparent 60%);
+    }
+    .section-glow-purple {
+      background:
+        radial-gradient(ellipse 60% 80% at 10% 50%, rgba(161,0,255,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 60% at 90% 30%, rgba(133,153,255,0.06) 0%, transparent 60%);
+    }
+    .section-glow-red {
+      background: radial-gradient(ellipse 70% 80% at 90% 50%, rgba(255,22,53,0.06) 0%, transparent 60%);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #FF1673 0%, #A100FF 50%, #8599FF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .gradient-text-red {
+      background: linear-gradient(135deg, #FF1635 0%, #FF1673 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .gradient-text-blue {
+      background: linear-gradient(135deg, #8599FF 0%, #A100FF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── MARQUEE ── */
+    @keyframes marquee {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .marquee-track { animation: marquee 28s linear infinite; display: flex; width: max-content; }
+    .marquee-track:hover { animation-play-state: paused; }
+
+    /* ── PIPELINE CONNECTOR ── */
+    @keyframes flow-pulse {
+      0%, 100% { opacity: 0.3; }
+      50%       { opacity: 0.8; }
+    }
+    .flow-line { animation: flow-pulse 2.4s ease-in-out infinite; }
+
+    /* ── FADE-IN ON SCROLL ── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── TYPOGRAPHY ── */
+    .label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #FF1673;
+    }
+    .red-rule { width: 44px; height: 3px; background: linear-gradient(90deg, #FF1635, #FF1673); border-radius: 2px; }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 26px;
+      background: linear-gradient(135deg, #FF1635, #FF1673);
+      color: #fff;
+      font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: -0.01em;
+      border-radius: 8px; border: none; cursor: pointer; text-decoration: none;
+      box-shadow: 0 4px 22px rgba(255,22,53,0.32), 0 1px 4px rgba(255,22,53,0.14);
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease, opacity 0.15s ease;
+    }
+    .btn-primary:hover  { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(255,22,53,0.42), 0 2px 8px rgba(255,22,53,0.2); }
+    .btn-primary:active { transform: translateY(0); opacity: 0.88; }
+    .btn-primary:focus-visible { outline: 2px solid #FF1673; outline-offset: 3px; }
+
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 26px;
+      background: transparent; color: #fff;
+      font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 14px;
+      border: 1.5px solid rgba(133,153,255,0.35); border-radius: 8px;
+      text-decoration: none; cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), border-color 0.2s ease, background 0.2s ease;
+    }
+    .btn-outline:hover  { transform: translateY(-2px); border-color: rgba(133,153,255,0.75); background: rgba(133,153,255,0.07); }
+    .btn-outline:active { transform: translateY(0); }
+    .btn-outline:focus-visible { outline: 2px solid #8599FF; outline-offset: 3px; }
+
+    /* ── NAV ── */
+    .nav-link {
+      font-family: 'Space Grotesk', sans-serif; font-size: 13.5px; font-weight: 500;
+      color: rgba(255,255,255,0.65); text-decoration: none;
+      position: relative; letter-spacing: -0.005em;
+      transition: color 0.2s ease;
+    }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 2px;
+      background: #FF1635; border-radius: 1px; transition: width 0.25s ease;
+    }
+    .nav-link:hover { color: #fff; }
+    .nav-link:hover::after { width: 100%; }
+    .nav-link:focus-visible { outline: 2px solid #FF1673; outline-offset: 4px; border-radius: 2px; }
+
+    /* ── CARDS ── */
+    .service-card {
+      background: linear-gradient(140deg, rgba(0,14,82,0.85) 0%, rgba(0,9,71,0.65) 100%);
+      border: 1px solid rgba(133,153,255,0.12);
+      border-radius: 16px;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), border-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 6px 28px rgba(0,0,0,0.4);
+    }
+    .service-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255,22,115,0.25);
+      box-shadow: 0 14px 44px rgba(0,0,0,0.5), 0 3px 12px rgba(255,22,53,0.08);
+    }
+
+    .agent-card {
+      background: linear-gradient(160deg, rgba(0,14,82,0.9) 0%, rgba(0,9,71,0.7) 100%);
+      border: 1px solid rgba(133,153,255,0.10);
+      border-radius: 18px; overflow: hidden;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), border-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 8px 36px rgba(0,0,0,0.45);
+    }
+    .agent-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(161,0,255,0.3);
+      box-shadow: 0 18px 52px rgba(0,0,0,0.55), 0 4px 16px rgba(161,0,255,0.12);
+    }
+    .agent-card .agent-img-wrap {
+      position: relative; overflow: hidden;
+    }
+    .agent-card .agent-img-wrap img {
+      width: 100%; aspect-ratio: 1/1; object-fit: cover;
+      transition: transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .agent-card:hover .agent-img-wrap img { transform: scale(1.05); }
+    .agent-card .agent-img-wrap::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,9,71,0.85) 0%, rgba(0,9,71,0.2) 50%, transparent 100%);
+    }
+
+    .pipeline-card {
+      background: linear-gradient(140deg, rgba(0,14,82,0.88) 0%, rgba(0,9,71,0.68) 100%);
+      border: 1px solid rgba(133,153,255,0.12);
+      border-radius: 14px;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), border-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+    }
+    .pipeline-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255,22,115,0.2);
+      box-shadow: 0 10px 36px rgba(0,0,0,0.5);
+    }
+
+    .stat-card {
+      background: linear-gradient(140deg, rgba(0,14,82,0.9) 0%, rgba(0,9,71,0.7) 100%);
+      border: 1px solid rgba(133,153,255,0.12); border-radius: 16px;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;
+      box-shadow: 0 6px 28px rgba(0,0,0,0.4);
+    }
+    .stat-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.5); }
+
+    .platform-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 100px;
+      font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 600;
+      color: rgba(255,255,255,0.7); letter-spacing: 0.02em;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), border-color 0.25s ease, color 0.2s ease;
+    }
+    .platform-pill:hover { transform: translateY(-3px); border-color: rgba(255,22,115,0.35); color: #fff; }
+
+    /* ── ICON BG ── */
+    .icon-bg-red    { background: rgba(255,22,53,0.14); }
+    .icon-bg-pink   { background: rgba(255,22,115,0.14); }
+    .icon-bg-purple { background: rgba(161,0,255,0.14); }
+    .icon-bg-blue   { background: rgba(133,153,255,0.14); }
+    .icon-bg-orange { background: rgba(255,94,8,0.14); }
+    .icon-bg-green  { background: rgba(28,131,40,0.14); }
+
+    /* ── SCROLL BAR ── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #000623; }
+    ::-webkit-scrollbar-thumb { background: #000947; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #FF1635; }
+
+    /* ── REDUCED MOTION ── */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .marquee-track { animation: none; }
+      .flow-line { animation: none; }
+      .btn-primary, .btn-outline, .agent-card, .service-card, .stat-card, .pipeline-card { transition: none; }
+    }
+  </style>
+</head>
+<body class="bg-[#000623] text-white font-body overflow-x-hidden">
+
+  <!-- ═══════════════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════════════ -->
+  <nav id="navbar" class="fixed top-0 inset-x-0 z-50 transition-opacity duration-300">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
+
+      <a href="index.html" aria-label="Pix3l Home" class="shrink-0 focus-visible:outline-2 focus-visible:outline-[#FF1673] focus-visible:outline-offset-4 rounded">
+        <img src="assets/logos/logo-meet-dark-white.svg"
+             alt="PIX3L" class="h-7 w-auto">
+      </a>
+
+      <!-- Desktop links -->
+      <div class="hidden lg:flex items-center gap-7">
+        <a href="#overview"  class="nav-link">Overview</a>
+        <a href="#pipeline"  class="nav-link">Pipeline</a>
+        <a href="#agents"    class="nav-link">Agents</a>
+        <a href="#platforms" class="nav-link">Platforms</a>
+        <a href="#contact"   class="nav-link">Contact</a>
+      </div>
+      <a href="#contact" class="hidden lg:inline-flex btn-primary py-2.5 px-5 text-sm">
+        Get Early Access
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+
+      <!-- Mobile hamburger -->
+      <button id="hamburger" class="lg:hidden flex flex-col gap-[5px] p-2 rounded focus-visible:outline-2 focus-visible:outline-[#FF1673]" aria-label="Toggle menu" aria-expanded="false">
+        <span id="h1" class="block w-6 h-[2px] bg-white rounded-full origin-center transition-transform duration-300"></span>
+        <span id="h2" class="block w-6 h-[2px] bg-white rounded-full transition-opacity duration-300"></span>
+        <span id="h3" class="block w-6 h-[2px] bg-white rounded-full origin-center transition-transform duration-300"></span>
+      </button>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div id="mobile-drawer" class="hidden lg:hidden flex-col px-6 pb-6 pt-2 gap-3" style="background: rgba(0,6,35,0.97); border-bottom: 1px solid rgba(255,255,255,0.06);">
+      <a href="#overview"  class="nav-link py-3 border-b border-white/8">Overview</a>
+      <a href="#pipeline"  class="nav-link py-3 border-b border-white/8">Pipeline</a>
+      <a href="#agents"    class="nav-link py-3 border-b border-white/8">Agents</a>
+      <a href="#platforms" class="nav-link py-3 border-b border-white/8">Platforms</a>
+      <a href="#contact"   class="nav-link py-3 border-b border-white/8">Contact</a>
+      <a href="#contact"   class="btn-primary mt-3 justify-center">Get Early Access</a>
+    </div>
+  </nav>
+
+
+  <!-- ═══════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════ -->
+  <section id="hero" class="grain relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
+
+    <!-- BG layers -->
+    <div class="absolute inset-0">
+      <img src="assets/images/backgrounds/agentic-blocks.png" alt="" aria-hidden="true"
+           class="w-full h-full object-cover opacity-[0.08]">
+      <div class="absolute inset-0 hero-glow"></div>
+      <div class="absolute inset-0"
+           style="background: linear-gradient(to bottom, rgba(0,6,35,0.3) 0%, rgba(0,6,35,0.0) 30%, rgba(0,6,35,0.6) 75%, #000623 100%);"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="relative z-10 text-center px-6 max-w-5xl mx-auto pt-28 pb-20">
+
+
+      <!-- Label -->
+      <p class="reveal label mb-4" style="transition-delay:.10s;">Pix3l AI Product</p>
+
+      <!-- Headline -->
+      <h1 class="reveal font-display font-bold text-[clamp(2.2rem,6vw,4.6rem)] tracking-[-0.03em] leading-[1.06] mb-6"
+          style="transition-delay:.16s;">
+        One Pipeline.<br>
+        <span class="gradient-text">Ten AI Agents.</span><br>
+        Every Platform.
+      </h1>
+
+      <!-- Sub-copy -->
+      <p class="reveal text-white text-lg sm:text-xl leading-[1.72] max-w-2xl mx-auto mb-10"
+         style="transition-delay:.24s;">
+        Cascade transforms long-form video into optimized short-form content across YouTube, Instagram, TikTok, Facebook, and LinkedIn — automatically, intelligently, at scale.
+      </p>
+
+      <!-- CTAs -->
+      <div class="reveal flex flex-wrap gap-4 justify-center" style="transition-delay:.32s;">
+        <a href="#pipeline" class="btn-primary text-base px-7 py-3.5">
+          See the Pipeline
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 7.5h11M8.5 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#agents" class="btn-outline text-base px-7 py-3.5">
+          Meet the Agents
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 7.5h11M8.5 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Scroll nudge -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 opacity-40 pointer-events-none select-none">
+      <span class="label" style="color:rgba(255,255,255,0.4);">scroll</span>
+      <div class="w-px h-10 bg-gradient-to-b from-white/35 to-transparent"></div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       TECH MARQUEE
+  ═══════════════════════════════════════════════ -->
+  <div class="relative py-4 overflow-hidden border-y border-white/[0.06]" style="background: rgba(0,9,71,0.45);">
+    <div class="absolute left-0 inset-y-0 w-28 z-10 pointer-events-none"
+         style="background: linear-gradient(to right, #000623, transparent);"></div>
+    <div class="absolute right-0 inset-y-0 w-28 z-10 pointer-events-none"
+         style="background: linear-gradient(to left, #000623, transparent);"></div>
+
+    <div class="marquee-track">
+      <div class="flex items-center gap-12 px-7 shrink-0">
+        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">LangGraph</span>
+        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
+        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">GPT-4o</span>
+        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
+        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">Claude 3.5 Sonnet</span>
+        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
+        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">WhisperX</span>
+        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
+        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">YOLOv11</span>
+        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
+        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">Qdrant</span>
+        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
+        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">FFmpeg</span>
+        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
+        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">BullMQ</span>
+        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
+        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">Gemini 2.0 Flash</span>
+        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
+        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">C2PA</span>
+        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
+        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">Deepgram Nova-3</span>
+        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
+      </div>
+      <div class="flex items-center gap-12 px-7 shrink-0" aria-hidden="true">
+        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">LangGraph</span>
+        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
+        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">GPT-4o</span>
+        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
+        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">Claude 3.5 Sonnet</span>
+        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
+        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">WhisperX</span>
+        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
+        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">YOLOv11</span>
+        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
+        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">Qdrant</span>
+        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
+        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">FFmpeg</span>
+        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
+        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">BullMQ</span>
+        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
+        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">Gemini 2.0 Flash</span>
+        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
+        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">C2PA</span>
+        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
+        <span class="font-display font-bold text-[12px] tracking-[0.14em] text-white/55 whitespace-nowrap uppercase">Deepgram Nova-3</span>
+        <span class="w-1 h-1 rounded-full bg-[#FF1635] shrink-0"></span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       OVERVIEW
+  ═══════════════════════════════════════════════ -->
+  <section id="overview" class="grain relative py-28 overflow-hidden" style="background: #000623;">
+    <div class="absolute inset-0 section-glow-purple pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-16 xl:gap-24 items-center">
+
+        <!-- Copy -->
+        <div class="reveal">
+          <p class="label mb-3">What is Cascade</p>
+          <div class="red-rule mb-7"></div>
+          <h2 class="font-display font-bold text-[clamp(2rem,4vw,3.25rem)] tracking-[-0.03em] leading-[1.1] mb-3">
+            Long-form In.<br>
+            <span class="gradient-text">Short-form Out.</span>
+          </h2>
+          <p class="text-[#8599FF] font-display font-medium text-lg mb-5">
+            AI-Powered Social Video Automation
+          </p>
+          <p class="text-[#A3A3A3] text-base leading-[1.74] mb-4">
+            Cascade ingests your long-form video content and runs it through a coordinated pipeline of AI agents. Each agent owns a specific stage — transcription, copywriting, brand voice, clip selection, thumbnail creation, scheduling, publishing, and performance feedback.
+          </p>
+          <p class="text-[#A3A3A3] text-base leading-[1.74] mb-9">
+            The result: platform-native clips, captions, and thumbnails delivered to YouTube, Instagram, TikTok, Facebook, and LinkedIn — automatically, on your schedule, in your brand voice.
+          </p>
+          <a href="#pipeline" class="btn-primary">
+            Explore the Pipeline
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <!-- Stats -->
+        <div class="reveal grid grid-cols-2 gap-4" style="transition-delay:.14s;">
+          <div class="stat-card p-6">
+            <div class="gradient-text-red font-display font-bold text-5xl tracking-[-0.04em] mb-1">10</div>
+            <div class="font-display font-semibold text-sm text-white mb-1">AI Agents</div>
+            <div class="text-[#A3A3A3] text-xs leading-relaxed">Each with a defined role and personality</div>
+          </div>
+          <div class="stat-card p-6">
+            <div class="font-display font-bold text-5xl tracking-[-0.04em] mb-1" style="color:#FF1673;">5</div>
+            <div class="font-display font-semibold text-sm text-white mb-1">Platforms</div>
+            <div class="text-[#A3A3A3] text-xs leading-relaxed">YouTube, Instagram, TikTok, Facebook, LinkedIn</div>
+          </div>
+          <div class="stat-card p-6">
+            <div class="font-display font-bold text-5xl tracking-[-0.04em] mb-1" style="color:#A100FF;">8</div>
+            <div class="font-display font-semibold text-sm text-white mb-1">Pipeline Stages</div>
+            <div class="text-[#A3A3A3] text-xs leading-relaxed">From ingestion to performance feedback</div>
+          </div>
+          <div class="stat-card p-6">
+            <div class="font-display font-bold text-5xl tracking-[-0.04em] mb-1" style="color:#8599FF;">∞</div>
+            <div class="font-display font-semibold text-sm text-white mb-1">Brand Memory</div>
+            <div class="text-[#A3A3A3] text-xs leading-relaxed">Vector DB stores your voice forever</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       PIPELINE
+  ═══════════════════════════════════════════════ -->
+  <section id="pipeline" class="grain relative py-28 overflow-hidden"
+           style="background: linear-gradient(180deg, #000623 0%, #000947 50%, #000623 100%);">
+
+    <div class="absolute inset-0 pointer-events-none">
+      <img src="assets/images/backgrounds/agentic-blocks.png" alt="" aria-hidden="true"
+           class="w-full h-full object-cover opacity-[0.11]">
+      <div class="absolute inset-0"
+           style="background: linear-gradient(to right, #000623 0%, transparent 45%, #000623 100%);"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+
+      <!-- Heading -->
+      <div class="text-center mb-16 reveal">
+        <p class="label mb-3">How It Works</p>
+        <div class="red-rule mx-auto mb-7"></div>
+        <h2 class="font-display font-bold text-[clamp(2rem,4.5vw,3.5rem)] tracking-[-0.03em] leading-[1.1] mb-4">
+          The Cascade Pipeline
+        </h2>
+        <p class="text-[#A3A3A3] text-lg leading-[1.7] max-w-xl mx-auto">
+          Eight coordinated agent stages move your content from raw input to published clip — with a feedback loop that gets smarter every run.
+        </p>
+      </div>
+
+      <!-- Pipeline grid -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+        <div class="pipeline-card p-6 reveal">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-8 h-8 rounded-lg icon-bg-red flex items-center justify-center shrink-0">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF1635" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10l5-5-5-5"/><path d="M4 4v7a4 4 0 0 0 4 4h12"/><path d="M9 14l-5 5 5 5"/></svg>
+            </div>
+            <span class="font-mono text-[10px] text-[#FF1635] tracking-widest uppercase">Stage 01</span>
+          </div>
+          <h3 class="font-display font-semibold text-[16px] mb-2">Content Ingestion</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.7]">Transcription via WhisperX with speaker diarization, emotion detection, scene segmentation, and NLP entity extraction.</p>
+        </div>
+
+        <div class="pipeline-card p-6 reveal" style="transition-delay:.07s;">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-8 h-8 rounded-lg icon-bg-pink flex items-center justify-center shrink-0">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF1673" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            </div>
+            <span class="font-mono text-[10px] text-[#FF1673] tracking-widest uppercase">Stage 02</span>
+          </div>
+          <h3 class="font-display font-semibold text-[16px] mb-2">Copywriting</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.7]">GPT-4o generates platform-native captions, hooks, and hashtags. Claude 3.5 Sonnet and Gemini 2.0 Flash serve as intelligent fallbacks.</p>
+        </div>
+
+        <div class="pipeline-card p-6 reveal" style="transition-delay:.14s;">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-8 h-8 rounded-lg icon-bg-purple flex items-center justify-center shrink-0">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A100FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            </div>
+            <span class="font-mono text-[10px] text-[#A100FF] tracking-widest uppercase">Stage 03</span>
+          </div>
+          <h3 class="font-display font-semibold text-[16px] mb-2">Brand Voice</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.7]">Vector DB recall keeps every output in your tone. Multi-brand switching, tone presets, and a content moderation layer built in.</p>
+        </div>
+
+        <div class="pipeline-card p-6 reveal" style="transition-delay:.21s;">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-8 h-8 rounded-lg icon-bg-blue flex items-center justify-center shrink-0">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8599FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+            </div>
+            <span class="font-mono text-[10px] text-[#8599FF] tracking-widest uppercase">Stage 04</span>
+          </div>
+          <h3 class="font-display font-semibold text-[16px] mb-2">Clip Generation</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.7]">Highlight scoring, smart aspect-ratio cropping, kinetic caption overlay, and virality prediction packaged into platform-ready clips.</p>
+        </div>
+
+        <div class="pipeline-card p-6 reveal" style="transition-delay:.07s;">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-8 h-8 rounded-lg icon-bg-orange flex items-center justify-center shrink-0">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF5E08" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            </div>
+            <span class="font-mono text-[10px] text-[#FF5E08] tracking-widest uppercase">Stage 05</span>
+          </div>
+          <h3 class="font-display font-semibold text-[16px] mb-2">Thumbnail Agent</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.7]">YOLOv11 face detection, keyframe extraction, color enhancement, and dynamic text overlay — thumbnails that stop the scroll.</p>
+        </div>
+
+        <div class="pipeline-card p-6 reveal" style="transition-delay:.14s;">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-8 h-8 rounded-lg icon-bg-green flex items-center justify-center shrink-0">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1C8328" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <span class="font-mono text-[10px] text-[#1C8328] tracking-widest uppercase">Stage 06</span>
+          </div>
+          <h3 class="font-display font-semibold text-[16px] mb-2">Scheduling</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.7]">Optimal post times weighted by CTR history, platform trends, timezone, and content type. Cron-based queuing with Redis reliability.</p>
+        </div>
+
+        <div class="pipeline-card p-6 reveal" style="transition-delay:.21s;">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-8 h-8 rounded-lg icon-bg-red flex items-center justify-center shrink-0">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF1635" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </div>
+            <span class="font-mono text-[10px] text-[#FF1635] tracking-widest uppercase">Stage 07</span>
+          </div>
+          <h3 class="font-display font-semibold text-[16px] mb-2">Publishing</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.7]">OAuth2 publishing to all five platforms with idempotency, exponential backoff retry, and C2PA content provenance metadata embedded.</p>
+        </div>
+
+        <div class="pipeline-card p-6 reveal" style="transition-delay:.28s;">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-8 h-8 rounded-lg icon-bg-purple flex items-center justify-center shrink-0">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A100FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <span class="font-mono text-[10px] text-[#A100FF] tracking-widest uppercase">Stage 08</span>
+          </div>
+          <h3 class="font-display font-semibold text-[16px] mb-2">Performance Feedback</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.7]">ETL analytics pipeline closes the loop. Reinforcement learning from real performance data continuously improves every future clip.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       AGENTS
+  ═══════════════════════════════════════════════ -->
+  <section id="agents" class="grain relative py-28 overflow-hidden" style="background: #000623;">
+    <div class="absolute inset-0 section-glow-purple pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+
+      <!-- Heading -->
+      <div class="text-center mb-16 reveal">
+        <p class="label mb-3">The Team Inside the Machine</p>
+        <div class="red-rule mx-auto mb-7"></div>
+        <h2 class="font-display font-bold text-[clamp(2rem,4.5vw,3.5rem)] tracking-[-0.03em] leading-[1.1] mb-4">
+          Meet the Agents
+        </h2>
+        <p class="text-[#A3A3A3] text-lg leading-[1.7] max-w-xl mx-auto">
+          Ten distinct AI personalities, each built for a specific role in the Cascade pipeline. They don't just process — they think.
+        </p>
+      </div>
+
+      <!-- Agent grid -->
+      <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
+
+        <a href="agents/syra.html" class="agent-card reveal" style="transition-delay:.04s; text-decoration:none; display:block;">
+          <div class="agent-img-wrap">
+            <img src="assets/cascade/agents/syra.png" alt="Syra — The Conductor">
+          </div>
+          <div class="p-5">
+            <p class="font-mono text-[10px] text-[#FF1673] tracking-widest uppercase mb-1">Orchestration</p>
+            <h3 class="font-display font-semibold text-[15px] text-white leading-tight mb-1">Syra</h3>
+            <p class="text-[#A3A3A3] text-xs leading-relaxed">The Conductor. Coordinates every agent handoff via LangGraph, keeps the pipeline moving.</p>
+          </div>
+        </a>
+
+        <a href="agents/oracle.html" class="agent-card reveal" style="transition-delay:.08s; text-decoration:none; display:block;">
+          <div class="agent-img-wrap">
+            <img src="assets/cascade/agents/oracle.png" alt="Oracle — The Empath">
+          </div>
+          <div class="p-5">
+            <p class="font-mono text-[10px] text-[#FF1635] tracking-widest uppercase mb-1">Ingestion</p>
+            <h3 class="font-display font-semibold text-[15px] text-white leading-tight mb-1">Oracle</h3>
+            <p class="text-[#A3A3A3] text-xs leading-relaxed">The Empath. Reads emotion from audio and video, surfacing the moments that resonate.</p>
+          </div>
+        </a>
+
+        <a href="agents/echo.html" class="agent-card reveal" style="transition-delay:.12s; text-decoration:none; display:block;">
+          <div class="agent-img-wrap">
+            <img src="assets/cascade/agents/echo.png" alt="Echo — The Linguist">
+          </div>
+          <div class="p-5">
+            <p class="font-mono text-[10px] text-[#A100FF] tracking-widest uppercase mb-1">Copywriting</p>
+            <h3 class="font-display font-semibold text-[15px] text-white leading-tight mb-1">Echo</h3>
+            <p class="text-[#A3A3A3] text-xs leading-relaxed">The Linguist. Writes captions, hooks, and hashtags in your brand voice across every platform.</p>
+          </div>
+        </a>
+
+        <a href="agents/nikola.html" class="agent-card reveal" style="transition-delay:.16s; text-decoration:none; display:block;">
+          <div class="agent-img-wrap">
+            <img src="assets/cascade/agents/nikola.png" alt="Nikola — The Visionary">
+          </div>
+          <div class="p-5">
+            <p class="font-mono text-[10px] text-[#8599FF] tracking-widest uppercase mb-1">Brand Voice</p>
+            <h3 class="font-display font-semibold text-[15px] text-white leading-tight mb-1">Nikola</h3>
+            <p class="text-[#A3A3A3] text-xs leading-relaxed">The Visionary. Guards brand consistency, applies tone presets, and flags off-brand copy.</p>
+          </div>
+        </a>
+
+        <a href="agents/iris.html" class="agent-card reveal" style="transition-delay:.20s; text-decoration:none; display:block;">
+          <div class="agent-img-wrap">
+            <img src="assets/cascade/agents/iris.png" alt="Iris — The Framer">
+          </div>
+          <div class="p-5">
+            <p class="font-mono text-[10px] text-[#FF1673] tracking-widest uppercase mb-1">Clip Generation</p>
+            <h3 class="font-display font-semibold text-[15px] text-white leading-tight mb-1">Iris</h3>
+            <p class="text-[#A3A3A3] text-xs leading-relaxed">The Framer. Selects highlights, crops for each platform, and overlays kinetic captions.</p>
+          </div>
+        </a>
+
+        <a href="agents/davinci.html" class="agent-card reveal" style="transition-delay:.08s; text-decoration:none; display:block;">
+          <div class="agent-img-wrap">
+            <img src="assets/cascade/agents/davinci.png" alt="DaVinci — The Alchemist">
+          </div>
+          <div class="p-5">
+            <p class="font-mono text-[10px] text-[#FF5E08] tracking-widest uppercase mb-1">Thumbnails</p>
+            <h3 class="font-display font-semibold text-[15px] text-white leading-tight mb-1">DaVinci</h3>
+            <p class="text-[#A3A3A3] text-xs leading-relaxed">The Alchemist. Detects faces, picks keyframes, and renders thumbnails designed to stop the scroll.</p>
+          </div>
+        </a>
+
+        <a href="agents/chronos.html" class="agent-card reveal" style="transition-delay:.12s; text-decoration:none; display:block;">
+          <div class="agent-img-wrap">
+            <img src="assets/cascade/agents/chronos.png" alt="Chronos — The Architect of Time">
+          </div>
+          <div class="p-5">
+            <p class="font-mono text-[10px] text-[#1C8328] tracking-widest uppercase mb-1">Scheduling</p>
+            <h3 class="font-display font-semibold text-[15px] text-white leading-tight mb-1">Chronos</h3>
+            <p class="text-[#A3A3A3] text-xs leading-relaxed">The Architect of Time. Finds the optimal publish window for every post on every platform.</p>
+          </div>
+        </a>
+
+        <a href="agents/atlas.html" class="agent-card reveal" style="transition-delay:.16s; text-decoration:none; display:block;">
+          <div class="agent-img-wrap">
+            <img src="assets/cascade/agents/atlas.png" alt="Atlas — The Mentor">
+          </div>
+          <div class="p-5">
+            <p class="font-mono text-[10px] text-[#FF1635] tracking-widest uppercase mb-1">Publishing</p>
+            <h3 class="font-display font-semibold text-[15px] text-white leading-tight mb-1">Atlas</h3>
+            <p class="text-[#A3A3A3] text-xs leading-relaxed">The Mentor. Manages platform auth, handles retries, and ensures every post lands correctly.</p>
+          </div>
+        </a>
+
+        <a href="agents/nova.html" class="agent-card reveal" style="transition-delay:.20s; text-decoration:none; display:block;">
+          <div class="agent-img-wrap">
+            <img src="assets/cascade/agents/nova.png" alt="Nova — The Seer">
+          </div>
+          <div class="p-5">
+            <p class="font-mono text-[10px] text-[#A100FF] tracking-widest uppercase mb-1">Analytics</p>
+            <h3 class="font-display font-semibold text-[15px] text-white leading-tight mb-1">Nova</h3>
+            <p class="text-[#A3A3A3] text-xs leading-relaxed">The Seer. Reads performance data, spots anomalies, and feeds the reinforcement learning loop.</p>
+          </div>
+        </a>
+
+        <a href="agents/viki.html" class="agent-card reveal" style="transition-delay:.24s; text-decoration:none; display:block;">
+          <div class="agent-img-wrap">
+            <img src="assets/cascade/agents/viki.png" alt="VIKI">
+          </div>
+          <div class="p-5">
+            <p class="font-mono text-[10px] text-[#8599FF] tracking-widest uppercase mb-1">Interface</p>
+            <h3 class="font-display font-semibold text-[15px] text-white leading-tight mb-1">VIKI</h3>
+            <p class="text-[#A3A3A3] text-xs leading-relaxed">Your conversational AI interface into Cascade — ask questions, adjust settings, review outputs.</p>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       KEY FEATURES
+  ═══════════════════════════════════════════════ -->
+  <section id="features" class="grain relative py-28 overflow-hidden"
+           style="background: linear-gradient(180deg, #000623 0%, #000947 50%, #000623 100%);">
+
+    <div class="absolute inset-0 pointer-events-none">
+      <img src="assets/images/backgrounds/digital-wave.png" alt="" aria-hidden="true"
+           class="w-full h-full object-cover opacity-[0.07]">
+      <div class="absolute inset-0"
+           style="background: linear-gradient(to right, #000947 0%, transparent 40%, #000947 100%);"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+
+      <div class="text-center mb-16 reveal">
+        <p class="label mb-3">Built for Production</p>
+        <div class="red-rule mx-auto mb-7"></div>
+        <h2 class="font-display font-bold text-[clamp(2rem,4.5vw,3.5rem)] tracking-[-0.03em] leading-[1.1] mb-4">
+          Built to Scale With You
+        </h2>
+        <p class="text-[#A3A3A3] text-lg leading-[1.7] max-w-xl mx-auto">
+          From first clip to thousands of posts a month, Cascade's architecture handles it.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+        <div class="service-card p-7 reveal">
+          <div class="w-11 h-11 rounded-xl icon-bg-purple flex items-center justify-center mb-5">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A100FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M8.46 8.46a5 5 0 0 0 0 7.07"/></svg>
+          </div>
+          <h3 class="font-display font-semibold text-[17px] mb-2">Brand Voice Memory</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.72]">Qdrant vector database stores your tone, vocabulary, and style permanently. Switch between multiple brands without missing a beat.</p>
+        </div>
+
+        <div class="service-card p-7 reveal" style="transition-delay:.08s;">
+          <div class="w-11 h-11 rounded-xl icon-bg-red flex items-center justify-center mb-5">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF1635" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h3 class="font-display font-semibold text-[17px] mb-2">AI Disclosure Built In</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.72]">2026 platform requirements met at publish time. Automatic disclosure flags and C2PA content provenance metadata for every post.</p>
+        </div>
+
+        <div class="service-card p-7 reveal" style="transition-delay:.16s;">
+          <div class="w-11 h-11 rounded-xl icon-bg-blue flex items-center justify-center mb-5">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8599FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <h3 class="font-display font-semibold text-[17px] mb-2">Reinforcement Learning</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.72]">Nova feeds real performance data back into the pipeline. Cascade learns from every post and improves clip selection, timing, and copy automatically.</p>
+        </div>
+
+        <div class="service-card p-7 reveal">
+          <div class="w-11 h-11 rounded-xl icon-bg-pink flex items-center justify-center mb-5">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF1673" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3 class="font-display font-semibold text-[17px] mb-2">Multimodal Understanding</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.72]">GPT-4o Vision and Gemini 2.0 Flash analyze keyframes directly — scene descriptions, sentiment, and highlight scores in a single pass.</p>
+        </div>
+
+        <div class="service-card p-7 reveal" style="transition-delay:.08s;">
+          <div class="w-11 h-11 rounded-xl icon-bg-orange flex items-center justify-center mb-5">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF5E08" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          </div>
+          <h3 class="font-display font-semibold text-[17px] mb-2">Virality Scoring</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.72]">Every clip gets a virality prediction score trained on millions of short-form videos. Iris ranks and selects only your highest-potential moments.</p>
+        </div>
+
+        <div class="service-card p-7 reveal" style="transition-delay:.16s;">
+          <div class="w-11 h-11 rounded-xl icon-bg-green flex items-center justify-center mb-5">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1C8328" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          </div>
+          <h3 class="font-display font-semibold text-[17px] mb-2">Modular Microservices</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.72]">Each agent runs as an independent, event-driven service. Scale any stage independently. Swap tech without touching the whole stack.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       PLATFORMS
+  ═══════════════════════════════════════════════ -->
+  <section id="platforms" class="grain relative py-28 overflow-hidden" style="background: #000623;">
+    <div class="absolute inset-0 section-glow-red pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6 text-center">
+      <div class="reveal">
+        <p class="label mb-3">Where Cascade Publishes</p>
+        <div class="red-rule mx-auto mb-7"></div>
+        <h2 class="font-display font-bold text-[clamp(2rem,4.5vw,3.5rem)] tracking-[-0.03em] leading-[1.1] mb-4">
+          Every Platform.<br><span class="gradient-text">One Pipeline.</span>
+        </h2>
+        <p class="text-[#A3A3A3] text-lg leading-[1.7] max-w-xl mx-auto mb-14">
+          Cascade publishes natively to each platform's API — with the right format, aspect ratio, caption length, and disclosure flags for each one.
+        </p>
+      </div>
+
+      <div class="reveal flex flex-wrap justify-center gap-4" style="transition-delay:.12s;">
+
+        <div class="platform-pill">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#FF1635"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zm-13.8 9.4V8.4l6.3 3.6-6.3 3.6z"/></svg>
+          YouTube
+        </div>
+
+        <div class="platform-pill">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="url(#ig-grad)">
+            <defs><linearGradient id="ig-grad" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#FF1635"/><stop offset="50%" stop-color="#FF1673"/><stop offset="100%" stop-color="#A100FF"/></linearGradient></defs>
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+          </svg>
+          Instagram
+        </div>
+
+        <div class="platform-pill">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.27 8.27 0 0 0 4.84 1.55V6.79a4.85 4.85 0 0 1-1.07-.1z"/></svg>
+          TikTok
+        </div>
+
+        <div class="platform-pill">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#8599FF"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          Facebook
+        </div>
+
+        <div class="platform-pill">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#8599FF"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </div>
+
+      </div>
+
+      <!-- API status table -->
+      <div class="reveal mt-16 overflow-x-auto" style="transition-delay:.16s;">
+        <table class="w-full max-w-3xl mx-auto text-left border-collapse">
+          <thead>
+            <tr class="border-b border-white/[0.08]">
+              <th class="font-mono text-[11px] text-[#A3A3A3] tracking-widest uppercase pb-4 pr-8">Platform</th>
+              <th class="font-mono text-[11px] text-[#A3A3A3] tracking-widest uppercase pb-4 pr-8">API Status</th>
+              <th class="font-mono text-[11px] text-[#A3A3A3] tracking-widest uppercase pb-4">Notes</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-white/[0.05]">
+            <tr>
+              <td class="font-display font-medium text-sm text-white py-4 pr-8">YouTube Data API v3</td>
+              <td class="py-4 pr-8"><span class="font-mono text-[11px] text-[#1C8328] tracking-wider uppercase">Stable</span></td>
+              <td class="text-[#A3A3A3] text-sm py-4">Full publish, analytics, and thumbnail support</td>
+            </tr>
+            <tr>
+              <td class="font-display font-medium text-sm text-white py-4 pr-8">Instagram Graph API</td>
+              <td class="py-4 pr-8"><span class="font-mono text-[11px] text-[#1C8328] tracking-wider uppercase">Stable</span></td>
+              <td class="text-[#A3A3A3] text-sm py-4">Reels publishing fully supported (v20+)</td>
+            </tr>
+            <tr>
+              <td class="font-display font-medium text-sm text-white py-4 pr-8">TikTok Content Posting API</td>
+              <td class="py-4 pr-8"><span class="font-mono text-[11px] text-[#FF1673] tracking-wider uppercase">Monitor</span></td>
+              <td class="text-[#A3A3A3] text-sm py-4">Approval required; AI labels enforced</td>
+            </tr>
+            <tr>
+              <td class="font-display font-medium text-sm text-white py-4 pr-8">Facebook Graph API</td>
+              <td class="py-4 pr-8"><span class="font-mono text-[11px] text-[#1C8328] tracking-wider uppercase">Stable</span></td>
+              <td class="text-[#A3A3A3] text-sm py-4">Reels and Feed publishing supported (v20+)</td>
+            </tr>
+            <tr>
+              <td class="font-display font-medium text-sm text-white py-4 pr-8">LinkedIn API</td>
+              <td class="py-4 pr-8"><span class="font-mono text-[11px] text-[#1C8328] tracking-wider uppercase">Stable</span></td>
+              <td class="text-[#A3A3A3] text-sm py-4">Video publishing available; analytics limited</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       CONTACT CTA
+  ═══════════════════════════════════════════════ -->
+  <section id="contact" class="grain relative py-28 overflow-hidden text-center"
+           style="background: linear-gradient(180deg, #000623 0%, #000947 60%, #000623 100%);">
+    <div class="absolute inset-0 section-glow-purple pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-3xl mx-auto px-6 reveal">
+      <p class="label mb-3">Get Early Access</p>
+      <h2 class="font-display font-bold text-[clamp(2.2rem,5vw,4rem)] tracking-[-0.03em] leading-[1.08] mb-5">
+        Interested in<br><span class="gradient-text">Cascade?</span>
+      </h2>
+      <p class="text-[#A3A3A3] text-lg leading-[1.7] mb-10 max-w-xl mx-auto">
+        Cascade is in active development. Reach out to discuss early access, integration timelines, or partnership opportunities.
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a href="mailto:trey@pix3l.co" class="btn-primary px-8 py-3.5 text-base">
+          trey@pix3l.co
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </a>
+      </div>
+      <div class="mt-10 pt-8 border-t border-white/[0.06]">
+        <a href="index.html" class="nav-link text-sm opacity-60 hover:opacity-100 transition-opacity duration-200">
+          ← Back to Pix3l LLC
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════ -->
+  <footer class="relative py-12 border-t border-white/[0.06]" style="background: #000623;">
+    <div class="max-w-7xl mx-auto px-6">
+
+      <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+        <a href="index.html" class="focus-visible:outline-2 focus-visible:outline-[#FF1673] focus-visible:outline-offset-4 rounded">
+          <img src="assets/logos/logo-meet-dark-white.svg"
+               alt="Pix3l LLC" class="h-7 w-auto opacity-60">
+        </a>
+
+        <div class="flex flex-wrap justify-center gap-6">
+          <a href="#overview"  class="nav-link text-[13px]">Overview</a>
+          <a href="#pipeline"  class="nav-link text-[13px]">Pipeline</a>
+          <a href="#agents"    class="nav-link text-[13px]">Agents</a>
+          <a href="#platforms" class="nav-link text-[13px]">Platforms</a>
+          <a href="#contact"   class="nav-link text-[13px]">Contact</a>
+          <a href="index.html"        class="nav-link text-[13px]">Pix3l LLC</a>
+        </div>
+
+        <div class="text-center md:text-right">
+          <a href="mailto:trey@pix3l.co" class="text-[#FF1673] text-sm transition-colors duration-200 hover:text-[#FF1635]">trey@pix3l.co</a>
+        </div>
+      </div>
+
+      <div class="mt-8 pt-6 border-t border-white/[0.05] flex flex-col sm:flex-row items-center justify-between gap-2">
+        <p class="font-mono text-[11px] text-white/25">© 2026 Pix3l LLC. All rights reserved.</p>
+        <p class="font-mono text-[11px] text-white/18">Cascade — AI Social Video Automation</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ═══════════════════════════════════════════════
+       JAVASCRIPT
+  ═══════════════════════════════════════════════ -->
+  <script>
+    // ── Navbar scroll transparency ──
+    const nav = document.getElementById('navbar');
+    const updateNav = () => {
+      if (window.scrollY > 64) {
+        nav.style.cssText = 'background:rgba(0,6,35,0.93);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid rgba(255,255,255,0.06);';
+      } else {
+        nav.style.cssText = 'background:transparent;';
+      }
+    };
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
+
+    // ── Mobile menu ──
+    const hamburger = document.getElementById('hamburger');
+    const drawer    = document.getElementById('mobile-drawer');
+    const h1 = document.getElementById('h1');
+    const h2 = document.getElementById('h2');
+    const h3 = document.getElementById('h3');
+    let open = false;
+
+    hamburger.addEventListener('click', () => {
+      open = !open;
+      hamburger.setAttribute('aria-expanded', open);
+      drawer.classList.toggle('hidden', !open);
+      drawer.classList.toggle('flex',   open);
+      h1.style.transform = open ? 'rotate(45deg) translate(4px,4px)'  : '';
+      h2.style.opacity   = open ? '0' : '1';
+      h3.style.transform = open ? 'rotate(-45deg) translate(4px,-4px)' : '';
+    });
+
+    drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      open = false;
+      hamburger.setAttribute('aria-expanded', false);
+      drawer.classList.add('hidden'); drawer.classList.remove('flex');
+      h1.style.transform = ''; h2.style.opacity = '1'; h3.style.transform = '';
+    }));
+
+    // ── Scroll-reveal (IntersectionObserver) ──
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08, rootMargin: '0px 0px -36px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // Trigger hero immediately
+    setTimeout(() => {
+      document.querySelectorAll('#hero .reveal').forEach(el => el.classList.add('visible'));
+    }, 80);
+  </script>
+</body>
+</html>

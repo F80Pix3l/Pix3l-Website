@@ -1,0 +1,5 @@
+node_modules/
+temporary screenshots/
+*.mjs
+.obsidian/
+reference files/

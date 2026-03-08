@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pix3l LLC — Digital Works</title>
+  <meta name="description" content="Full-Stack UX, From Concept to Launch. 25+ years designing and building digital products for FAANG, Fortune 50s, and everything in between.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'big-red': '#FF1635',
+            'pinky': '#FF1673',
+            'purple-spark': '#A100FF',
+            'vista-blue': '#8599FF',
+            'navy': '#000947',
+            'dark-navy': '#000623',
+            'night': '#0A0A0A',
+            'outer-space': '#474747',
+            'silver': '#A3A3A3',
+          },
+          fontFamily: {
+            display: ['Space Grotesk', 'sans-serif'],
+            body: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── GRAIN OVERLAY ── */
+    .grain::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.028;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* ── SHADOWS ── */
+    .shadow-red   { box-shadow: 0 4px 24px rgba(255,22,53,0.28), 0 1px 6px rgba(255,22,53,0.12); }
+    .shadow-card  { box-shadow: 0 8px 40px rgba(0,9,71,0.7), 0 2px 10px rgba(0,0,0,0.5); }
+    .shadow-soft  { box-shadow: 0 2px 16px rgba(0,0,0,0.35), 0 1px 4px rgba(0,0,0,0.2); }
+
+    /* ── GRADIENTS ── */
+    .hero-glow {
+      background:
+        radial-gradient(ellipse 80% 70% at 20% 10%,  rgba(161,0,255,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 55% at 80% 80%,  rgba(133,153,255,0.12) 0%, transparent 55%),
+        radial-gradient(ellipse 100% 60% at 50% 100%, rgba(0,9,71,0.95) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 50% 40%,  rgba(255,22,53,0.06) 0%, transparent 60%);
+    }
+    .section-glow-purple {
+      background:
+        radial-gradient(ellipse 60% 80% at 10% 50%, rgba(161,0,255,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 60% at 90% 30%, rgba(133,153,255,0.06) 0%, transparent 60%);
+    }
+    .section-glow-red {
+      background: radial-gradient(ellipse 70% 80% at 90% 50%, rgba(255,22,53,0.06) 0%, transparent 60%);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #FF1673 0%, #A100FF 50%, #8599FF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .gradient-text-red {
+      background: linear-gradient(135deg, #FF1635 0%, #FF1673 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── FADE-IN ON SCROLL ── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── TYPOGRAPHY ── */
+    .label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #FF1673;
+    }
+    .red-rule { width: 44px; height: 3px; background: linear-gradient(90deg, #FF1635, #FF1673); border-radius: 2px; }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 26px;
+      background: linear-gradient(135deg, #FF1635, #FF1673);
+      color: #fff;
+      font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: -0.01em;
+      border-radius: 8px; border: none; cursor: pointer; text-decoration: none;
+      box-shadow: 0 4px 22px rgba(255,22,53,0.32), 0 1px 4px rgba(255,22,53,0.14);
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease, opacity 0.15s ease;
+    }
+    .btn-primary:hover  { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(255,22,53,0.42), 0 2px 8px rgba(255,22,53,0.2); }
+    .btn-primary:active { transform: translateY(0); opacity: 0.88; }
+    .btn-primary:focus-visible { outline: 2px solid #FF1673; outline-offset: 3px; }
+
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 26px;
+      background: transparent; color: #fff;
+      font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 14px;
+      border: 1.5px solid rgba(133,153,255,0.35); border-radius: 8px;
+      text-decoration: none; cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), border-color 0.2s ease, background 0.2s ease;
+    }
+    .btn-outline:hover  { transform: translateY(-2px); border-color: rgba(133,153,255,0.75); background: rgba(133,153,255,0.07); }
+    .btn-outline:active { transform: translateY(0); }
+    .btn-outline:focus-visible { outline: 2px solid #8599FF; outline-offset: 3px; }
+
+    /* ── NAV ── */
+    .nav-link {
+      font-family: 'Space Grotesk', sans-serif; font-size: 13.5px; font-weight: 500;
+      color: rgba(255,255,255,0.65); text-decoration: none;
+      position: relative; letter-spacing: -0.005em;
+      transition: color 0.2s ease;
+    }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 2px;
+      background: #FF1635; border-radius: 1px; transition: width 0.25s ease;
+    }
+    .nav-link:hover { color: #fff; }
+    .nav-link:hover::after { width: 100%; }
+    .nav-link:focus-visible { outline: 2px solid #FF1673; outline-offset: 4px; border-radius: 2px; }
+
+    /* ── CARDS ── */
+    .service-card {
+      background: linear-gradient(140deg, rgba(0,14,82,0.85) 0%, rgba(0,9,71,0.65) 100%);
+      border: 1px solid rgba(133,153,255,0.12);
+      border-radius: 16px;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), border-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 6px 28px rgba(0,0,0,0.4);
+    }
+    .service-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255,22,115,0.25);
+      box-shadow: 0 14px 44px rgba(0,0,0,0.5), 0 3px 12px rgba(255,22,53,0.08);
+    }
+
+    .product-card {
+      background: linear-gradient(140deg, rgba(0,14,82,0.9) 0%, rgba(0,9,71,0.7) 100%);
+      border: 1px solid rgba(133,153,255,0.12);
+      border-radius: 18px; overflow: hidden;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), border-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 8px 36px rgba(0,0,0,0.45);
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255,22,53,0.28);
+      box-shadow: 0 18px 52px rgba(0,0,0,0.55), 0 4px 16px rgba(255,22,53,0.1);
+    }
+
+    .portfolio-card {
+      border-radius: 14px; overflow: hidden; position: relative;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+    }
+    .portfolio-card:hover { transform: translateY(-5px); box-shadow: 0 14px 44px rgba(0,0,0,0.55); }
+    .portfolio-card:hover .port-overlay { opacity: 1; }
+    .port-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(255,22,53,0.85) 0%, rgba(161,0,255,0.4) 55%, transparent 100%);
+      opacity: 0; transition: opacity 0.3s ease;
+      display: flex; align-items: flex-end; padding: 22px;
+    }
+
+    .stat-card {
+      background: linear-gradient(140deg, rgba(0,14,82,0.9) 0%, rgba(0,9,71,0.7) 100%);
+      border: 1px solid rgba(133,153,255,0.12); border-radius: 16px;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;
+      box-shadow: 0 6px 28px rgba(0,0,0,0.4);
+    }
+    .stat-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.5); }
+
+    .client-tile {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), border-color 0.25s ease, background 0.25s ease;
+    }
+    .client-tile:hover { transform: translateY(-3px); border-color: rgba(255,22,115,0.25); background: rgba(255,22,115,0.04); }
+
+    /* ── ICON BG ── */
+    .icon-bg-red    { background: rgba(255,22,53,0.14); }
+    .icon-bg-pink   { background: rgba(255,22,115,0.14); }
+    .icon-bg-purple { background: rgba(161,0,255,0.14); }
+    .icon-bg-blue   { background: rgba(133,153,255,0.14); }
+    .icon-bg-orange { background: rgba(255,94,8,0.14); }
+    .icon-bg-green  { background: rgba(28,131,40,0.14); }
+
+    /* ── WAVE BARS ── */
+    @keyframes wave-bar {
+      0%, 100% { transform: scaleY(0.4); }
+      50%       { transform: scaleY(1); }
+    }
+    .wave-bar { transform-origin: bottom; animation: wave-bar 1.2s ease-in-out infinite; }
+    .wave-bar:nth-child(1)  { animation-delay: 0s; }
+    .wave-bar:nth-child(2)  { animation-delay: 0.1s; }
+    .wave-bar:nth-child(3)  { animation-delay: 0.2s; }
+    .wave-bar:nth-child(4)  { animation-delay: 0.3s; }
+    .wave-bar:nth-child(5)  { animation-delay: 0.4s; }
+    .wave-bar:nth-child(6)  { animation-delay: 0.5s; }
+    .wave-bar:nth-child(7)  { animation-delay: 0.6s; }
+    .wave-bar:nth-child(8)  { animation-delay: 0.7s; }
+    .wave-bar:nth-child(9)  { animation-delay: 0.8s; }
+    .wave-bar:nth-child(10) { animation-delay: 0.9s; }
+    .wave-bar:nth-child(11) { animation-delay: 1.0s; }
+    .wave-bar:nth-child(12) { animation-delay: 1.1s; }
+
+    /* ── SCROLL BAR ── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #000623; }
+    ::-webkit-scrollbar-thumb { background: #000947; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #FF1635; }
+  </style>
+</head>
+<body class="bg-[#000623] text-white font-body overflow-x-hidden">
+
+  <!-- ═══════════════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════════════ -->
+  <nav id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
+
+      <a href="#" aria-label="Pix3l Home" class="shrink-0 focus-visible:outline-2 focus-visible:outline-[#FF1673] focus-visible:outline-offset-4 rounded">
+        <img src="assets/logos/logo-meet-dark-white.svg"
+             alt="PIX3L" class="h-7 w-auto">
+      </a>
+
+      <!-- Desktop links -->
+      <div class="hidden lg:flex items-center gap-7">
+        <a href="#about"      class="nav-link">About</a>
+        <a href="#solutions"  class="nav-link">Design Solutions</a>
+        <a href="#products"   class="nav-link">AI Agents</a>
+        <a href="#devops"     class="nav-link">Dev Ops</a>
+        <a href="#contact"   class="nav-link">Contact</a>
+      </div>
+      <a href="#contact" class="hidden lg:inline-flex btn-primary py-2.5 px-5 text-sm">
+        Contact Us
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+
+      <!-- Mobile hamburger -->
+      <button id="hamburger" class="lg:hidden flex flex-col gap-[5px] p-2 rounded focus-visible:outline-2 focus-visible:outline-[#FF1673]" aria-label="Toggle menu" aria-expanded="false">
+        <span id="h1" class="block w-6 h-[2px] bg-white rounded-full origin-center transition-transform duration-300"></span>
+        <span id="h2" class="block w-6 h-[2px] bg-white rounded-full transition-opacity duration-300"></span>
+        <span id="h3" class="block w-6 h-[2px] bg-white rounded-full origin-center transition-transform duration-300"></span>
+      </button>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div id="mobile-drawer" class="hidden lg:hidden flex-col px-6 pb-6 pt-2 gap-3" style="background: rgba(0,6,35,0.97); border-bottom: 1px solid rgba(255,255,255,0.06);">
+      <a href="#about"     class="nav-link py-3 border-b border-white/8">About</a>
+      <a href="#solutions" class="nav-link py-3 border-b border-white/8">Design Solutions</a>
+      <a href="#products"  class="nav-link py-3 border-b border-white/8">AI Agents</a>
+      <a href="#devops"    class="nav-link py-3 border-b border-white/8">Dev Ops</a>
+      <a href="#contact"  class="nav-link py-3 border-b border-white/8">Contact</a>
+      <a href="#contact"   class="btn-primary mt-3 justify-center">Contact Us</a>
+    </div>
+  </nav>
+
+
+  <!-- ═══════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════ -->
+  <section id="hero" class="grain relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
+
+    <!-- BG layers -->
+    <div class="absolute inset-0">
+      <img src="assets/images/backgrounds/agentic-blocks.png" alt="" aria-hidden="true"
+           class="w-full h-full object-cover opacity-[0.08]">
+      <div class="absolute inset-0 hero-glow"></div>
+      <div class="absolute inset-0"
+           style="background: linear-gradient(to bottom, rgba(0,6,35,0.3) 0%, rgba(0,6,35,0.0) 30%, rgba(0,6,35,0.6) 75%, #000623 100%);"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="relative z-10 text-center px-6 max-w-5xl mx-auto pt-24 pb-20">
+
+      <!-- Headline -->
+      <h1 class="reveal font-display font-bold text-[clamp(2.2rem,6vw,4.5rem)] tracking-[-0.03em] leading-[1.06] mb-6"
+          style="transition-delay:.12s;">
+        Digital Works Built on<br>
+        <span class="gradient-text">25+ Years of Craft</span>
+      </h1>
+
+      <!-- Sub-copy -->
+      <p class="reveal text-white text-lg sm:text-xl leading-[1.72] max-w-2xl mx-auto mb-10"
+         style="transition-delay:.22s;">
+        I build product confidence through thoughtful, research-driven design and seamless user
+        experiences — from early exploration to launch and beyond.
+      </p>
+
+      <!-- CTAs -->
+      <div class="reveal flex flex-wrap gap-4 justify-center" style="transition-delay:.32s;">
+        <a href="#solutions" class="btn-primary text-base px-7 py-3.5">
+          My Design Solutions
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 7.5h11M8.5 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#products" class="btn-outline text-base px-7 py-3.5">
+          Explore AI Agents
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 7.5h11M8.5 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Scroll nudge -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 opacity-40 pointer-events-none select-none">
+      <span class="label" style="color:rgba(255,255,255,0.4);">scroll</span>
+      <div class="w-px h-10 bg-gradient-to-b from-white/35 to-transparent"></div>
+    </div>
+  </section>
+
+
+
+
+  <!-- ═══════════════════════════════════════════════
+       MY DIGITAL SOLUTIONS / ABOUT
+  ═══════════════════════════════════════════════ -->
+  <section id="about" class="grain relative py-28 overflow-hidden" style="background: #000623;">
+    <div class="absolute inset-0 section-glow-purple pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-16 xl:gap-24 items-center">
+
+        <!-- Copy -->
+        <div class="reveal">
+          <p class="label mb-3">About Pix3l LLC</p>
+          <div class="red-rule mb-7"></div>
+          <h2 class="font-display font-bold text-[clamp(2rem,4vw,3.25rem)] tracking-[-0.03em] leading-[1.1] mb-3">
+            My Digital Solutions
+          </h2>
+          <p class="text-[#8599FF] font-display font-medium text-lg mb-5">
+            Envisioning, Crafting & Building for 25+ Years
+          </p>
+          <p class="text-[#A3A3A3] text-base leading-[1.74] mb-4">
+            I'm Trey, Founder of Pix3l LLC. For over 25 years I've worked with FAANG, MAMAA, and
+            other Fortune 50s to design and launch products that have positively impacted millions of
+            people. What drives me isn't just the technology, but the people and partnerships that
+            make bold ideas real.
+          </p>
+          <p class="text-[#A3A3A3] text-base leading-[1.74] mb-9">
+            This site is the culmination of that journey — built on experience, collaboration, and a
+            belief that great design shapes the way we live, work, and entertain.
+          </p>
+          <a href="#contact" class="btn-primary">
+            Let's Work Together
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <!-- Stats grid -->
+        <div class="reveal grid grid-cols-2 gap-4" style="transition-delay:.14s;">
+          <div class="stat-card p-6">
+            <div class="gradient-text-red font-display font-bold text-5xl tracking-[-0.04em] mb-1">25+</div>
+            <div class="font-display font-semibold text-sm text-white mb-1">Years Experience</div>
+            <div class="text-[#A3A3A3] text-xs leading-relaxed">FAANG, Fortune 50, startups</div>
+          </div>
+          <div class="stat-card p-6">
+            <div class="font-display font-bold text-5xl tracking-[-0.04em] mb-1" style="color:#FF1673;">100+</div>
+            <div class="font-display font-semibold text-sm text-white mb-1">Projects Launched</div>
+            <div class="text-[#A3A3A3] text-xs leading-relaxed">Across 12+ industries</div>
+          </div>
+          <div class="stat-card p-6">
+            <div class="font-display font-bold text-5xl tracking-[-0.04em] mb-1" style="color:#A100FF;">∞</div>
+            <div class="font-display font-semibold text-sm text-white mb-1">People Impacted</div>
+            <div class="text-[#A3A3A3] text-xs leading-relaxed">Products used by millions</div>
+          </div>
+          <div class="stat-card p-6">
+            <div class="font-display font-bold text-5xl tracking-[-0.04em] mb-1" style="color:#8599FF;">3</div>
+            <div class="font-display font-semibold text-sm text-white mb-1">AI Products</div>
+            <div class="text-[#A3A3A3] text-xs leading-relaxed">Cascade, CRUNCH, VIKI</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       FULL-STACK UX  / SERVICES
+  ═══════════════════════════════════════════════ -->
+  <section id="solutions" class="grain relative py-28 overflow-hidden"
+           style="background: linear-gradient(180deg, #000623 0%, #000947 50%, #000623 100%);">
+
+    <!-- bg photo -->
+    <div class="absolute inset-0 pointer-events-none">
+      <img src="assets/images/backgrounds/agentic-blocks.png" alt="" aria-hidden="true"
+           class="w-full h-full object-cover opacity-[0.13]">
+      <div class="absolute inset-0"
+           style="background: linear-gradient(to right, #000623 0%, transparent 45%, #000623 100%);"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+      <!-- Heading -->
+      <div class="text-center mb-16 reveal">
+        <p class="label mb-3">My Capabilities</p>
+        <div class="red-rule mx-auto mb-7"></div>
+        <h2 class="font-display font-bold text-[clamp(2rem,4.5vw,3.5rem)] tracking-[-0.03em] leading-[1.1] mb-4">
+          Full-Stack UX,<br>From Concept to Launch
+        </h2>
+        <p class="text-[#A3A3A3] text-lg leading-[1.7] max-w-xl mx-auto">
+          My toolkit — everything you need to create intuitive, scalable digital products.
+        </p>
+      </div>
+
+      <!-- 3-col grid -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+        <div class="service-card p-7 reveal">
+          <div class="w-11 h-11 rounded-xl icon-bg-red flex items-center justify-center mb-5">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF1635" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 20h20M5 20V10l7-7 7 7v10"/><path d="M9 20v-6h6v6"/>
+            </svg>
+          </div>
+          <h3 class="font-display font-semibold text-[17px] mb-2">UX Research</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.72]">Attitudinal + behavioral methods to uncover the real insights your team needs — before a single pixel is placed.</p>
+        </div>
+
+        <div class="service-card p-7 reveal" style="transition-delay:.08s;">
+          <div class="w-11 h-11 rounded-xl icon-bg-pink flex items-center justify-center mb-5">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF1673" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+            </svg>
+          </div>
+          <h3 class="font-display font-semibold text-[17px] mb-2">UX / UI Design</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.72]">Research-driven interfaces that align business goals with the experiences real users actually want.</p>
+        </div>
+
+        <div class="service-card p-7 reveal" style="transition-delay:.16s;">
+          <div class="w-11 h-11 rounded-xl icon-bg-purple flex items-center justify-center mb-5">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A100FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <h3 class="font-display font-semibold text-[17px] mb-2">AI Agent Design</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.72]">Intelligent AI-first systems that automate complex workflows while keeping the human firmly in control.</p>
+        </div>
+
+        <div class="service-card p-7 reveal" style="transition-delay:.04s;">
+          <div class="w-11 h-11 rounded-xl icon-bg-blue flex items-center justify-center mb-5">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8599FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+            </svg>
+          </div>
+          <h3 class="font-display font-semibold text-[17px] mb-2">Development</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.72]">Full-stack engineering with modern tech stacks, scalable APIs, and production-ready code that ships.</p>
+        </div>
+
+        <div class="service-card p-7 reveal" style="transition-delay:.12s;">
+          <div class="w-11 h-11 rounded-xl icon-bg-orange flex items-center justify-center mb-5">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF5E08" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+            </svg>
+          </div>
+          <h3 class="font-display font-semibold text-[17px] mb-2">Analytics & Iteration</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.72]">Data-informed iteration loops that tie UX decisions directly to measurable business outcomes.</p>
+        </div>
+
+        <div class="service-card p-7 reveal" style="transition-delay:.20s;">
+          <div class="w-11 h-11 rounded-xl icon-bg-green flex items-center justify-center mb-5">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1C8328" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <h3 class="font-display font-semibold text-[17px] mb-2">Strategy & Discovery</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.72]">Deep-dive discovery sessions that align product vision with technical reality and user needs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       MY DIGITAL PRODUCTS
+  ═══════════════════════════════════════════════ -->
+  <section id="products" class="grain relative py-28 overflow-hidden"
+           style="background: linear-gradient(180deg, #000623 0%, #000947 55%, #000623 100%);">
+    <div class="absolute inset-0 pointer-events-none"
+         style="background: radial-gradient(ellipse 80% 60% at 50% 25%, rgba(161,0,255,0.07) 0%, transparent 60%);"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+
+      <div class="text-center mb-16 reveal">
+        <p class="label mb-3">My Digital Products</p>
+        <div class="red-rule mx-auto mb-7"></div>
+        <h2 class="font-display font-bold text-[clamp(2rem,4.5vw,3.5rem)] tracking-[-0.03em] leading-[1.1] mb-4">
+          Because Great Ideas Shouldn't<br>Be Limited to Big Tech
+        </h2>
+        <p class="text-[#A3A3A3] text-lg leading-[1.7] max-w-xl mx-auto">
+          Three AI-powered products in development — designed to unlock new possibilities for teams of all sizes.
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-6">
+
+        <!-- ── Cascade ── -->
+        <div class="product-card reveal" style="transition-delay:.05s;">
+          <div class="h-44 relative overflow-hidden">
+            <img src="assets/images/backgrounds/agentic-blocks.png" alt="Cascade"
+                 class="w-full h-full object-cover">
+            <div class="absolute inset-0"
+                 style="background: linear-gradient(135deg, rgba(255,22,53,0.45) 0%, rgba(0,9,71,0.7) 100%);"></div>
+            <div class="absolute top-4 left-4">
+              <span class="font-mono text-[10px] font-medium text-white/80 px-2.5 py-1 rounded-full"
+                    style="background: rgba(255,22,53,0.22); border: 1px solid rgba(255,22,53,0.35);">LIVE / BETA</span>
+            </div>
+            <div class="absolute bottom-4 left-5">
+              <h3 class="font-display font-bold text-[22px] tracking-[-0.02em]">Cascade</h3>
+            </div>
+          </div>
+          <div class="p-6">
+            <p class="text-[#8599FF] font-display font-medium text-[13px] mb-3">Intelligent AI Agent System (IAAS)</p>
+            <p class="text-[#A3A3A3] text-[13.5px] leading-[1.72] mb-5">
+              Maximize your content's impact with intelligent AI Agent Systems. Seamlessly transform your
+              content pipeline — from intelligent ingestion and voice-aligned copywriting to smart video
+              clipping, auto-generated thumbnails, and multi-platform publishing.
+            </p>
+            <!-- Agent avatar strip -->
+            <div class="flex items-center gap-2 mb-5">
+              <span class="font-mono text-[9px] text-white/35 uppercase tracking-widest whitespace-nowrap">Meet the agents</span>
+              <div class="flex items-center -space-x-2">
+                <a href="agents/syra.html"    title="Syra"    class="w-7 h-7 rounded-full overflow-hidden border-2 border-[#000623] hover:z-10 hover:scale-110 transition-transform duration-150 focus-visible:outline-2 focus-visible:outline-[#8599FF] focus-visible:outline-offset-1"><img src="assets/cascade/agents/syra.png"    alt="Syra"    class="w-full h-full object-cover"></a>
+                <a href="agents/oracle.html"  title="Oracle"  class="w-7 h-7 rounded-full overflow-hidden border-2 border-[#000623] hover:z-10 hover:scale-110 transition-transform duration-150 focus-visible:outline-2 focus-visible:outline-[#8599FF] focus-visible:outline-offset-1"><img src="assets/cascade/agents/oracle.png"  alt="Oracle"  class="w-full h-full object-cover"></a>
+                <a href="agents/echo.html"    title="Echo"    class="w-7 h-7 rounded-full overflow-hidden border-2 border-[#000623] hover:z-10 hover:scale-110 transition-transform duration-150 focus-visible:outline-2 focus-visible:outline-[#8599FF] focus-visible:outline-offset-1"><img src="assets/cascade/agents/echo.png"    alt="Echo"    class="w-full h-full object-cover"></a>
+                <a href="agents/nikola.html"  title="Nikola"  class="w-7 h-7 rounded-full overflow-hidden border-2 border-[#000623] hover:z-10 hover:scale-110 transition-transform duration-150 focus-visible:outline-2 focus-visible:outline-[#8599FF] focus-visible:outline-offset-1"><img src="assets/cascade/agents/nikola.png"  alt="Nikola"  class="w-full h-full object-cover"></a>
+                <a href="agents/iris.html"    title="Iris"    class="w-7 h-7 rounded-full overflow-hidden border-2 border-[#000623] hover:z-10 hover:scale-110 transition-transform duration-150 focus-visible:outline-2 focus-visible:outline-[#8599FF] focus-visible:outline-offset-1"><img src="assets/cascade/agents/iris.png"    alt="Iris"    class="w-full h-full object-cover"></a>
+                <a href="agents/davinci.html" title="DaVinci" class="w-7 h-7 rounded-full overflow-hidden border-2 border-[#000623] hover:z-10 hover:scale-110 transition-transform duration-150 focus-visible:outline-2 focus-visible:outline-[#8599FF] focus-visible:outline-offset-1"><img src="assets/cascade/agents/davinci.png" alt="DaVinci" class="w-full h-full object-cover"></a>
+                <a href="agents/chronos.html" title="Chronos" class="w-7 h-7 rounded-full overflow-hidden border-2 border-[#000623] hover:z-10 hover:scale-110 transition-transform duration-150 focus-visible:outline-2 focus-visible:outline-[#8599FF] focus-visible:outline-offset-1"><img src="assets/cascade/agents/chronos.png" alt="Chronos" class="w-full h-full object-cover"></a>
+                <a href="agents/atlas.html"   title="Atlas"   class="w-7 h-7 rounded-full overflow-hidden border-2 border-[#000623] hover:z-10 hover:scale-110 transition-transform duration-150 focus-visible:outline-2 focus-visible:outline-[#8599FF] focus-visible:outline-offset-1"><img src="assets/cascade/agents/atlas.png"   alt="Atlas"   class="w-full h-full object-cover"></a>
+                <a href="agents/nova.html"    title="Nova"    class="w-7 h-7 rounded-full overflow-hidden border-2 border-[#000623] hover:z-10 hover:scale-110 transition-transform duration-150 focus-visible:outline-2 focus-visible:outline-[#8599FF] focus-visible:outline-offset-1"><img src="assets/cascade/agents/nova.png"    alt="Nova"    class="w-full h-full object-cover"></a>
+                <a href="agents/viki.html"    title="VIKI"    class="w-7 h-7 rounded-full overflow-hidden border-2 border-[#000623] hover:z-10 hover:scale-110 transition-transform duration-150 focus-visible:outline-2 focus-visible:outline-[#8599FF] focus-visible:outline-offset-1"><img src="assets/cascade/agents/viki.png"    alt="VIKI"    class="w-full h-full object-cover"></a>
+              </div>
+            </div>
+            <a href="cascade.html" class="btn-primary w-full justify-center text-sm py-2.5">
+              Learn More About Cascade
+            </a>
+          </div>
+        </div>
+
+        <!-- ── CRUNCH ── -->
+        <div class="product-card reveal" style="transition-delay:.15s;">
+          <div class="h-44 relative overflow-hidden" style="background: linear-gradient(140deg, #000947, #252A45);">
+            <!-- abstract data viz -->
+            <div class="absolute inset-0 flex items-center justify-center p-6" aria-hidden="true">
+              <div class="grid grid-cols-9 gap-1 w-full opacity-25">
+                <div class="h-2 bg-[#8599FF] rounded col-span-4"></div><div class="h-2 bg-[#FF1635] rounded col-span-2"></div><div class="h-2 bg-[#474747] rounded col-span-3"></div>
+                <div class="h-2 bg-[#474747] rounded col-span-2"></div><div class="h-2 bg-[#8599FF] rounded col-span-5"></div><div class="h-2 bg-[#FF1673] rounded col-span-2"></div>
+                <div class="h-2 bg-[#FF1673] rounded col-span-6"></div><div class="h-2 bg-[#474747] rounded col-span-3"></div>
+                <div class="h-2 bg-[#A100FF] rounded col-span-3"></div><div class="h-2 bg-[#474747] rounded col-span-3"></div><div class="h-2 bg-[#8599FF] rounded col-span-3"></div>
+                <div class="h-2 bg-[#8599FF] rounded col-span-2"></div><div class="h-2 bg-[#A100FF] rounded col-span-4"></div><div class="h-2 bg-[#474747] rounded col-span-3"></div>
+              </div>
+            </div>
+            <div class="absolute inset-0"
+                 style="background: linear-gradient(135deg, rgba(161,0,255,0.32) 0%, rgba(0,9,71,0.65) 100%);"></div>
+            <div class="absolute top-4 left-4">
+              <span class="font-mono text-[10px] font-medium text-white/80 px-2.5 py-1 rounded-full"
+                    style="background: rgba(161,0,255,0.22); border: 1px solid rgba(161,0,255,0.35);">COMING SOON</span>
+            </div>
+            <div class="absolute bottom-4 left-5">
+              <h3 class="font-display font-bold text-[22px] tracking-[-0.02em]">CRUNCH</h3>
+            </div>
+          </div>
+          <div class="p-6">
+            <p class="font-display font-medium text-[13px] mb-3" style="color:#A100FF;">AI-Powered Data Cleanup Co-Pilot</p>
+            <p class="text-[#A3A3A3] text-[13.5px] leading-[1.72] mb-5">
+              From chaos to clarity — CRUNCH cleans your data. Transform messy tables into polished,
+              production-ready datasets in minutes with NLP-driven column renaming, schema
+              standardisation, and metadata enrichment.
+            </p>
+            <button class="btn-outline w-full justify-center text-sm py-2.5 opacity-50 cursor-not-allowed" disabled>
+              Coming Soon
+            </button>
+          </div>
+        </div>
+
+        <!-- ── VIKI ── -->
+        <div class="product-card reveal" style="transition-delay:.25s;">
+          <div class="h-44 relative overflow-hidden" style="background: linear-gradient(140deg, #000623, #000947);">
+            <!-- animated sound bars -->
+            <div class="absolute inset-0 flex items-end justify-center gap-[3px] px-10 pb-10" aria-hidden="true">
+              <div class="wave-bar w-1.5 h-10 bg-[#FF1673] rounded-full opacity-60"></div>
+              <div class="wave-bar w-1.5 h-14 bg-[#FF1635] rounded-full opacity-60"></div>
+              <div class="wave-bar w-1.5 h-8  bg-[#A100FF] rounded-full opacity-60"></div>
+              <div class="wave-bar w-1.5 h-12 bg-[#FF1673] rounded-full opacity-60"></div>
+              <div class="wave-bar w-1.5 h-16 bg-[#8599FF] rounded-full opacity-60"></div>
+              <div class="wave-bar w-1.5 h-9  bg-[#FF1635] rounded-full opacity-60"></div>
+              <div class="wave-bar w-1.5 h-13 bg-[#FF1673] rounded-full opacity-60"></div>
+              <div class="wave-bar w-1.5 h-11 bg-[#A100FF] rounded-full opacity-60"></div>
+              <div class="wave-bar w-1.5 h-15 bg-[#8599FF] rounded-full opacity-60"></div>
+              <div class="wave-bar w-1.5 h-7  bg-[#FF1635] rounded-full opacity-60"></div>
+              <div class="wave-bar w-1.5 h-12 bg-[#FF1673] rounded-full opacity-60"></div>
+              <div class="wave-bar w-1.5 h-10 bg-[#A100FF] rounded-full opacity-60"></div>
+            </div>
+            <div class="absolute inset-0"
+                 style="background: linear-gradient(135deg, rgba(255,22,115,0.22) 0%, rgba(0,6,35,0.7) 100%);"></div>
+            <div class="absolute top-4 left-4">
+              <span class="font-mono text-[10px] font-medium text-white/80 px-2.5 py-1 rounded-full"
+                    style="background: rgba(255,22,115,0.22); border: 1px solid rgba(255,22,115,0.35);">COMING SOON</span>
+            </div>
+            <div class="absolute bottom-4 left-5">
+              <h3 class="font-display font-bold text-[22px] tracking-[-0.02em]">VIKI</h3>
+            </div>
+          </div>
+          <div class="p-6">
+            <p class="font-display font-medium text-[13px] mb-3" style="color:#FF1673;">Voice Intelligence Neural Interface</p>
+            <p class="text-[#A3A3A3] text-[13.5px] leading-[1.72] mb-5">
+              A local, voice-first AI brainstorming partner built on Claude. She listens continuously,
+              thinks out loud with you, and captures every exchange so no idea ever gets lost.
+              Think it. Say it. Build it.
+            </p>
+            <button class="btn-outline w-full justify-center text-sm py-2.5 opacity-50 cursor-not-allowed" disabled>
+              Coming Soon
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       DESIGN THAT PLAYS BY YOUR RULES
+  ═══════════════════════════════════════════════ -->
+  <section id="devops" class="grain relative py-28 overflow-hidden" style="background: #000623;">
+    <div class="absolute inset-0 section-glow-red pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-16 xl:gap-24 items-center">
+
+        <!-- Visual -->
+        <div class="reveal order-2 lg:order-1">
+          <div class="rounded-2xl overflow-hidden shadow-card relative">
+            <img src="assets/images/backgrounds/digital-wave.png" alt="Digital Wave"
+                 class="w-full h-72 object-cover">
+            <div class="absolute inset-0"
+                 style="background: linear-gradient(to top, rgba(0,6,35,0.85) 0%, transparent 55%);"></div>
+
+            <!-- Floating indicator -->
+            <div class="absolute bottom-5 left-5 right-5">
+              <div class="flex items-center gap-3 rounded-xl p-3.5 border border-white/[0.08]"
+                   style="background: rgba(0,6,35,0.75); backdrop-filter: blur(14px);">
+                <span class="w-2 h-2 rounded-full bg-[#FF1635] shrink-0" style="animation: pulse 2s infinite;"></span>
+                <span class="font-mono text-xs text-white/70 leading-tight">Every industry. Every rule set. Tailored exactly to you.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Industry tags -->
+          <div class="flex flex-wrap gap-2 mt-6">
+            <span class="px-3 py-1.5 rounded-full font-mono text-[11px] font-medium text-[#8599FF] border border-[#8599FF]/30">Finance</span>
+            <span class="px-3 py-1.5 rounded-full font-mono text-[11px] font-medium text-[#FF1673] border border-[#FF1673]/30">Healthcare</span>
+            <span class="px-3 py-1.5 rounded-full font-mono text-[11px] font-medium text-[#A100FF] border border-[#A100FF]/30">Agriculture</span>
+            <span class="px-3 py-1.5 rounded-full font-mono text-[11px] font-medium text-[#8599FF] border border-[#8599FF]/30">Retail</span>
+            <span class="px-3 py-1.5 rounded-full font-mono text-[11px] font-medium text-[#FF1635] border border-[#FF1635]/30">Sports &amp; Gaming</span>
+            <span class="px-3 py-1.5 rounded-full font-mono text-[11px] font-medium text-[#A3A3A3] border border-[#A3A3A3]/30">Technology</span>
+            <span class="px-3 py-1.5 rounded-full font-mono text-[11px] font-medium text-[#FF5E08] border border-[#FF5E08]/30">Mining / Energy</span>
+          </div>
+        </div>
+
+        <!-- Copy -->
+        <div class="reveal order-1 lg:order-2" style="transition-delay:.14s;">
+          <p class="label mb-3">Industry Expertise</p>
+          <div class="red-rule mb-7"></div>
+          <h2 class="font-display font-bold text-[clamp(2rem,4vw,3.25rem)] tracking-[-0.03em] leading-[1.1] mb-4">
+            Design That Plays<br>by <span class="gradient-text">Your Rules</span>
+          </h2>
+          <p class="text-[#8599FF] font-display font-medium text-[15px] mb-5">
+            Every industry is unique — your tools should be too.
+          </p>
+          <p class="text-[#A3A3A3] text-base leading-[1.74] mb-9">
+            No two industries play by the same rules — and that's exactly how I design. From retail to
+            farming, finance to football, I've teamed up with brands across industries to build digital
+            tools that don't just look good — they work beautifully for the people using them every day.
+          </p>
+          <a href="#contact" class="btn-primary">
+            Work With Me
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+  <!-- ═══════════════════════════════════════════════
+       CLIENTS & COLLABORATIONS
+  ═══════════════════════════════════════════════ -->
+  <section class="grain relative py-28 overflow-hidden"
+           style="background: linear-gradient(180deg, #000623 0%, #000947 50%, #000623 100%);">
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+
+      <div class="text-center mb-14 reveal">
+        <p class="label mb-3">Clients &amp; Collaborations</p>
+        <div class="red-rule mx-auto mb-7"></div>
+        <h2 class="font-display font-bold text-[clamp(2rem,4vw,3.25rem)] tracking-[-0.03em] leading-[1.1] mb-4">
+          25+ Years of Collaboration,<br>Innovation &amp; Proven Results
+        </h2>
+        <p class="text-[#A3A3A3] text-lg leading-[1.7] max-w-xl mx-auto">
+          From tractors to TikTok, spreadsheets to snowboards — every project gets the same mix of craft,
+          curiosity, and a little bit of playful spark.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3 reveal">
+        <div class="client-tile p-5 text-center"><span class="font-display font-bold text-[11px] tracking-[0.1em] uppercase text-white/50">Microsoft</span></div>
+        <div class="client-tile p-5 text-center"><span class="font-display font-bold text-[11px] tracking-[0.1em] uppercase text-white/50">Hobby Lobby</span></div>
+        <div class="client-tile p-5 text-center"><span class="font-display font-bold text-[11px] tracking-[0.1em] uppercase text-white/50">Syngenta</span></div>
+        <div class="client-tile p-5 text-center"><span class="font-display font-bold text-[11px] tracking-[0.1em] uppercase text-white/50">PWC</span></div>
+        <div class="client-tile p-5 text-center"><span class="font-display font-bold text-[11px] tracking-[0.1em] uppercase text-white/50">John Deere</span></div>
+        <div class="client-tile p-5 text-center"><span class="font-display font-bold text-[11px] tracking-[0.1em] uppercase text-white/50">TIAA</span></div>
+        <div class="client-tile p-5 text-center"><span class="font-display font-bold text-[11px] tracking-[0.1em] uppercase text-white/50">Wayfair</span></div>
+        <div class="client-tile p-5 text-center"><span class="font-display font-bold text-[11px] tracking-[0.1em] uppercase text-white/50">Orbit Health</span></div>
+        <div class="client-tile p-5 text-center"><span class="font-display font-bold text-[11px] tracking-[0.1em] uppercase text-white/50">Viper RC</span></div>
+        <div class="client-tile p-5 text-center"><span class="font-display font-bold text-[11px] tracking-[0.1em] uppercase text-white/50">Newmont Mining</span></div>
+        <div class="client-tile p-5 text-center"><span class="font-display font-bold text-[11px] tracking-[0.1em] uppercase text-white/50">T-Mobile</span></div>
+        <div class="client-tile p-5 text-center"><span class="font-display font-bold text-[11px] tracking-[0.1em] uppercase text-white/50">Lib Tech</span></div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       CONTACT CTA BANNER
+  ═══════════════════════════════════════════════ -->
+  <section id="contact" class="grain relative py-28 overflow-hidden">
+    <div class="absolute inset-0">
+      <img src="assets/images/backgrounds/agentic-blocks.png" alt="" aria-hidden="true"
+           class="w-full h-full object-cover opacity-20">
+      <div class="absolute inset-0"
+           style="background: linear-gradient(135deg, rgba(255,22,53,0.32) 0%, rgba(0,6,35,0.92) 40%, rgba(161,0,255,0.18) 100%);"></div>
+    </div>
+
+    <div class="relative z-10 max-w-3xl mx-auto px-6 text-center reveal">
+      <p class="label mb-3">Let's Build Something</p>
+      <h2 class="font-display font-bold text-[clamp(2.2rem,5vw,4rem)] tracking-[-0.03em] leading-[1.08] mb-5">
+        Ready to Create Something<br><span class="gradient-text">Extraordinary?</span>
+      </h2>
+      <p class="text-[#A3A3A3] text-lg leading-[1.7] mb-10 max-w-xl mx-auto">
+        Whether it's a bold new product, a UX overhaul, or an AI system that transforms how your
+        team works — let's make it happen.
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a href="mailto:trey@pix3l.co" class="btn-primary px-8 py-3.5 text-base">
+          trey@pix3l.co
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════ -->
+  <footer class="relative py-12 border-t border-white/[0.06]" style="background: #000623;">
+    <div class="max-w-7xl mx-auto px-6">
+
+      <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+        <img src="assets/logos/logo-meet-dark-white.svg"
+             alt="Pix3l LLC" class="h-7 w-auto opacity-60">
+
+        <div class="flex flex-wrap justify-center gap-6">
+          <a href="#solutions" class="nav-link text-[13px]">Design Solutions</a>
+          <a href="#products"  class="nav-link text-[13px]">AI Agents</a>
+          <a href="#contact"  class="nav-link text-[13px]">Contact</a>
+          <a href="#about"     class="nav-link text-[13px]">About</a>
+          <a href="#contact"   class="nav-link text-[13px]">Contact</a>
+        </div>
+
+        <div class="text-center md:text-right">
+          <a href="mailto:trey@pix3l.co"  class="text-[#FF1673] text-sm transition-colors duration-200 hover:text-[#FF1635]">trey@pix3l.co</a>
+        </div>
+      </div>
+
+      <div class="mt-8 pt-6 border-t border-white/[0.05] flex flex-col sm:flex-row items-center justify-between gap-2">
+        <p class="font-mono text-[11px] text-white/25">© 2026 Pix3l LLC. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ═══════════════════════════════════════════════
+       JAVASCRIPT
+  ═══════════════════════════════════════════════ -->
+  <script>
+    // ── Navbar scroll transparency ──
+    const nav = document.getElementById('navbar');
+    const updateNav = () => {
+      if (window.scrollY > 64) {
+        nav.style.cssText = 'background:rgba(0,6,35,0.93);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid rgba(255,255,255,0.06);';
+      } else {
+        nav.style.cssText = 'background:transparent;';
+      }
+    };
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
+
+    // ── Mobile menu ──
+    const hamburger   = document.getElementById('hamburger');
+    const drawer      = document.getElementById('mobile-drawer');
+    const h1 = document.getElementById('h1');
+    const h2 = document.getElementById('h2');
+    const h3 = document.getElementById('h3');
+    let open = false;
+
+    hamburger.addEventListener('click', () => {
+      open = !open;
+      hamburger.setAttribute('aria-expanded', open);
+      drawer.classList.toggle('hidden', !open);
+      drawer.classList.toggle('flex',   open);
+      h1.style.transform = open ? 'rotate(45deg) translate(4px,4px)'  : '';
+      h2.style.opacity   = open ? '0' : '1';
+      h3.style.transform = open ? 'rotate(-45deg) translate(4px,-4px)' : '';
+    });
+
+    drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      open = false;
+      hamburger.setAttribute('aria-expanded', false);
+      drawer.classList.add('hidden'); drawer.classList.remove('flex');
+      h1.style.transform = ''; h2.style.opacity = '1'; h3.style.transform = '';
+    }));
+
+    // ── Scroll-reveal (IntersectionObserver) ──
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08, rootMargin: '0px 0px -36px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // Trigger hero immediately
+    setTimeout(() => {
+      document.querySelectorAll('#hero .reveal').forEach(el => el.classList.add('visible'));
+    }, 80);
+  </script>
+</body>
+</html>
