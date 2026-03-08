@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
     /* ============================================================
@@ -217,6 +218,19 @@
       list-style: none;
     }
     @media (min-width: 768px) { .nav-links { display: flex; } }
+    .nav-link {
+      font-family: 'Space Grotesk', sans-serif; font-size: 13.5px; font-weight: 500;
+      color: rgba(255,255,255,0.65); text-decoration: none;
+      position: relative; letter-spacing: -0.005em;
+      transition: color 0.2s ease;
+    }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 2px;
+      background: #FF1635; border-radius: 1px; transition: width 0.25s ease;
+    }
+    .nav-link:hover { color: #fff; }
+    .nav-link:hover::after { width: 100%; }
+    .nav-link:focus-visible { outline: 2px solid #FF1673; outline-offset: 4px; border-radius: 2px; }
     .nav-links a {
       font-size: var(--text-sm);
       font-weight: 500;
@@ -1455,24 +1469,30 @@
   </main>
 
   <!-- FOOTER -->
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-inner">
-        <div class="footer-brand">
-          <span class="footer-pix3l">Pix<span class="num">3</span>l</span>
-          <span class="footer-sep">/</span>
-          <span class="footer-product">CRUNCH</span>
+  <footer class="relative py-12 border-t border-white/[0.06]" style="background: #000623;">
+    <div class="max-w-7xl mx-auto px-6">
+
+      <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+        <a href="index.html" class="focus-visible:outline-2 focus-visible:outline-[#FF1673] focus-visible:outline-offset-4 rounded">
+          <img src="assets/logos/logo-meet-dark-white.svg"
+               alt="Pix3l LLC" class="h-7 w-auto opacity-60">
+        </a>
+
+        <div class="flex flex-wrap justify-center gap-6">
+          <a href="#features"  class="nav-link text-[13px]">Features</a>
+          <a href="#pricing"   class="nav-link text-[13px]">Pricing</a>
+          <a href="#contact"   class="nav-link text-[13px]">Contact</a>
+          <a href="index.html" class="nav-link text-[13px]">Pix3l LLC</a>
         </div>
-        <nav aria-label="Footer navigation">
-          <ul class="footer-links" role="list">
-            <li><a href="#">Features</a></li>
-            <li><a href="#">Pricing</a></li>
-            <li><a href="#">Privacy</a></li>
-            <li><a href="#">Terms</a></li>
-            <li><a href="https://pix3l.com">Pix3l.com</a></li>
-          </ul>
-        </nav>
-        <p class="footer-copy">&copy; 2026 Pix3l LLC. All rights reserved.</p>
+
+        <div class="text-center md:text-right">
+          <a href="mailto:trey@pix3l.co" class="text-[#FF1673] text-sm transition-colors duration-200 hover:text-[#FF1635]">trey@pix3l.co</a>
+        </div>
+      </div>
+
+      <div class="mt-8 pt-6 border-t border-white/[0.05] flex flex-col sm:flex-row items-center justify-between gap-2">
+        <p class="font-mono text-[11px] text-white/25">© 2026 Pix3l LLC. All rights reserved.</p>
+        <p class="font-mono text-[11px] text-white/18">CRUNCH — AI-Powered Data Cleanup Co-Pilot</p>
       </div>
     </div>
   </footer>
