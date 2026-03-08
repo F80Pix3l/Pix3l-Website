@@ -157,6 +157,7 @@
       border-radius: 18px; overflow: hidden;
       transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), border-color 0.3s ease, box-shadow 0.3s ease;
       box-shadow: 0 8px 36px rgba(0,0,0,0.45);
+      display: flex; flex-direction: column;
     }
     .product-card:hover {
       transform: translateY(-6px);
@@ -250,7 +251,7 @@
         <a href="#contact"   class="nav-link">Contact</a>
       </div>
       <a href="#contact" class="hidden lg:inline-flex btn-primary py-2.5 px-5 text-sm">
-        Contact Us
+        Contact Me
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
 
@@ -269,7 +270,7 @@
       <a href="#products"  class="nav-link py-3 border-b border-white/8">AI Agents</a>
       <a href="#devops"    class="nav-link py-3 border-b border-white/8">Dev Ops</a>
       <a href="#contact"  class="nav-link py-3 border-b border-white/8">Contact</a>
-      <a href="#contact"   class="btn-primary mt-3 justify-center">Contact Us</a>
+      <a href="#contact"   class="btn-primary mt-3 justify-center">Contact Me</a>
     </div>
   </nav>
 
@@ -524,7 +525,7 @@
               <h3 class="font-display font-bold text-[22px] tracking-[-0.02em]">Cascade</h3>
             </div>
           </div>
-          <div class="p-6">
+          <div class="p-6 flex flex-col flex-1">
             <p class="text-[#8599FF] font-display font-medium text-[13px] mb-3">Intelligent AI Agent System (IAAS)</p>
             <p class="text-[#A3A3A3] text-[13.5px] leading-[1.72] mb-5">
               Maximize your content's impact with intelligent AI Agent Systems. Seamlessly transform your
@@ -547,7 +548,7 @@
                 <a href="agents/viki.html"    title="VIKI"    class="w-7 h-7 rounded-full overflow-hidden border-2 border-[#000623] hover:z-10 hover:scale-110 transition-transform duration-150 focus-visible:outline-2 focus-visible:outline-[#8599FF] focus-visible:outline-offset-1"><img src="assets/cascade/agents/viki.png"    alt="VIKI"    class="w-full h-full object-cover"></a>
               </div>
             </div>
-            <a href="cascade.html" class="btn-primary w-full justify-center text-sm py-2.5">
+            <a href="cascade.html" class="btn-primary w-full justify-center text-sm py-2.5 mt-auto">
               Learn More About Cascade
             </a>
           </div>
@@ -576,14 +577,14 @@
               <h3 class="font-display font-bold text-[22px] tracking-[-0.02em]">CRUNCH</h3>
             </div>
           </div>
-          <div class="p-6">
+          <div class="p-6 flex flex-col flex-1">
             <p class="font-display font-medium text-[13px] mb-3" style="color:#A100FF;">AI-Powered Data Cleanup Co-Pilot</p>
             <p class="text-[#A3A3A3] text-[13.5px] leading-[1.72] mb-5">
               From chaos to clarity — CRUNCH cleans your data. Transform messy tables into polished,
               production-ready datasets in minutes with NLP-driven column renaming, schema
               standardisation, and metadata enrichment.
             </p>
-            <button class="btn-outline w-full justify-center text-sm py-2.5 opacity-50 cursor-not-allowed" disabled>
+            <button class="btn-outline w-full justify-center text-sm py-2.5 opacity-50 cursor-not-allowed mt-auto" disabled>
               Coming Soon
             </button>
           </div>
@@ -617,14 +618,14 @@
               <h3 class="font-display font-bold text-[22px] tracking-[-0.02em]">VIKI</h3>
             </div>
           </div>
-          <div class="p-6">
+          <div class="p-6 flex flex-col flex-1">
             <p class="font-display font-medium text-[13px] mb-3" style="color:#FF1673;">Voice Intelligence Neural Interface</p>
             <p class="text-[#A3A3A3] text-[13.5px] leading-[1.72] mb-5">
               A local, voice-first AI brainstorming partner built on Claude. She listens continuously,
               thinks out loud with you, and captures every exchange so no idea ever gets lost.
               Think it. Say it. Build it.
             </p>
-            <button class="btn-outline w-full justify-center text-sm py-2.5 opacity-50 cursor-not-allowed" disabled>
+            <button class="btn-outline w-full justify-center text-sm py-2.5 opacity-50 cursor-not-allowed mt-auto" disabled>
               Coming Soon
             </button>
           </div>
