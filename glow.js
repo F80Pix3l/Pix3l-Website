@@ -6,6 +6,7 @@
     '.product-card',
     '.service-card',
     '.agent-card',
+    '.agent-portrait',
     '.feature-card',
     '.pricing-card',
     '.pipeline-card',

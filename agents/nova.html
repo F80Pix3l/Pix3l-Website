@@ -86,6 +86,7 @@
       .btn-primary, .btn-outline { transition: none; }
     }
   </style>
+  <link rel="stylesheet" href="../glow.css">
 </head>
 <body>
 
@@ -133,15 +134,18 @@
 
 <!-- HERO -->
 <section class="grain relative min-h-screen flex items-center overflow-hidden pt-20">
-  <div class="absolute inset-0" style="background: linear-gradient(135deg, #000623 0%, #000947 60%, #000623 100%);"></div>
-  <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 60% 70% at 30% 50%, rgba(161,0,255,0.12) 0%, transparent 60%);"></div>
+  <div class="absolute inset-0" style="background: linear-gradient(180deg, #000623 0%, #000A3A 100%);"></div>
+  <div class="absolute inset-0 pointer-events-none" style="background:
+    radial-gradient(ellipse 80% 90% at 20% 40%, rgba(161,0,255,0.13) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 70% at 85% 10%, rgba(161,0,255,0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 60% at 95% 85%, rgba(133,153,255,0.07) 0%, transparent 60%);"></div>
   <div class="absolute inset-0 pointer-events-none">
     <img src="../assets/images/backgrounds/agentic-blocks.png" alt="" aria-hidden="true"
          class="w-full h-full object-cover" style="opacity:0.05;">
   </div>
   <div class="relative z-10 max-w-7xl mx-auto px-6 py-24 grid md:grid-cols-2 gap-16 items-center">
     <div class="flex justify-center md:justify-start reveal">
-      <div class="relative">
+      <div class="relative agent-portrait">
         <div class="absolute -inset-4 rounded-3xl" style="background: radial-gradient(ellipse at center, rgba(161,0,255,0.15) 0%, transparent 70%);"></div>
         <img src="../assets/cascade/agents/nova.png" alt="Nova"
              class="relative w-72 h-72 md:w-96 md:h-96 object-cover rounded-2xl"
@@ -162,7 +166,10 @@
 </section>
 
 <!-- BIO + CAPABILITIES -->
-<section class="grain relative py-24 overflow-hidden" style="background: linear-gradient(180deg, #000623 0%, #000947 50%, #000623 100%);">
+<section class="grain relative py-24 overflow-hidden" style="background: transparent;">
+  <div class="absolute inset-0 pointer-events-none" style="background:
+    radial-gradient(ellipse 80% 70% at 90% 30%, rgba(161,0,255,0.09) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 60% at 5% 65%, rgba(161,0,255,0.07) 0%, transparent 60%);"></div>
   <div class="relative z-10 max-w-7xl mx-auto px-6">
     <div class="grid md:grid-cols-2 gap-16 items-start">
       <div class="reveal">
@@ -171,7 +178,7 @@
         <p class="text-[#A3A3A3] leading-[1.78]">The pipeline doesn't stop at publish. Nova tracks every post across all five platforms, identifies what worked and why, and feeds that signal back to Syra so the next run starts smarter than the last. Over time, Cascade's decisions improve automatically — without requiring manual tuning.</p>
       </div>
       <div class="reveal" style="transition-delay:.12s;">
-        <p class="font-mono text-[11px] tracking-[0.18em] uppercase mb-6 text-white/40">Capabilities</p>
+        <p class="font-mono text-[11px] tracking-[0.18em] uppercase mb-6" style="color:#A100FF;">Capabilities</p>
         <ul class="space-y-4">
           <li class="flex items-center gap-3">
             <span class="w-1.5 h-1.5 rounded-full flex-shrink-0" style="background:#A100FF;"></span>
@@ -200,7 +207,8 @@
 </section>
 
 <!-- TECH STACK -->
-<section class="py-20 overflow-hidden" style="background:#000623;">
+<section class="grain relative py-20 overflow-hidden" style="background: transparent;">
+  <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(133,153,255,0.06) 0%, transparent 65%);"></div>
   <div class="max-w-7xl mx-auto px-6">
     <p class="font-mono text-[11px] tracking-[0.18em] uppercase mb-8 text-white/40 text-center reveal">Tech Stack</p>
     <div class="grid sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
@@ -230,7 +238,8 @@
 </section>
 
 <!-- MEET THE TEAM NAV -->
-<section class="py-20" style="background:#000947;">
+<section class="grain relative py-20 overflow-hidden" style="background: transparent;">
+  <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(161,0,255,0.07) 0%, transparent 65%);"></div>
   <div class="max-w-7xl mx-auto px-6">
     <p class="font-mono text-[11px] tracking-[0.18em] uppercase mb-8 text-white/40 text-center">Meet the Team</p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center items-stretch max-w-xl mx-auto">
@@ -310,5 +319,6 @@
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   document.querySelectorAll('section:first-of-type .reveal').forEach(el => el.classList.add('visible'));
 </script>
+<script src="../glow.js"></script>
 </body>
 </html>
