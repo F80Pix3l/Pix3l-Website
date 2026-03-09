@@ -17,7 +17,7 @@
   <meta name="twitter:image"       content="https://pix3l-website.vercel.app/assets/logos/logo-meet-dark-white.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
@@ -56,7 +56,7 @@
 
       /* Typography */
       --font-display: 'Space Grotesk', sans-serif;
-      --font-body:    'DM Sans', sans-serif;
+      --font-body:    'Inter', sans-serif;
 
       /* Type scale */
       --text-xs:      0.75rem;
@@ -144,6 +144,8 @@
 
     @media (prefers-reduced-motion: reduce) {
       .animate-in, .animate-fade { animation: none; opacity: 1; }
+      .hero-badge-dot { animation: none; }
+      .hero-headline-wordmark { animation: none; background-position: 0% 50%; }
     }
 
     /* ============================================================
@@ -164,7 +166,7 @@
     ============================================================ */
     .container {
       width: 100%;
-      max-width: 1200px;
+      max-width: 1100px;
       margin-inline: auto;
       padding-inline: var(--space-6);
     }
@@ -258,13 +260,13 @@
       align-items: center;
       justify-content: center;
       gap: var(--space-2);
-      font-family: var(--font-body);
+      font-family: var(--font-display);
       font-size: var(--text-sm);
       font-weight: 700;
       min-height: 44px;
       padding: var(--space-3) var(--space-6);
       border-radius: var(--radius-md);
-      transition: all 0.18s var(--ease-standard);
+      transition: transform 0.18s var(--ease-standard), box-shadow 0.18s var(--ease-standard), opacity 0.18s var(--ease-standard), background-color 0.18s var(--ease-standard), border-color 0.18s var(--ease-standard);
       letter-spacing: 0.02em;
       position: relative;
       overflow: hidden;
@@ -553,7 +555,7 @@
       width: 100%;
       border-collapse: collapse;
       font-size: var(--text-xs);
-      font-family: 'DM Sans', monospace;
+      font-family: 'JetBrains Mono', monospace;
     }
     .data-table th {
       padding: var(--space-2) var(--space-4);
@@ -1133,27 +1135,13 @@
       font-size: var(--text-xs);
       color: var(--outer-space);
     }
-    /* ── CRUNCH NAV LINKS ── */
-    .crunch-nav-link {
-      font-family: 'Space Grotesk', sans-serif; font-size: 13.5px; font-weight: 500;
-      color: rgba(255,255,255,0.65); text-decoration: none;
-      position: relative; letter-spacing: -0.005em;
-      transition: color 0.2s ease;
-    }
-    .crunch-nav-link::after {
-      content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 2px;
-      background: #FF1635; border-radius: 1px; transition: width 0.25s ease;
-    }
-    .crunch-nav-link:hover { color: #fff; }
-    .crunch-nav-link:hover::after { width: 100%; }
-    .crunch-nav-link:focus-visible { outline: 2px solid #FF1673; outline-offset: 4px; border-radius: 2px; }
   </style>
   <link rel="stylesheet" href="glow.css">
 </head>
 <body>
 
   <!-- NAV -->
-  <nav id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
+  <nav id="navbar" class="fixed top-0 inset-x-0 z-50 transition-colors duration-300">
     <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
 
       <a href="index.html" aria-label="Pix3l Home" class="shrink-0 focus-visible:outline-2 focus-visible:outline-[#FF1673] focus-visible:outline-offset-4 rounded">
@@ -1162,13 +1150,13 @@
 
       <!-- Desktop links -->
       <div class="hidden lg:flex items-center gap-7">
-        <a href="index.html#about"     class="crunch-nav-link">About</a>
-        <a href="index.html#solutions" class="crunch-nav-link">Design Solutions</a>
-        <a href="index.html#products"  class="crunch-nav-link">AI Agents</a>
-        <a href="index.html#devops"    class="crunch-nav-link">Dev Ops</a>
-        <a href="index.html#contact"   class="crunch-nav-link">Contact</a>
+        <a href="index.html#about"     class="nav-link">About</a>
+        <a href="index.html#solutions" class="nav-link">Design Solutions</a>
+        <a href="index.html#products"  class="nav-link">AI Agents</a>
+        <a href="index.html#devops"    class="nav-link">Dev Ops</a>
+        <a href="index.html#contact"   class="nav-link">Contact</a>
       </div>
-      <a href="cascade.html" class="hidden lg:inline-flex items-center gap-2 py-2.5 px-5 text-sm font-semibold text-white rounded-lg" style="background:linear-gradient(135deg,#FF1673,#FF1635); font-family:'Space Grotesk',sans-serif; text-decoration:none; transition:opacity 0.2s,transform 0.2s; letter-spacing:-0.01em;" onmouseover="this.style.opacity='0.88';this.style.transform='translateY(-1px)'" onmouseout="this.style.opacity='1';this.style.transform=''">
+      <a href="cascade.html" class="hidden lg:inline-flex btn btn-primary">
         View Cascade
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
@@ -1183,12 +1171,12 @@
 
     <!-- Mobile drawer -->
     <div id="mobile-drawer" class="hidden lg:hidden flex-col px-6 pb-6 pt-2 gap-3" style="background:rgba(0,6,35,0.97);border-bottom:1px solid rgba(255,255,255,0.06);">
-      <a href="index.html#about"     class="crunch-nav-link py-3 border-b border-white/8">About</a>
-      <a href="index.html#solutions" class="crunch-nav-link py-3 border-b border-white/8">Design Solutions</a>
-      <a href="index.html#products"  class="crunch-nav-link py-3 border-b border-white/8">AI Agents</a>
-      <a href="index.html#devops"    class="crunch-nav-link py-3 border-b border-white/8">Dev Ops</a>
-      <a href="index.html#contact"   class="crunch-nav-link py-3 border-b border-white/8">Contact</a>
-      <a href="cascade.html" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;padding:12px 28px;background:linear-gradient(135deg,#FF1673,#FF1635);color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;border-radius:8px;text-decoration:none;">View Cascade</a>
+      <a href="index.html#about"     class="nav-link py-3 border-b border-white/8">About</a>
+      <a href="index.html#solutions" class="nav-link py-3 border-b border-white/8">Design Solutions</a>
+      <a href="index.html#products"  class="nav-link py-3 border-b border-white/8">AI Agents</a>
+      <a href="index.html#devops"    class="nav-link py-3 border-b border-white/8">Dev Ops</a>
+      <a href="index.html#contact"   class="nav-link py-3 border-b border-white/8">Contact</a>
+      <a href="cascade.html" class="btn btn-primary" style="margin-top:12px;justify-content:center;">View Cascade</a>
     </div>
   </nav>
 

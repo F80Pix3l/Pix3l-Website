@@ -70,11 +70,18 @@
     }
     .section-glow-purple {
       background:
-        radial-gradient(ellipse 60% 80% at 10% 50%, rgba(161,0,255,0.07) 0%, transparent 60%),
-        radial-gradient(ellipse 50% 60% at 90% 30%, rgba(133,153,255,0.06) 0%, transparent 60%);
+        radial-gradient(ellipse 70% 90% at 5% 50%, rgba(161,0,255,0.17) 0%, transparent 60%),
+        radial-gradient(ellipse 55% 65% at 95% 30%, rgba(133,153,255,0.14) 0%, transparent 60%);
+    }
+    .section-glow-blue {
+      background:
+        radial-gradient(ellipse 65% 80% at 88% 55%, rgba(133,153,255,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse 45% 55% at 8% 35%, rgba(161,0,255,0.09) 0%, transparent 55%);
     }
     .section-glow-red {
-      background: radial-gradient(ellipse 70% 80% at 90% 50%, rgba(255,22,53,0.06) 0%, transparent 60%);
+      background:
+        radial-gradient(ellipse 70% 80% at 90% 50%, rgba(255,22,53,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 50% at 5% 60%, rgba(133,153,255,0.08) 0%, transparent 55%);
     }
     .gradient-text {
       background: linear-gradient(135deg, #FF1673 0%, #A100FF 50%, #8599FF 100%);
@@ -175,20 +182,6 @@
       box-shadow: 0 18px 52px rgba(0,0,0,0.55), 0 4px 16px rgba(255,22,53,0.1);
     }
 
-    .portfolio-card {
-      border-radius: 14px; overflow: hidden; position: relative;
-      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.35);
-    }
-    .portfolio-card:hover { transform: translateY(-5px); box-shadow: 0 14px 44px rgba(0,0,0,0.55); }
-    .portfolio-card:hover .port-overlay { opacity: 1; }
-    .port-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(255,22,53,0.85) 0%, rgba(161,0,255,0.4) 55%, transparent 100%);
-      opacity: 0; transition: opacity 0.3s ease;
-      display: flex; align-items: flex-end; padding: 22px;
-    }
-
     .stat-card {
       background: linear-gradient(140deg, rgba(0,14,82,0.9) 0%, rgba(0,9,71,0.7) 100%);
       border: 1px solid rgba(133,153,255,0.12); border-radius: 16px;
@@ -262,7 +255,7 @@
   <!-- ═══════════════════════════════════════════════
        NAVBAR
   ═══════════════════════════════════════════════ -->
-  <nav id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
+  <nav id="navbar" class="fixed top-0 inset-x-0 z-50 transition-colors duration-300">
     <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
 
       <a href="#" aria-label="Pix3l Home" class="shrink-0 focus-visible:outline-2 focus-visible:outline-[#FF1673] focus-visible:outline-offset-4 rounded">
@@ -330,8 +323,7 @@
       <!-- Sub-copy -->
       <p class="reveal text-white text-lg sm:text-xl leading-[1.72] max-w-2xl mx-auto mb-10"
          style="transition-delay:.22s;">
-        I build product confidence through thoughtful, research-driven design and seamless user
-        experiences — from early exploration to launch and beyond.
+        I build product confidence through thoughtful, research-driven design and seamless user experiences, from early exploration to launch and beyond.
       </p>
 
       <!-- CTAs -->
@@ -361,7 +353,8 @@
   <!-- ═══════════════════════════════════════════════
        MY DIGITAL SOLUTIONS / ABOUT
   ═══════════════════════════════════════════════ -->
-  <section id="about" class="grain relative py-40 overflow-hidden" style="background: #000623;">
+  <section id="about" class="grain relative py-40 overflow-hidden" style="background: linear-gradient(180deg, #000623 0%, #020A42 50%, #000623 100%);">
+
     <div class="absolute inset-0 section-glow-purple pointer-events-none"></div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-6">
@@ -369,7 +362,7 @@
 
         <!-- Copy -->
         <div class="reveal">
-          <p class="label mb-3">About Pix3l LLC</p>
+          <p class="label mb-3">About Pix3l</p>
           <div class="red-rule mb-7"></div>
           <h2 class="font-display font-bold text-[clamp(2rem,4vw,3.25rem)] tracking-[-0.03em] leading-[1.1] mb-3">
             My Digital Solutions
@@ -378,15 +371,10 @@
             Envisioning, Crafting & Building for 25+ Years
           </p>
           <p class="text-[#A3A3A3] text-base leading-[1.74] mb-4">
-            I’m Trey, founder of Pix3l LLC. For more than 25 years, I’ve partnered with FAANG, MAMAA, and other Fortune 50 companies to design and launch products that have reached and improved the lives of millions of people.
-            
-            What drives me isn’t just the technology. It’s the people, the collaboration, and the trust required to turn ambitious ideas into real, meaningful products. 
-            
-            This site reflects that journey. It brings together decades of experience, strong partnerships, and a belief that thoughtful design can shape how we live, work, and experience the world.
+            I’m Trey, founder of Pix3l LLC. For more than 25 years I’ve partnered with FAANG, MAMAA, and other Fortune 50 companies to design and launch products that reach millions of people. What drives me most is the people, collaboration, and trust behind turning ambitious ideas into meaningful products. 
           </p>
           <p class="text-[#A3A3A3] text-base leading-[1.74] mb-9">
-            This site is the culmination of that journey — built on experience, collaboration, and a
-            belief that great design shapes the way we live, work, and entertain.
+            This site brings together that journey, built on experience, partnership, and a belief that thoughtful design shapes how we live, work, and experience the world.
           </p>
           <a href="#contact" class="btn-primary">
             Let's Work Together
@@ -399,12 +387,12 @@
           <div class="stat-card p-6">
             <div class="gradient-text-red font-display font-bold text-5xl tracking-[-0.04em] mb-1">25+</div>
             <div class="font-display font-semibold text-sm text-white mb-1">Years Experience</div>
-            <div class="text-[#A3A3A3] text-xs leading-relaxed">FAANG, Fortune 50, startups</div>
+            <div class="text-[#A3A3A3] text-xs leading-relaxed">FAANG, Fortune 50, Startups</div>
           </div>
           <div class="stat-card p-6">
-            <div class="font-display font-bold text-5xl tracking-[-0.04em] mb-1" style="color:#FF1673;">100+</div>
+            <div class="font-display font-bold text-5xl tracking-[-0.04em] mb-1" style="color:#FF1673;">200+</div>
             <div class="font-display font-semibold text-sm text-white mb-1">Projects Launched</div>
-            <div class="text-[#A3A3A3] text-xs leading-relaxed">Across 12+ industries</div>
+            <div class="text-[#A3A3A3] text-xs leading-relaxed">Across 12+ Industries</div>
           </div>
           <div class="stat-card p-6">
             <div class="font-display font-bold text-5xl tracking-[-0.04em] mb-1" style="color:#A100FF;">∞</div>
@@ -426,7 +414,7 @@
        FULL-STACK UX  / SERVICES
   ═══════════════════════════════════════════════ -->
   <section id="solutions" class="grain relative py-40 overflow-hidden"
-           style="background: linear-gradient(180deg, #000623 0%, #000947 50%, #000623 100%);">
+           style="background: linear-gradient(180deg, #000623 0%, #030C55 50%, #000623 100%);">
 
     <!-- bg photo -->
     <div class="absolute inset-0 pointer-events-none">
@@ -435,6 +423,7 @@
       <div class="absolute inset-0"
            style="background: linear-gradient(to right, #000623 0%, transparent 45%, #000623 100%);"></div>
     </div>
+    <div class="absolute inset-0 section-glow-blue pointer-events-none"></div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-6">
       <!-- Heading -->
@@ -521,9 +510,12 @@
        MY DIGITAL PRODUCTS
   ═══════════════════════════════════════════════ -->
   <section id="products" class="grain relative py-40 overflow-hidden"
-           style="background: linear-gradient(180deg, #000623 0%, #000947 55%, #000623 100%);">
+           style="background: linear-gradient(180deg, #000623 0%, #060A4A 45%, #030840 65%, #000623 100%);">
     <div class="absolute inset-0 pointer-events-none"
-         style="background: radial-gradient(ellipse 80% 60% at 50% 25%, rgba(161,0,255,0.07) 0%, transparent 60%);"></div>
+         style="background:
+           radial-gradient(ellipse 80% 65% at 50% 30%, rgba(161,0,255,0.18) 0%, transparent 60%),
+           radial-gradient(ellipse 50% 50% at 15% 60%, rgba(133,153,255,0.10) 0%, transparent 55%),
+           radial-gradient(ellipse 45% 45% at 85% 65%, rgba(133,153,255,0.08) 0%, transparent 55%);"></div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-6">
 
@@ -534,7 +526,7 @@
           Because Great Ideas Shouldn't<br>Be Limited to Big Tech
         </h2>
         <p class="text-[#A3A3A3] text-lg leading-[1.7] max-w-xl mx-auto">
-          Three AI-powered products in development — designed to unlock new possibilities for teams of all sizes.
+          Three AI-powered products in development, designed to unlock new possibilities for teams of all sizes.
         </p>
       </div>
 
@@ -552,15 +544,13 @@
                     style="background: rgba(255,22,53,0.22); border: 1px solid rgba(255,22,53,0.35);">LIVE / BETA</span>
             </div>
             <div class="absolute bottom-4 left-5">
-              <h3 class="font-display font-bold text-[22px] tracking-[-0.02em]">Cascade</h3>
+              <h2 class="font-display font-bold text-[32px] tracking-[-0.02em]">Cascade</h2>
             </div>
           </div>
           <div class="p-6 flex flex-col flex-1">
             <p class="text-[#8599FF] font-display font-medium text-[13px] mb-3">Intelligent AI Agent System (IAAS)</p>
             <p class="text-[#A3A3A3] text-[13.5px] leading-[1.72] mb-5">
-              Maximize your content's impact with intelligent AI Agent Systems. Seamlessly transform your
-              content pipeline — from intelligent ingestion and voice-aligned copywriting to smart video
-              clipping, auto-generated thumbnails, and multi-platform publishing.
+              Maximize your content's impact with intelligent AI Agent Systems. Seamlessly transform your content pipeline from intelligent ingestion and voice aligned copywriting to smart video clipping, auto generated thumbnails, and multi platform publishing.
             </p>
             <!-- Agent avatar strip -->
             <div class="flex items-center gap-2 mb-5">
@@ -604,7 +594,7 @@
                     style="background: rgba(161,0,255,0.22); border: 1px solid rgba(161,0,255,0.35);">LIVE / BETA</span>
             </div>
             <div class="absolute bottom-4 left-5">
-              <h3 class="font-display font-bold text-[22px] tracking-[-0.02em]">CRUNCH</h3>
+              <h2 class="font-display font-bold text-[32px] tracking-[-0.02em]">CRUNCH</h2>
             </div>
           </div>
           <div class="p-6 flex flex-col flex-1">
@@ -653,7 +643,7 @@
                     style="background: rgba(255,22,115,0.22); border: 1px solid rgba(255,22,115,0.35);">LIVE / BETA</span>
             </div>
             <div class="absolute bottom-4 left-5">
-              <h3 class="font-display font-bold text-[22px] tracking-[-0.02em]">VIKI</h3>
+              <h2 class="font-display font-bold text-[32px] tracking-[-0.02em]">VIKI</h2>
             </div>
           </div>
           <div class="p-6 flex flex-col flex-1">
@@ -677,8 +667,9 @@
   <!-- ═══════════════════════════════════════════════
        DESIGN THAT PLAYS BY YOUR RULES
   ═══════════════════════════════════════════════ -->
-  <section id="devops" class="grain relative py-40 overflow-hidden" style="background: #000623;">
+  <section id="devops" class="grain relative py-40 overflow-hidden" style="background: linear-gradient(180deg, #000623 0%, #020A3E 45%, #000623 100%);">
     <div class="absolute inset-0 section-glow-red pointer-events-none"></div>
+    <div class="absolute inset-0 section-glow-blue pointer-events-none" style="opacity:0.6;"></div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-6">
       <div class="grid lg:grid-cols-2 gap-16 xl:gap-24 items-center">
@@ -724,9 +715,7 @@
             Every industry is unique — your tools should be too.
           </p>
           <p class="text-[#A3A3A3] text-base leading-[1.74] mb-9">
-            No two industries play by the same rules — and that's exactly how I design. From retail to
-            farming, finance to football, I've teamed up with brands across industries to build digital
-            tools that don't just look good — they work beautifully for the people using them every day.
+            No two industries play by the same rules, and that’s exactly how I design. From retail to farming, finance to football, I’ve partnered with brands across industries to build digital tools that not only look good, but work beautifully for the people using them every day.
           </p>
           <a href="#contact" class="btn-primary">
             Work With Me
@@ -744,7 +733,8 @@
        CLIENTS & COLLABORATIONS
   ═══════════════════════════════════════════════ -->
   <section class="grain relative py-40 overflow-hidden"
-           style="background: linear-gradient(180deg, #000623 0%, #000947 50%, #000623 100%);">
+           style="background: linear-gradient(180deg, #000623 0%, #040B50 50%, #000623 100%);">
+    <div class="absolute inset-0 section-glow-purple pointer-events-none"></div>
     <div class="relative z-10 max-w-7xl mx-auto px-6">
 
       <div class="text-center mb-14 reveal">
@@ -754,8 +744,7 @@
           25+ Years of Collaboration,<br>Innovation &amp; Proven Results
         </h2>
         <p class="text-[#A3A3A3] text-lg leading-[1.7] max-w-xl mx-auto">
-          From tractors to TikTok, spreadsheets to snowboards — every project gets the same mix of craft,
-          curiosity, and a little bit of playful spark.
+          From tractors to TikTok, spreadsheets to snowboards, every project gets the same mix of craft, curiosity, and a little bit of playful spark.
         </p>
       </div>
 
@@ -795,8 +784,7 @@
         Ready to Create Something<br><span class="gradient-text">Extraordinary?</span>
       </h2>
       <p class="text-[#A3A3A3] text-lg leading-[1.7] mb-10 max-w-xl mx-auto">
-        Whether it's a bold new product, a UX overhaul, or an AI system that transforms how your
-        team works — let's make it happen.
+        Whether it's a bold new product, a UX overhaul, or an AI system that transforms how your team works, let's make it happen.
       </p>
       <div class="flex flex-wrap gap-4 justify-center">
         <a href="mailto:trey@pix3l.co" class="btn-primary px-8 py-3.5 text-base">
@@ -821,7 +809,6 @@
         <div class="flex flex-wrap justify-center gap-6">
           <a href="#solutions" class="nav-link text-[13px]">Design Solutions</a>
           <a href="#products"  class="nav-link text-[13px]">AI Agents</a>
-          <a href="#contact"  class="nav-link text-[13px]">Contact</a>
           <a href="#about"     class="nav-link text-[13px]">About</a>
           <a href="#contact"   class="nav-link text-[13px]">Contact</a>
         </div>
