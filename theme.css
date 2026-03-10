@@ -1,0 +1,299 @@
+/* ══════════════════════════════════════════════════════════════════
+   PIX3L — THEME.CSS
+   Shared light / dark mode toggle styles for all pages.
+══════════════════════════════════════════════════════════════════ */
+
+/* ── Body transition on theme switch ── */
+body { transition: background-color 0.3s ease, color 0.3s ease; }
+
+/* ── Theme Toggle Button (dark mode default) ── */
+#theme-toggle {
+  display: flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border-radius: 50%; border: none;
+  background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.65);
+  cursor: pointer; flex-shrink: 0;
+  transition: background 0.2s ease, color 0.2s ease,
+              transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+}
+#theme-toggle:hover  { background: rgba(255,255,255,0.14); color: #fff; transform: scale(1.1); }
+#theme-toggle:active { transform: scale(0.95); }
+#theme-toggle:focus-visible { outline: 2px solid #FF1673; outline-offset: 3px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   LIGHT MODE
+   Applied when <html data-theme="light">
+═══════════════════════════════════════════════════════════════ */
+
+/* ── CSS variable overrides (crunch.html + any page using :root vars) ── */
+html[data-theme="light"] {
+  --color-bg:             #F2EFFF;
+  --color-bg-mid:         #EAE4FF;
+  --color-surface:        rgba(255,255,255,0.92);
+  --color-surface-raised: rgba(255,255,255,0.97);
+  --color-border:         rgba(161,0,255,0.10);
+  --color-border-strong:  rgba(161,0,255,0.22);
+  --color-text-primary:   #0D0020;
+  --color-text-secondary: #5A5270;
+  --dark-navy:            #F2EFFF;
+  --navy-blue:            #EAE4FF;
+}
+
+/* ── Body ── */
+html[data-theme="light"] body {
+  background-color: #F2EFFF !important;
+  color: #0D0020;
+}
+
+/* ── Scrollbar ── */
+html[data-theme="light"] ::-webkit-scrollbar-track { background: #F2EFFF; }
+html[data-theme="light"] ::-webkit-scrollbar-thumb { background: #C8BEFF; }
+html[data-theme="light"] ::-webkit-scrollbar-thumb:hover { background: #FF1635; }
+
+/* ── Toggle button (light mode state) ── */
+html[data-theme="light"] #theme-toggle {
+  background: rgba(13,0,32,0.07);
+  color: rgba(13,0,32,0.55);
+}
+html[data-theme="light"] #theme-toggle:hover {
+  background: rgba(13,0,32,0.12);
+  color: #0D0020;
+}
+
+/* ── Logos ── */
+html[data-theme="light"] #nav-logo    { filter: brightness(0); }
+html[data-theme="light"] #footer-logo { filter: brightness(0); }
+
+/* ── Nav links ── */
+html[data-theme="light"] .nav-link         { color: rgba(13,0,32,0.55) !important; }
+html[data-theme="light"] .nav-link:hover   { color: #0D0020 !important; }
+
+/* ── Hamburger bars ── */
+html[data-theme="light"] #h1,
+html[data-theme="light"] #h2,
+html[data-theme="light"] #h3 { background-color: #0D0020 !important; }
+
+/* ── Mobile drawer (hamburger-style pages) ── */
+html[data-theme="light"] #mobile-drawer {
+  background: rgba(242,239,255,0.97) !important;
+  border-bottom-color: rgba(161,0,255,0.12) !important;
+}
+
+/* ── Slide-out drawer (agent pages) ── */
+html[data-theme="light"] #drawer-panel {
+  background: rgba(242,239,255,0.99) !important;
+  border-left-color: rgba(161,0,255,0.12) !important;
+}
+html[data-theme="light"] #menu-btn,
+html[data-theme="light"] #close-btn { color: rgba(13,0,32,0.6) !important; }
+
+/* ── Buttons ── */
+html[data-theme="light"] .btn-outline {
+  color: #0D0020 !important;
+  border-color: rgba(13,0,32,0.22) !important;
+}
+html[data-theme="light"] .btn-outline:hover {
+  background: rgba(13,0,32,0.04) !important;
+  border-color: rgba(13,0,32,0.40) !important;
+}
+html[data-theme="light"] .btn-ghost        { color: #0D0020 !important; }
+html[data-theme="light"] .btn-ghost:hover  { color: #0D0020 !important; background: rgba(13,0,32,0.04) !important; }
+
+/* ── Section / hero dark solid backgrounds → transparent ──
+   Hero sections use absolute divs for background layers.
+   Clearing the solid dark base lets the body #F2EFFF show through
+   while the radial-gradient overlays (on separate divs) still render. ── */
+html[data-theme="light"] section.grain > .absolute:first-child,
+html[data-theme="light"] .grain > .absolute:first-child {
+  background: transparent !important;
+}
+/* Fade-to-dark overlays: just reduce their opacity  */
+html[data-theme="light"] section .absolute[style*="linear-gradient(to bottom"],
+html[data-theme="light"] section .absolute[style*="linear-gradient(to top"] {
+  opacity: 0.12 !important;
+}
+
+/* Sections with inline dark background colours */
+html[data-theme="light"] section[style*="#000623"],
+html[data-theme="light"] section[style*="#04001A"],
+html[data-theme="light"] section[style*="#000947"] {
+  background: linear-gradient(180deg, #F2EFFF 0%, #EDE8FF 50%, #F2EFFF 100%) !important;
+}
+
+/* crunch.html hero-bg */
+html[data-theme="light"] .hero-bg {
+  background:
+    radial-gradient(ellipse 70% 60% at 80% 20%, rgba(161,0,255,0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 15% 80%, rgba(255,22,53,0.06) 0%, transparent 55%),
+    #F2EFFF !important;
+}
+html[data-theme="light"] .hero-grid {
+  background-image: radial-gradient(circle, rgba(161,0,255,0.15) 1px, transparent 1px) !important;
+}
+
+/* crunch.html nav (uses .nav + .scrolled class) */
+html[data-theme="light"] .nav.scrolled {
+  background: rgba(242,239,255,0.95) !important;
+  border-bottom-color: rgba(161,0,255,0.10) !important;
+}
+
+/* ── Footer ── */
+html[data-theme="light"] footer,
+html[data-theme="light"] .footer {
+  background: #EDE8FF !important;
+  border-top-color: rgba(161,0,255,0.10) !important;
+}
+html[data-theme="light"] footer[style*="#000623"],
+html[data-theme="light"] footer[style*="#04001A"] {
+  background: #EDE8FF !important;
+}
+html[data-theme="light"] footer .border-t { border-top-color: rgba(161,0,255,0.08) !important; }
+html[data-theme="light"] footer .font-mono { color: rgba(13,0,32,0.28) !important; }
+
+/* ── Cards (all types) ── */
+html[data-theme="light"] .service-card,
+html[data-theme="light"] .product-card,
+html[data-theme="light"] .stat-card,
+html[data-theme="light"] .pipeline-card,
+html[data-theme="light"] .agent-card {
+  background: linear-gradient(140deg, rgba(255,255,255,0.96) 0%, rgba(248,245,255,0.90) 100%) !important;
+  border-color: rgba(161,0,255,0.10) !important;
+  box-shadow: 0 4px 20px rgba(100,60,180,0.07) !important;
+}
+html[data-theme="light"] .service-card:hover,
+html[data-theme="light"] .pipeline-card:hover {
+  border-color: rgba(255,22,115,0.20) !important;
+  box-shadow: 0 12px 36px rgba(100,60,180,0.10) !important;
+}
+html[data-theme="light"] .product-card:hover {
+  border-color: rgba(255,22,53,0.20) !important;
+  box-shadow: 0 16px 44px rgba(100,60,180,0.12) !important;
+}
+html[data-theme="light"] .agent-card:hover {
+  border-color: rgba(161,0,255,0.25) !important;
+  box-shadow: 0 16px 44px rgba(100,60,180,0.12) !important;
+}
+html[data-theme="light"] .stat-card:hover {
+  box-shadow: 0 10px 36px rgba(100,60,180,0.10) !important;
+}
+
+/* crunch.html feature + pricing cards */
+html[data-theme="light"] .feature-card {
+  background: rgba(255,255,255,0.92) !important;
+  border-color: rgba(161,0,255,0.10) !important;
+}
+html[data-theme="light"] .feature-card:hover    { border-color: rgba(255,22,53,0.22) !important; }
+html[data-theme="light"] .feature-card::before  { display: none; }
+html[data-theme="light"] .pricing-card {
+  background: rgba(255,255,255,0.94) !important;
+  border-color: rgba(161,0,255,0.10) !important;
+}
+html[data-theme="light"] .pricing-card:hover    { border-color: rgba(161,0,255,0.22) !important; }
+html[data-theme="light"] .pricing-card-featured {
+  background: rgba(255,255,255,0.97) !important;
+  border-color: rgba(255,22,53,0.25) !important;
+}
+
+/* Client tiles */
+html[data-theme="light"] .client-tile {
+  background: rgba(161,0,255,0.03) !important;
+  border-color: rgba(161,0,255,0.10) !important;
+}
+html[data-theme="light"] .client-tile:hover {
+  background: rgba(255,22,115,0.04) !important;
+  border-color: rgba(255,22,115,0.16) !important;
+}
+html[data-theme="light"] .client-tile span { color: rgba(13,0,32,0.42) !important; }
+
+/* Agent pages: tech chips, nav cards, cap pills */
+html[data-theme="light"] .tech-chip,
+html[data-theme="light"] .agent-nav-card {
+  background: rgba(255,255,255,0.90) !important;
+  border-color: rgba(161,0,255,0.10) !important;
+  color: #0D0020 !important;
+}
+html[data-theme="light"] .agent-nav-card:hover {
+  background: rgba(255,255,255,0.97) !important;
+  border-color: rgba(161,0,255,0.25) !important;
+}
+html[data-theme="light"] .cap-pill {
+  background: rgba(13,0,32,0.05) !important;
+  border-color: rgba(13,0,32,0.12) !important;
+  color: rgba(13,0,32,0.55) !important;
+}
+
+/* crunch.html: tech badges, demo panel */
+html[data-theme="light"] .tech-badge {
+  background: rgba(255,255,255,0.90) !important;
+  border-color: rgba(161,0,255,0.12) !important;
+}
+html[data-theme="light"] .demo             { border-color: rgba(161,0,255,0.12) !important; }
+html[data-theme="light"] .data-panel       { background: rgba(255,255,255,0.95) !important; border-color: rgba(161,0,255,0.10) !important; }
+html[data-theme="light"] .data-panel-header { background: rgba(248,245,255,0.95) !important; border-bottom-color: rgba(161,0,255,0.10) !important; }
+
+/* Shadows */
+html[data-theme="light"] .shadow-card {
+  box-shadow: 0 8px 40px rgba(100,60,180,0.12), 0 2px 10px rgba(100,60,180,0.06) !important;
+}
+
+/* ── Typography & text colors ── */
+html[data-theme="light"] h1,
+html[data-theme="light"] h2,
+html[data-theme="light"] h3 { color: #0D0020; }
+
+/* Product card image headers stay white (over dark overlays) */
+html[data-theme="light"] .product-card .h-44 h2 { color: #ffffff !important; }
+
+/* Muted paragraph text */
+html[data-theme="light"] .text-\[\#A3A3A3\] { color: #5A5270 !important; }
+/* Vista-blue sub-headings */
+html[data-theme="light"] .text-\[\#8599FF\] { color: #4A55C0 !important; }
+
+/* crunch.html copy classes */
+html[data-theme="light"] .section-headline   { color: #0D0020 !important; }
+html[data-theme="light"] .section-sub        { color: #5A5270 !important; }
+html[data-theme="light"] .feature-title      { color: #0D0020 !important; }
+html[data-theme="light"] .feature-desc       { color: #5A5270 !important; }
+html[data-theme="light"] .step-title         { color: #0D0020 !important; }
+html[data-theme="light"] .step-desc          { color: #5A5270 !important; }
+html[data-theme="light"] .pricing-tier       { color: #0D0020 !important; }
+html[data-theme="light"] .pricing-num        { color: #0D0020 !important; }
+html[data-theme="light"] .pricing-period     { color: #5A5270 !important; }
+html[data-theme="light"] .pricing-desc       { color: #5A5270 !important; }
+html[data-theme="light"] .pricing-feature    { color: #0D0020 !important; }
+html[data-theme="light"] .philosophy-headline { color: #0D0020 !important; }
+html[data-theme="light"] .philosophy-body    { color: #5A5270 !important; }
+html[data-theme="light"] .philosophy-sig     { color: #5A5270 !important; }
+html[data-theme="light"] .how                { background: #EDE8FF !important; }
+html[data-theme="light"] .philosophy         { background: #EDE8FF !important; }
+
+/* crunch.html footer */
+html[data-theme="light"] .footer-pix3l,
+html[data-theme="light"] .footer-product { color: #0D0020 !important; }
+html[data-theme="light"] .footer-links a { color: rgba(13,0,32,0.55) !important; }
+html[data-theme="light"] .footer-copy    { color: rgba(13,0,32,0.28) !important; }
+
+/* Hero body copy contrast */
+html[data-theme="light"] #hero .relative.z-10 p,
+html[data-theme="light"] header .relative.z-10 p { color: #2A1840 !important; }
+
+/* Contact section — keep dark (near-opaque overlay) */
+html[data-theme="light"] #contact h2,
+html[data-theme="light"] #contact p   { color: #ffffff !important; }
+html[data-theme="light"] #contact .label { color: #FF1673 !important; }
+
+/* Agent avatar ring borders */
+html[data-theme="light"] .border-\[\#000623\] { border-color: #F2EFFF !important; }
+
+/* Glassmorphism floating panels */
+html[data-theme="light"] [style*="rgba(0,6,35,0.75)"] {
+  background: rgba(242,239,255,0.88) !important;
+  border-color: rgba(161,0,255,0.14) !important;
+}
+
+/* Scroll indicator */
+html[data-theme="light"] #hero .absolute.bottom-8 > div    { border-color: rgba(13,0,32,0.18) !important; }
+html[data-theme="light"] #hero .absolute.bottom-8 > div > div { background: rgba(13,0,32,0.28) !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  body { transition: none !important; }
+}
