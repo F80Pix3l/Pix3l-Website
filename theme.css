@@ -221,6 +221,11 @@ html[data-theme="light"] .cap-pill {
   color: rgba(13,0,32,0.55) !important;
 }
 
+/* Tailwind text-white utility overrides for light mode */
+html[data-theme="light"] .text-white        { color: #0D0020 !important; }
+html[data-theme="light"] .text-white\/40    { color: rgba(13,0,32,0.38) !important; }
+html[data-theme="light"] .text-white\/25    { color: rgba(13,0,32,0.22) !important; }
+
 /* crunch.html: tech badges, demo panel */
 html[data-theme="light"] .tech-badge {
   background: rgba(255,255,255,0.90) !important;

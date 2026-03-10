@@ -315,6 +315,29 @@
   </style>
   <link rel="stylesheet" href="glow.css">
   <link rel="stylesheet" href="theme.css">
+  <style>
+    /* viki.html light-mode overrides */
+    html[data-theme="light"] {
+      --color-text-muted: #5A5270;
+      --color-border: rgba(161,0,255,0.10);
+    }
+    /* Section backgrounds using unique dark hex values not in theme.css */
+    html[data-theme="light"] section[style*="#04013a"],
+    html[data-theme="light"] section[style*="#030118"],
+    html[data-theme="light"] section[style*="#020014"] {
+      background: linear-gradient(180deg, #F2EFFF 0%, #EDE8FF 50%, #F2EFFF 100%) !important;
+    }
+    /* Hardcoded white text on inline-styled elements */
+    html[data-theme="light"] span[style*="rgba(255,255,255,0.45)"] { color: rgba(13,0,32,0.40) !important; }
+    html[data-theme="light"] span[style*="color:#fff"] { color: #2A1840 !important; }
+    html[data-theme="light"] p[style*="color:#fff"] { color: #0D0020 !important; }
+    html[data-theme="light"] p[style*="rgba(255,255,255"] { color: #2A1840 !important; }
+    /* Workflow card backgrounds (near-transparent on dark, needs solid on light) */
+    html[data-theme="light"] .workflow-card {
+      background: rgba(255,255,255,0.80) !important;
+      border-color: rgba(161,0,255,0.12) !important;
+    }
+  </style>
 </head>
 <body>
 
