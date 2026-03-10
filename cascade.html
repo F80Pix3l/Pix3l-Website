@@ -296,7 +296,7 @@
        NAVBAR
   ═══════════════════════════════════════════════ -->
   <nav id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
-    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center gap-6">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
 
       <a href="index.html" aria-label="Pix3l Home" class="shrink-0 focus-visible:outline-2 focus-visible:outline-[#FF1673] focus-visible:outline-offset-4 rounded">
         <img id="nav-logo" src="assets/logos/logo-meet-dark-white.svg"
@@ -304,7 +304,7 @@
       </a>
 
       <!-- Desktop links -->
-      <div class="hidden lg:flex flex-1 items-center justify-center gap-7">
+      <div class="hidden lg:flex items-center gap-7">
         <a href="#overview"  class="nav-link">Overview</a>
         <a href="#pipeline"  class="nav-link">Pipeline</a>
         <a href="#agents"    class="nav-link">Agents</a>
@@ -312,12 +312,8 @@
         <a href="#contact"   class="nav-link">Contact</a>
       </div>
 
-      <!-- Right group: CTA + theme toggle + hamburger -->
-      <div class="flex items-center gap-3 shrink-0">
-        <a href="viki.html" class="hidden lg:inline-flex btn-primary py-2.5 px-5 text-sm">
-          Meet VIKI
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
+      <!-- Right: toggle 24px left of CTA, hamburger on mobile -->
+      <div class="flex items-center gap-6 shrink-0">
         <button id="theme-toggle" aria-label="Switch to light mode">
           <svg id="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
@@ -329,6 +325,10 @@
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
           </svg>
         </button>
+        <a href="viki.html" class="hidden lg:inline-flex btn-primary py-2.5 px-5 text-sm">
+          Meet VIKI
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
         <button id="hamburger" class="lg:hidden flex flex-col gap-[5px] p-2 rounded focus-visible:outline-2 focus-visible:outline-[#FF1673]" aria-label="Toggle menu" aria-expanded="false">
           <span id="h1" class="block w-6 h-[2px] bg-white rounded-full origin-center transition-transform duration-300"></span>
           <span id="h2" class="block w-6 h-[2px] bg-white rounded-full transition-opacity duration-300"></span>
