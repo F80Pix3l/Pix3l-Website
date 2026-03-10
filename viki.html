@@ -340,6 +340,16 @@
       background: rgba(255,255,255,0.80) !important;
       border-color: rgba(161,0,255,0.12) !important;
     }
+    /* Hero in light mode: dark background so waves are visible, overlay at 30% */
+    html[data-theme="light"] header.grain { background: #04001A !important; }
+    html[data-theme="light"] #viki-shader { opacity: 0.5 !important; }
+    html[data-theme="light"] header > div[style*="linear-gradient(135deg, rgba(255,22,115"] { opacity: 0.30 !important; }
+    /* Keep hero text white against the dark hero background */
+    html[data-theme="light"] header p[style*="color:#fff"],
+    html[data-theme="light"] header p[style*="rgba(255,255,255"] { color: #fff !important; }
+    html[data-theme="light"] header span[style*="color:#fff"] { color: #fff !important; }
+    html[data-theme="light"] header span[style*="rgba(255,255,255,0.5)"] { color: rgba(255,255,255,0.5) !important; }
+    html[data-theme="light"] header .btn-ghost { color: rgba(255,255,255,0.75) !important; }
   </style>
 </head>
 <body>
