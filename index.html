@@ -267,6 +267,9 @@
     /* ════════════════════════════════════════════
        LIGHT MODE
     ════════════════════════════════════════════ */
+    /* Halve grain opacity so texture resets at section boundaries are imperceptible */
+    html[data-theme="light"] .grain::before { opacity: 0.012 !important; }
+
     html[data-theme="light"] body {
       background-color: #F2EFFF !important;
       color: #0D0020;
@@ -307,29 +310,38 @@
     }
 
     /* Section backgrounds */
+    /* Hero: light-mode background layers */
+    html[data-theme="light"] #hero > .absolute:first-child img { opacity: 0 !important; }
+    html[data-theme="light"] #hero .hero-glow {
+      background:
+        radial-gradient(ellipse 80% 70% at 20% 10%,  rgba(161,0,255,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 55% at 80% 70%,  rgba(133,153,255,0.10) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 50% 40%,  rgba(255,22,53,0.05) 0%, transparent 60%) !important;
+    }
     html[data-theme="light"] #hero > .absolute:first-child > div:last-child {
-      background: linear-gradient(to bottom, rgba(242,239,255,0.3) 0%, rgba(242,239,255,0) 30%, rgba(242,239,255,0.7) 75%, #F2EFFF 100%) !important;
+      background: linear-gradient(to bottom, transparent 0%, transparent 20%, rgba(242,239,255,0.5) 50%, #F2EFFF 68%, #F2EFFF 100%) !important;
     }
     html[data-theme="light"] #about {
-      background: linear-gradient(180deg, #F2EFFF 0%, #EAE4FF 50%, #F2EFFF 100%) !important;
+      background: linear-gradient(180deg, #F2EFFF 0%, #EAE4FF 55%, #EDE8FF 100%) !important;
     }
+    html[data-theme="light"] #about > .absolute { opacity: 0.18 !important; }
     html[data-theme="light"] #solutions {
-      background: linear-gradient(180deg, #F2EFFF 0%, #EDE8FF 50%, #F2EFFF 100%) !important;
+      background: linear-gradient(180deg, #EDE8FF 0%, #E8E2FF 50%, #EAE4FF 100%) !important;
     }
     html[data-theme="light"] #solutions .pointer-events-none > div {
-      background: linear-gradient(to right, #F2EFFF 0%, transparent 45%, #F2EFFF 100%) !important;
+      background: linear-gradient(to right, #EAE4FF 0%, transparent 45%, #EAE4FF 100%) !important;
     }
     html[data-theme="light"] #products {
-      background: linear-gradient(180deg, #F2EFFF 0%, #EDE8FF 45%, #EAE4FF 65%, #F2EFFF 100%) !important;
+      background: linear-gradient(180deg, #EAE4FF 0%, #EDE8FF 50%, #EBE6FF 100%) !important;
     }
     html[data-theme="light"] #devops {
-      background: linear-gradient(180deg, #F2EFFF 0%, #EBE6FF 45%, #F2EFFF 100%) !important;
+      background: linear-gradient(180deg, #EBE6FF 0%, #EAE4FF 50%, #EDE8FF 100%) !important;
     }
     html[data-theme="light"] #clients {
-      background: linear-gradient(180deg, #F2EFFF 0%, #EDE8FF 50%, #F2EFFF 100%) !important;
+      background: linear-gradient(180deg, #EDE8FF 0%, #EAE4FF 50%, #F2EFFF 100%) !important;
     }
     html[data-theme="light"] footer {
-      background: #EDE8FF !important;
+      background: #F2EFFF !important;
       border-top-color: rgba(161,0,255,0.10) !important;
     }
     html[data-theme="light"] footer .border-t {
