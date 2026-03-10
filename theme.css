@@ -276,10 +276,8 @@ html[data-theme="light"] .footer-copy    { color: rgba(13,0,32,0.28) !important;
 html[data-theme="light"] #hero .relative.z-10 p,
 html[data-theme="light"] header .relative.z-10 p { color: #2A1840 !important; }
 
-/* Contact section — keep dark (near-opaque overlay) */
-html[data-theme="light"] #contact h2,
-html[data-theme="light"] #contact p   { color: #ffffff !important; }
-html[data-theme="light"] #contact .label { color: #FF1673 !important; }
+/* Note: #contact white-text override is handled per-page in index.html
+   since only that page's #contact has a near-opaque dark image overlay. */
 
 /* Agent avatar ring borders */
 html[data-theme="light"] .border-\[\#000623\] { border-color: #F2EFFF !important; }
