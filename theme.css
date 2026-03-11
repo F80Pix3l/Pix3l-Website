@@ -96,8 +96,8 @@ html[data-theme="light"] .btn-outline:hover {
   background: rgba(13,0,32,0.04) !important;
   border-color: rgba(13,0,32,0.40) !important;
 }
-html[data-theme="light"] .btn-ghost        { color: #0D0020 !important; }
-html[data-theme="light"] .btn-ghost:hover  { color: #0D0020 !important; background: rgba(13,0,32,0.04) !important; }
+html[data-theme="light"] .btn-ghost        { color: #0D0020 !important; border-color: rgba(13,0,32,0.22) !important; }
+html[data-theme="light"] .btn-ghost:hover  { color: #0D0020 !important; background: rgba(13,0,32,0.04) !important; border-color: rgba(13,0,32,0.40) !important; }
 
 /* ── Section / hero dark solid backgrounds → transparent ──
    Hero sections use absolute divs for background layers.
