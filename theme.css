@@ -53,12 +53,11 @@ html[data-theme="light"] ::-webkit-scrollbar-thumb:hover { background: #FF1635; 
 html[data-theme="light"] #theme-toggle {
   background: rgba(13,0,32,0.10);
   color: #0D0020;
-  border: 1px solid rgba(13,0,32,0.18);
+  border: none;
 }
 html[data-theme="light"] #theme-toggle:hover {
   background: rgba(13,0,32,0.16);
   color: #0D0020;
-  border-color: rgba(13,0,32,0.28);
 }
 
 /* ── Logos ── */
