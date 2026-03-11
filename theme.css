@@ -375,6 +375,14 @@ html[data-theme="light"] .platform-pill {
   border-color: rgba(161,0,255,0.14) !important;
 }
 
+/* crunch.html: engine badge */
+html[data-theme="light"] .demo-engine-badge {
+  background: rgba(255,255,255,0.88) !important;
+  border-color: rgba(161,0,255,0.22) !important;
+  box-shadow: 0 4px 24px rgba(100,60,180,0.10), 0 1px 4px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.9) !important;
+}
+html[data-theme="light"] .demo-engine-status { color: rgba(13,0,32,0.35) !important; }
+
 /* crunch.html: pipeline steps + stack strip */
 html[data-theme="light"] .pipeline-steps-label { color: #5A5270 !important; }
 html[data-theme="light"] .pipeline-steps-grid { gap: var(--space-4) !important; }

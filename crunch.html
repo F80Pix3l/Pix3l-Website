@@ -586,34 +586,72 @@
     .c-null { color: var(--outer-space); font-style: italic; font-size: 10px; }
     .c-inferred { color: var(--vista-blue); }
 
-    /* Arrow */
+    /* ── ENGINE BADGE ── */
     .demo-arrow {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: var(--space-2);
     }
     @media (max-width: 767px) {
-      .demo-arrow { flex-direction: row; padding-block: var(--space-2); }
+      .demo-arrow { padding-block: var(--space-4); }
     }
-    .demo-arrow-circle {
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--big-red), var(--purple-sparkles));
+    .demo-engine-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 18px 16px;
+      background: linear-gradient(160deg, rgba(161,0,255,0.16) 0%, rgba(255,22,53,0.10) 100%);
+      border: 1px solid rgba(161,0,255,0.32);
+      border-radius: 16px;
+      box-shadow: 0 0 28px rgba(161,0,255,0.14), 0 0 56px rgba(255,22,53,0.06), inset 0 1px 0 rgba(255,255,255,0.06);
+      position: relative;
+    }
+    .demo-engine-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--big-red) 0%, var(--purple-sparkles) 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
-      box-shadow: 0 0 24px rgba(255,22,53,0.3);
+      color: #fff;
+      box-shadow: 0 0 16px rgba(255,22,53,0.35);
     }
-    .demo-arrow-label {
-      font-size: 10px;
+    .demo-engine-wordmark {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: var(--color-text-secondary);
+      background: linear-gradient(135deg, #FF1635 0%, #A100FF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .demo-engine-status {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+    .demo-engine-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #3fcf8e;
+      box-shadow: 0 0 6px rgba(63,207,142,0.8);
+      animation: engine-pulse 2s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    @keyframes engine-pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(0.75); }
     }
 
     /* ── PIPELINE STEPS ── */
@@ -1402,8 +1440,18 @@
           </div>
 
           <div class="demo-arrow" aria-hidden="true">
-            <div class="demo-arrow-circle">&#8594;</div>
-            <span class="demo-arrow-label">CRUNCH</span>
+            <div class="demo-engine-badge">
+              <div class="demo-engine-icon">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M2 8h12M9 3.5l4.5 4.5L9 12.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <span class="demo-engine-wordmark">CRUNCH</span>
+              <span class="demo-engine-status">
+                <span class="demo-engine-dot"></span>
+                active
+              </span>
+            </div>
           </div>
 
           <div class="data-panel data-panel-after" data-reveal>
