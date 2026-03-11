@@ -375,13 +375,28 @@ html[data-theme="light"] .platform-pill {
   border-color: rgba(161,0,255,0.14) !important;
 }
 
-/* crunch.html: engine badge */
-html[data-theme="light"] .demo-engine-badge {
-  background: rgba(255,255,255,0.88) !important;
-  border-color: rgba(161,0,255,0.22) !important;
-  box-shadow: 0 4px 24px rgba(100,60,180,0.10), 0 1px 4px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.9) !important;
+/* crunch.html: unified transform card */
+html[data-theme="light"] .transform-card {
+  background: #fff !important;
+  border-color: rgba(161,0,255,0.14) !important;
+  box-shadow: 0 4px 40px rgba(100,60,180,0.08), 0 1px 8px rgba(0,0,0,0.04) !important;
 }
-html[data-theme="light"] .demo-engine-status { color: rgba(13,0,32,0.35) !important; }
+html[data-theme="light"] .tz-header {
+  background: rgba(255,255,255,0.75) !important;
+  border-bottom-color: rgba(161,0,255,0.10) !important;
+}
+html[data-theme="light"] .tz-engine {
+  background: rgba(248,245,255,0.80) !important;
+  border-top-color: rgba(255,94,8,0.12) !important;
+  border-bottom-color: rgba(28,131,40,0.14) !important;
+}
+html[data-theme="light"] .tz-cmd       { color: rgba(13,0,32,0.38) !important; }
+html[data-theme="light"] .tz-cmd-prompt { color: #1C8328 !important; }
+html[data-theme="light"] .tz-cmd-flag  { color: #4A55C0 !important; }
+html[data-theme="light"] .tz-cmd-file  { color: #0D0020 !important; }
+html[data-theme="light"] .tz-step      { color: rgba(13,0,32,0.32) !important; }
+html[data-theme="light"] .tz-step-key  { color: #4A55C0 !important; }
+html[data-theme="light"] .tz-result    { color: rgba(13,0,32,0.45) !important; border-top-color: rgba(161,0,255,0.10) !important; }
 
 /* crunch.html: pipeline steps + stack strip */
 html[data-theme="light"] .pipeline-steps-label { color: #5A5270 !important; }

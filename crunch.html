@@ -498,14 +498,83 @@
       margin-block-end: var(--space-12);
     }
 
-    .demo-layout {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: var(--space-6);
-      align-items: center;
+    /* ── TRANSFORM CARD ── */
+    .transform-card {
+      border: 1px solid rgba(133,153,255,0.16);
+      border-radius: 20px;
+      overflow: hidden;
+      background: rgba(0,9,71,0.35);
+      box-shadow: 0 0 60px rgba(161,0,255,0.06), 0 4px 40px rgba(0,0,0,0.3);
     }
-    @media (min-width: 768px) {
-      .demo-layout { grid-template-columns: 1fr 80px 1fr; }
+    .tz-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: 10px var(--space-6);
+      border-bottom: 1px solid rgba(133,153,255,0.08);
+      background: rgba(0,0,0,0.22);
+    }
+    .tz-filename {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      flex: 1;
+      letter-spacing: 0.02em;
+    }
+    .tz-filename--in  { color: var(--f1-orange); }
+    .tz-filename--out { color: var(--froggy); }
+    .tz-engine {
+      padding: var(--space-6) var(--space-8);
+      background: rgba(0,0,0,0.16);
+      border-top: 1px solid rgba(255,94,8,0.14);
+      border-bottom: 1px solid rgba(28,131,40,0.18);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+    .tz-cmd {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      flex-wrap: wrap;
+    }
+    .tz-cmd-prompt { color: #3fcf8e; font-weight: 700; }
+    .tz-cmd-flag   { color: var(--vista-blue); }
+    .tz-cmd-file   { color: rgba(255,255,255,0.75); }
+    .tz-steps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2) var(--space-8);
+    }
+    .tz-step {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: rgba(255,255,255,0.35);
+    }
+    .tz-step-check { color: #3fcf8e; }
+    .tz-step-key   { color: var(--vista-blue); font-weight: 600; }
+    .tz-result {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+      padding-top: var(--space-3);
+      border-top: 1px solid rgba(133,153,255,0.08);
+    }
+    .tz-result-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #3fcf8e;
+      box-shadow: 0 0 8px rgba(63,207,142,0.8);
+      flex-shrink: 0;
+      animation: engine-pulse 2s ease-in-out infinite;
     }
 
     .data-panel {
@@ -1414,67 +1483,74 @@
           <h2 class="section-headline" style="text-align:center;">What CRUNCH does to your data.</h2>
         </div>
 
-        <div class="demo-layout">
+        <!-- Unified transformation card -->
+        <div class="transform-card" data-reveal>
 
-          <div class="data-panel data-panel-before" data-reveal>
-            <div class="data-panel-header">
-              <div class="data-panel-dots" aria-hidden="true">
-                <span class="data-panel-dot dot-red"></span>
-                <span class="data-panel-dot dot-yellow"></span>
-                <span class="data-panel-dot dot-green"></span>
-              </div>
-              <span class="data-panel-label label-before">Before CRUNCH</span>
-              <span class="data-panel-badge badge-messy">Messy</span>
+          <!-- INPUT FILE -->
+          <div class="tz-header">
+            <div class="data-panel-dots" aria-hidden="true">
+              <span class="data-panel-dot dot-red"></span>
+              <span class="data-panel-dot dot-yellow"></span>
+              <span class="data-panel-dot dot-green"></span>
             </div>
-            <div class="data-table-wrap">
-              <table class="data-table" aria-label="Messy data before CRUNCH">
-                <thead><tr><th>col_1</th><th>Col2</th><th>DATE FIELD</th><th>rev$</th></tr></thead>
-                <tbody>
-                  <tr><td class="c-bad">Jane doe</td><td class="c-bad">Mktg</td><td class="c-bad">01/04/24</td><td class="c-bad">$4,200.00</td></tr>
-                  <tr><td class="c-null">NULL</td><td class="c-bad">marketing</td><td class="c-bad">April 1st</td><td class="c-bad">4200</td></tr>
-                  <tr><td class="c-bad">JOHN SMITH</td><td class="c-bad">Eng.</td><td class="c-bad">2024-04-03</td><td class="c-bad">$4.2k</td></tr>
-                  <tr><td class="c-bad">sarah K.</td><td class="c-bad">eng</td><td class="c-null">blank</td><td class="c-bad">four thousand</td></tr>
-                </tbody>
-              </table>
+            <span class="tz-filename tz-filename--in">messy_data.csv</span>
+            <span class="data-panel-badge badge-messy">Raw input</span>
+          </div>
+          <div class="data-table-wrap">
+            <table class="data-table" aria-label="Messy data before CRUNCH">
+              <thead><tr><th>col_1</th><th>Col2</th><th>DATE FIELD</th><th>rev$</th></tr></thead>
+              <tbody>
+                <tr><td class="c-bad">Jane doe</td><td class="c-bad">Mktg</td><td class="c-bad">01/04/24</td><td class="c-bad">$4,200.00</td></tr>
+                <tr><td class="c-null">NULL</td><td class="c-bad">marketing</td><td class="c-bad">April 1st</td><td class="c-bad">4200</td></tr>
+                <tr><td class="c-bad">JOHN SMITH</td><td class="c-bad">Eng.</td><td class="c-bad">2024-04-03</td><td class="c-bad">$4.2k</td></tr>
+                <tr><td class="c-bad">sarah K.</td><td class="c-bad">eng</td><td class="c-null">blank</td><td class="c-bad">four thousand</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- ENGINE STRIP -->
+          <div class="tz-engine" aria-label="CRUNCH processing steps">
+            <div class="tz-cmd">
+              <span class="tz-cmd-prompt">$</span>
+              <span>crunch</span>
+              <span class="tz-cmd-flag">--input</span>
+              <span class="tz-cmd-file">messy_data.csv</span>
+              <span class="tz-cmd-flag">--clean</span>
+              <span class="tz-cmd-flag">--audit</span>
+            </div>
+            <div class="tz-steps">
+              <span class="tz-step"><span class="tz-step-check">✓</span><span class="tz-step-key">parse</span><span>4 cols · 4 rows · UTF-8</span></span>
+              <span class="tz-step"><span class="tz-step-check">✓</span><span class="tz-step-key">analyze</span><span>dates · currencies · name casing</span></span>
+              <span class="tz-step"><span class="tz-step-check">✓</span><span class="tz-step-key">normalize</span><span>12 transformations applied</span></span>
+              <span class="tz-step"><span class="tz-step-check">✓</span><span class="tz-step-key">resolve</span><span>2 nulls inferred · 0 dropped</span></span>
+              <span class="tz-step"><span class="tz-step-check">✓</span><span class="tz-step-key">audit</span><span>changes.log written</span></span>
+            </div>
+            <div class="tz-result">
+              <span class="tz-result-dot"></span>
+              clean_data.csv ready &nbsp;·&nbsp; 4 rows &nbsp;·&nbsp; 4 columns &nbsp;·&nbsp; 0 errors
             </div>
           </div>
 
-          <div class="demo-arrow" aria-hidden="true">
-            <div class="demo-engine-badge">
-              <div class="demo-engine-icon">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M2 8h12M9 3.5l4.5 4.5L9 12.5" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>
-              <span class="demo-engine-wordmark">CRUNCH</span>
-              <span class="demo-engine-status">
-                <span class="demo-engine-dot"></span>
-                active
-              </span>
+          <!-- OUTPUT FILE -->
+          <div class="tz-header">
+            <div class="data-panel-dots" aria-hidden="true">
+              <span class="data-panel-dot dot-red"></span>
+              <span class="data-panel-dot dot-yellow"></span>
+              <span class="data-panel-dot dot-green"></span>
             </div>
+            <span class="tz-filename tz-filename--out">clean_data.csv</span>
+            <span class="data-panel-badge badge-clean">Clean output</span>
           </div>
-
-          <div class="data-panel data-panel-after" data-reveal>
-            <div class="data-panel-header">
-              <div class="data-panel-dots" aria-hidden="true">
-                <span class="data-panel-dot dot-red"></span>
-                <span class="data-panel-dot dot-yellow"></span>
-                <span class="data-panel-dot dot-green"></span>
-              </div>
-              <span class="data-panel-label label-after">After CRUNCH</span>
-              <span class="data-panel-badge badge-clean">Clean</span>
-            </div>
-            <div class="data-table-wrap">
-              <table class="data-table" aria-label="Clean data after CRUNCH">
-                <thead><tr><th>full_name</th><th>department</th><th>date</th><th>revenue</th></tr></thead>
-                <tbody>
-                  <tr><td class="c-good">Jane Doe</td><td class="c-good">Marketing</td><td class="c-good">2024-04-01</td><td class="c-good">4200.00</td></tr>
-                  <tr><td class="c-null">Unknown</td><td class="c-good">Marketing</td><td class="c-good">2024-04-01</td><td class="c-good">4200.00</td></tr>
-                  <tr><td class="c-good">John Smith</td><td class="c-good">Engineering</td><td class="c-good">2024-04-03</td><td class="c-good">4200.00</td></tr>
-                  <tr><td class="c-good">Sarah K.</td><td class="c-good">Engineering</td><td class="c-inferred">2024-04-04*</td><td class="c-good">4000.00</td></tr>
-                </tbody>
-              </table>
-            </div>
+          <div class="data-table-wrap">
+            <table class="data-table" aria-label="Clean data after CRUNCH">
+              <thead><tr><th>full_name</th><th>department</th><th>date</th><th>revenue</th></tr></thead>
+              <tbody>
+                <tr><td class="c-good">Jane Doe</td><td class="c-good">Marketing</td><td class="c-good">2024-04-01</td><td class="c-good">4200.00</td></tr>
+                <tr><td class="c-null">Unknown</td><td class="c-good">Marketing</td><td class="c-good">2024-04-01</td><td class="c-good">4200.00</td></tr>
+                <tr><td class="c-good">John Smith</td><td class="c-good">Engineering</td><td class="c-good">2024-04-03</td><td class="c-good">4200.00</td></tr>
+                <tr><td class="c-good">Sarah K.</td><td class="c-good">Engineering</td><td class="c-inferred">2024-04-04*</td><td class="c-good">4000.00</td></tr>
+              </tbody>
+            </table>
           </div>
 
         </div>
@@ -1614,7 +1690,7 @@
           </div>
           <div data-reveal>
             <div class="philosophy-body">
-              <p>CRUNCH is built on Pix3l's AiX design philosophy and powered by Databricks. That means enterprise-grade data processing does the heavy lifting while you stay in control. Every suggestion is visible, every change is reversible, and every decision is yours to make.</p>
+              <p>CRUNCH is built on Pix3l's AiX design philosophy and powered by Databricks One and Palantir Apollo. That means enterprise-grade distributed compute and operational intelligence do the heavy lifting while you stay in control. Every suggestion is visible, every change is reversible, and every decision is yours to make.</p>
               <p>No black boxes. No guesswork. Just clean data you can trust, built the way Pix3l builds everything: research first, humans first, always.</p>
             </div>
             <p class="philosophy-sig">Trey Secord, Founder, Pix3l LLC</p>
