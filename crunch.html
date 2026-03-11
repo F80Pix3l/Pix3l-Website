@@ -20,6 +20,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { corePlugins: { container: false } }</script>
 
   <style>
     /* ============================================================
@@ -167,7 +168,7 @@
     ============================================================ */
     .container {
       width: 100%;
-      max-width: 1100px;
+      max-width: 80rem;
       margin-inline: auto;
       padding-inline: var(--space-6);
     }
@@ -777,7 +778,8 @@
       font-size: 11px;
       font-weight: 500;
       letter-spacing: 0.06em;
-      background: rgba(133,153,255,0.08);
+      background-color: #000623;
+      background-image: linear-gradient(135deg, rgba(133,153,255,0.18) 0%, rgba(133,153,255,0.06) 100%);
       border: 1px solid rgba(133,153,255,0.22);
       color: var(--vista-blue);
       flex-shrink: 0;
@@ -1372,26 +1374,24 @@
   </style>
   <link rel="stylesheet" href="glow.css">
   <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="nav.css">
 </head>
 <body>
 
   <!-- NAV -->
   <nav id="navbar" class="fixed top-0 inset-x-0 z-50 transition-colors duration-300">
-    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center gap-6">
-
+    <!-- Primary bar -->
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
       <a href="index.html" aria-label="Pix3l Home" class="shrink-0 focus-visible:outline-2 focus-visible:outline-[#FF1673] focus-visible:outline-offset-4 rounded">
         <img id="nav-logo" src="assets/logos/logo-meet-dark-white.svg" alt="PIX3L" class="h-7 w-auto">
       </a>
-
-      <!-- Desktop links -->
-      <div class="hidden lg:flex flex-1 items-center justify-center gap-7">
-        <a href="index.html#about"     class="nav-link">About</a>
-        <a href="index.html#solutions" class="nav-link">Design Solutions</a>
-        <a href="index.html#products"  class="nav-link">AI Agents</a>
-        <a href="index.html#devops"    class="nav-link">Dev Ops</a>
-        <a href="index.html#contact"   class="nav-link">Contact</a>
+      <!-- Global product links -->
+      <div class="hidden lg:flex items-center gap-7">
+        <a href="cascade.html" class="global-nav-link">Cascade</a>
+        <a href="crunch.html"  class="global-nav-link current">CRUNCH</a>
+        <a href="agents.html"  class="global-nav-link">Agents</a>
+        <a href="viki.html"    class="global-nav-link">VIKI</a>
       </div>
-
       <!-- Right group: toggle + CTA + hamburger -->
       <div class="flex items-center gap-6 shrink-0">
         <button id="theme-toggle" aria-label="Switch to light mode">
@@ -1416,22 +1416,39 @@
         </button>
       </div>
     </div>
-
+    <!-- Subnav bar -->
+    <div id="subnav">
+      <div class="subnav-inner">
+        <a href="#hero"         class="subnav-link">About</a>
+        <a href="#demo"         class="subnav-link">Demo</a>
+        <a href="#features"     class="subnav-link">Features</a>
+        <a href="#how-it-works" class="subnav-link">Process</a>
+        <a href="#pricing"      class="subnav-link">Pricing</a>
+        <a href="#contact"      class="subnav-link">Contact</a>
+      </div>
+    </div>
     <!-- Mobile drawer -->
-    <div id="mobile-drawer" class="hidden lg:hidden flex-col px-6 pb-6 pt-2 gap-3" style="background:rgba(0,6,35,0.97);border-bottom:1px solid rgba(255,255,255,0.06);">
-      <a href="index.html#about"     class="nav-link py-3 border-b border-white/8">About</a>
-      <a href="index.html#solutions" class="nav-link py-3 border-b border-white/8">Design Solutions</a>
-      <a href="index.html#products"  class="nav-link py-3 border-b border-white/8">AI Agents</a>
-      <a href="index.html#devops"    class="nav-link py-3 border-b border-white/8">Dev Ops</a>
-      <a href="index.html#contact"   class="nav-link py-3 border-b border-white/8">Contact</a>
-      <a href="cascade.html" class="btn btn-primary" style="margin-top:12px;justify-content:center;">View Cascade</a>
+    <div id="mobile-drawer" class="hidden lg:hidden flex-col px-6 pb-5 pt-1 gap-0" style="background: rgba(0,6,35,0.97); border-bottom: 1px solid rgba(255,255,255,0.06);">
+      <p class="drawer-label">Products</p>
+      <a href="cascade.html" class="nav-link py-2.5 border-b border-white/[0.07]">Cascade</a>
+      <a href="crunch.html"  class="nav-link py-2.5 border-b border-white/[0.07]">CRUNCH</a>
+      <a href="agents.html"  class="nav-link py-2.5 border-b border-white/[0.07]">Agents</a>
+      <a href="viki.html"    class="nav-link py-2.5 border-b border-white/[0.07]">VIKI</a>
+      <p class="drawer-label">On this page</p>
+      <a href="#hero"         class="nav-link py-2.5 border-b border-white/[0.07]">About</a>
+      <a href="#demo"         class="nav-link py-2.5 border-b border-white/[0.07]">Demo</a>
+      <a href="#features"     class="nav-link py-2.5 border-b border-white/[0.07]">Features</a>
+      <a href="#how-it-works" class="nav-link py-2.5 border-b border-white/[0.07]">Process</a>
+      <a href="#pricing"      class="nav-link py-2.5 border-b border-white/[0.07]">Pricing</a>
+      <a href="#contact"      class="nav-link py-2.5 border-b border-white/[0.07]">Contact</a>
+      <a href="cascade.html"  class="btn btn-primary mt-4 justify-center" style="display:flex;">View Cascade</a>
     </div>
   </nav>
 
   <main>
 
     <!-- HERO -->
-    <section class="hero" aria-labelledby="hero-heading">
+    <section class="hero" id="hero" aria-labelledby="hero-heading">
       <div class="hero-bg" aria-hidden="true"></div>
       <div class="hero-grid" aria-hidden="true"></div>
       <div class="hero-orb-red" aria-hidden="true"></div>
@@ -1475,7 +1492,7 @@
     </section>
 
     <!-- BEFORE / AFTER DEMO -->
-    <section class="demo" aria-label="Data transformation example">
+    <section class="demo" id="demo" aria-label="Data transformation example">
       <div class="container">
         <div class="demo-header" data-reveal>
           <p class="section-label">See it in action</p>
@@ -1671,6 +1688,7 @@
           <div class="step" data-reveal>
             <div class="step-num-wrap">
               <span class="step-num" aria-hidden="true">03</span>
+              <div class="step-line" aria-hidden="true"></div>
             </div>
             <h3 class="step-title">Export clean data</h3>
             <p class="step-desc">Download your polished dataset in the format you need. Every change is logged in a human-readable audit trail for full transparency.</p>
@@ -1680,7 +1698,7 @@
     </section>
 
     <!-- PHILOSOPHY -->
-    <section class="philosophy" aria-label="Pix3l design philosophy">
+    <section class="philosophy" id="philosophy" aria-label="Pix3l design philosophy">
       <div class="container">
         <div class="philosophy-inner">
           <div data-reveal>
@@ -1791,13 +1809,13 @@
   </main>
 
   <!-- FOOTER -->
-  <footer class="relative py-12 border-t border-white/[0.06]" style="background: #000623;">
+  <footer id="contact" class="relative py-12 border-t border-white/[0.06]" style="background: #000623;">
     <div class="max-w-7xl mx-auto px-6">
 
       <div class="flex flex-col md:flex-row items-center justify-between gap-8">
         <a href="index.html" class="focus-visible:outline-2 focus-visible:outline-[#FF1673] focus-visible:outline-offset-4 rounded">
           <img id="footer-logo" src="assets/logos/logo-meet-dark-white.svg"
-               alt="Pix3l LLC" class="h-7 w-auto opacity-60">
+               alt="Pix3l LLC" class="h-7 w-auto opacity-60" loading="lazy">
         </a>
 
         <div class="flex flex-wrap justify-center gap-6">
@@ -1820,45 +1838,8 @@
   </footer>
 
   <script src="theme.js"></script>
+  <script src="nav.js"></script>
   <script>
-    // Nav scroll
-    const nav = document.getElementById('navbar');
-    const updateNav = () => {
-      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-      if (window.scrollY > 64) {
-        nav.style.cssText = isLight
-          ? 'background:rgba(242,239,255,0.95);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid rgba(161,0,255,0.10);'
-          : 'background:rgba(0,6,35,0.93);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid rgba(255,255,255,0.06);';
-      } else {
-        nav.style.cssText = 'background:transparent;';
-      }
-    };
-    window.addEventListener('scroll', updateNav, { passive: true });
-    window.initTheme(updateNav);
-
-    // Mobile menu
-    const hamburger = document.getElementById('hamburger');
-    const drawer    = document.getElementById('mobile-drawer');
-    const h1 = document.getElementById('h1');
-    const h2 = document.getElementById('h2');
-    const h3 = document.getElementById('h3');
-    let open = false;
-    hamburger.addEventListener('click', () => {
-      open = !open;
-      hamburger.setAttribute('aria-expanded', open);
-      drawer.classList.toggle('hidden', !open);
-      drawer.classList.toggle('flex', open);
-      h1.style.transform = open ? 'rotate(45deg) translate(4px,4px)' : '';
-      h2.style.opacity   = open ? '0' : '1';
-      h3.style.transform = open ? 'rotate(-45deg) translate(4px,-4px)' : '';
-    });
-    drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-      open = false;
-      hamburger.setAttribute('aria-expanded', false);
-      drawer.classList.add('hidden'); drawer.classList.remove('flex');
-      h1.style.transform = ''; h2.style.opacity = '1'; h3.style.transform = '';
-    }));
-
     // Scroll reveal
     const revealEls = document.querySelectorAll('[data-reveal]');
     const observer = new IntersectionObserver((entries) => {

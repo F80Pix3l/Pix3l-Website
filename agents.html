@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <title>Agentic AI — Intelligent Agents by Pix3l</title>
+  <meta name="description" content="Pix3l's Agentic AI platform deploys intelligent agents that understand context, plan ahead, and take action. Smarter, faster, agentic.">
+  <link rel="canonical" href="https://pix3l-website.vercel.app/agents.html">
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://pix3l-website.vercel.app/agents.html">
+  <meta property="og:title"       content="Agentic AI — Intelligent Agents by Pix3l">
+  <meta property="og:description" content="AI agents that understand context, plan ahead, and take action.">
+  <meta property="og:image"       content="https://pix3l-website.vercel.app/assets/logos/logo-meet-dark-white.svg">
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Agentic AI — Intelligent Agents by Pix3l">
+  <meta name="twitter:description" content="AI agents that understand context, plan ahead, and take action.">
+  <meta name="twitter:image"       content="https://pix3l-website.vercel.app/assets/logos/logo-meet-dark-white.svg">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'big-red':      '#FF1635',
+            'pinky':        '#FF1673',
+            'purple-spark': '#A100FF',
+            'vista-blue':   '#8599FF',
+            'navy':         '#000947',
+            'dark-navy':    '#000623',
+            'night':        '#0A0A0A',
+            'silver':       '#A3A3A3',
+          },
+          fontFamily: {
+            display: ['Space Grotesk', 'sans-serif'],
+            body:    ['Inter', 'sans-serif'],
+            mono:    ['JetBrains Mono', 'monospace'],
+          },
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --space-1: 4px; --space-2: 8px; --space-4: 16px; --space-6: 24px;
+      --space-8: 32px; --space-12: 48px; --space-16: 64px;
+    }
+
+    /* ── GRAIN ── */
+    .grain::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.028; pointer-events: none; z-index: 2;
+    }
+
+    /* ── SHADOWS ── */
+    .shadow-red  { box-shadow: 0 4px 24px rgba(255,22,53,0.28),  0 1px 6px rgba(255,22,53,0.12); }
+    .shadow-card { box-shadow: 0 8px 40px rgba(0,9,71,0.7),      0 2px 10px rgba(0,0,0,0.5); }
+    .shadow-soft { box-shadow: 0 2px 16px rgba(0,0,0,0.35),      0 1px 4px rgba(0,0,0,0.2); }
+
+    /* ── GRADIENTS ── */
+    .hero-glow {
+      background:
+        radial-gradient(ellipse 70% 65% at 15% 15%, rgba(161,0,255,0.16) 0%, transparent 60%),
+        radial-gradient(ellipse 55% 50% at 85% 75%, rgba(133,153,255,0.11) 0%, transparent 55%),
+        radial-gradient(ellipse 90% 55% at 50% 100%, rgba(0,9,71,0.95) 0%, transparent 55%),
+        radial-gradient(ellipse 45% 35% at 55% 35%, rgba(255,22,53,0.05) 0%, transparent 60%);
+    }
+    .section-glow-purple {
+      background:
+        radial-gradient(ellipse 60% 80% at 10% 50%, rgba(161,0,255,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 60% at 90% 30%, rgba(133,153,255,0.06) 0%, transparent 60%);
+    }
+    .section-glow-blue {
+      background:
+        radial-gradient(ellipse 50% 70% at 80% 20%, rgba(133,153,255,0.08) 0%, transparent 55%),
+        radial-gradient(ellipse 40% 50% at 20% 80%, rgba(161,0,255,0.05) 0%, transparent 55%);
+    }
+    .section-glow-red {
+      background: radial-gradient(ellipse 70% 80% at 90% 50%, rgba(255,22,53,0.06) 0%, transparent 60%);
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, #FF1673 0%, #A100FF 50%, #8599FF 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .gradient-text-red {
+      background: linear-gradient(135deg, #FF1635 0%, #FF1673 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .gradient-text-blue {
+      background: linear-gradient(135deg, #8599FF 0%, #A100FF 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    /* ── SCROLL DOT ── */
+    @keyframes scrollDot {
+      0%, 100% { transform: translateY(0); opacity: 1; }
+      60%       { transform: translateY(10px); opacity: 0; }
+      61%       { transform: translateY(0); opacity: 0; }
+      80%       { opacity: 1; }
+    }
+
+    /* ── FLOAT ── */
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-8px); }
+    }
+    .float-anim { animation: floatY 5s ease-in-out infinite; }
+
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── TYPOGRAPHY ── */
+    .label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; font-weight: 500; letter-spacing: 0.14em;
+      text-transform: uppercase; color: #FF1673;
+    }
+    .red-rule { width: 44px; height: 3px; background: linear-gradient(90deg, #FF1635, #FF1673); border-radius: 2px; }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 26px;
+      background: linear-gradient(135deg, #FF1635, #FF1673);
+      color: #fff; font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: -0.01em;
+      border-radius: 8px; border: none; cursor: pointer; text-decoration: none;
+      box-shadow: 0 4px 22px rgba(255,22,53,0.32), 0 1px 4px rgba(255,22,53,0.14);
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease, opacity 0.15s ease;
+    }
+    .btn-primary:hover  { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(255,22,53,0.42), 0 2px 8px rgba(255,22,53,0.2); }
+    .btn-primary:active { transform: translateY(0); opacity: 0.88; }
+    .btn-primary:focus-visible { outline: 2px solid #FF1673; outline-offset: 3px; }
+
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 26px;
+      background: transparent; color: #fff; font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 14px;
+      border: 1.5px solid rgba(133,153,255,0.35); border-radius: 8px; text-decoration: none; cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), border-color 0.2s ease, background 0.2s ease;
+    }
+    .btn-outline:hover  { transform: translateY(-2px); border-color: rgba(133,153,255,0.75); background: rgba(133,153,255,0.07); }
+    .btn-outline:active { transform: translateY(0); }
+    .btn-outline:focus-visible { outline: 2px solid #8599FF; outline-offset: 3px; }
+
+    /* ── NAV ── */
+    .nav-link {
+      font-family: 'Space Grotesk', sans-serif; font-size: 13.5px; font-weight: 500;
+      color: rgba(255,255,255,0.65); text-decoration: none;
+      position: relative; letter-spacing: -0.005em;
+      transition: color 0.2s ease;
+    }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 2px;
+      background: #FF1635; border-radius: 1px; transition: width 0.25s ease;
+    }
+    .nav-link:hover { color: #fff; }
+    .nav-link:hover::after { width: 100%; }
+    .nav-link:focus-visible { outline: 2px solid #FF1673; outline-offset: 4px; border-radius: 2px; }
+
+    /* ── CARDS ── */
+    .feature-card {
+      background: linear-gradient(140deg, rgba(0,14,82,0.85) 0%, rgba(0,9,71,0.65) 100%);
+      border: 1px solid rgba(133,153,255,0.12); border-radius: 16px;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), border-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 6px 28px rgba(0,0,0,0.4);
+    }
+    .feature-card:hover {
+      transform: translateY(-5px); border-color: rgba(255,22,115,0.25);
+      box-shadow: 0 14px 44px rgba(0,0,0,0.5), 0 3px 12px rgba(255,22,53,0.08);
+    }
+
+    .cap-card {
+      background: linear-gradient(160deg, rgba(0,14,82,0.88) 0%, rgba(0,9,71,0.68) 100%);
+      border: 1px solid rgba(133,153,255,0.10); border-radius: 18px;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), border-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 8px 36px rgba(0,0,0,0.45);
+    }
+    .cap-card:hover {
+      transform: translateY(-6px); border-color: rgba(161,0,255,0.3);
+      box-shadow: 0 18px 52px rgba(0,0,0,0.55), 0 4px 16px rgba(161,0,255,0.12);
+    }
+
+    /* ── AGENT MOSAIC ── */
+    .agent-thumb {
+      position: relative;
+      border-radius: 14px; overflow: hidden;
+      border: 1px solid rgba(133,153,255,0.15);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 1px 6px rgba(0,0,0,0.25);
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), border-color 0.3s ease;
+    }
+    .agent-thumb:hover { transform: scale(1.05) translateY(-3px); border-color: rgba(161,0,255,0.4); }
+    .agent-thumb-name {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 20px 10px 10px;
+      background: linear-gradient(to top, rgba(0,6,35,0.88) 0%, transparent 100%);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      color: #fff;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+      z-index: 2;
+    }
+    .agent-thumb:hover .agent-thumb-name { opacity: 1; }
+
+    /* ── LIFECYCLE ── */
+    .lifecycle-step {
+      flex: 1; min-width: 0;
+      background: linear-gradient(140deg, rgba(0,14,82,0.82) 0%, rgba(0,9,71,0.62) 100%);
+      border: 1px solid rgba(133,153,255,0.10); border-radius: 12px;
+      padding: 20px 14px; text-align: center;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), border-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+    }
+    .lifecycle-step:hover {
+      transform: translateY(-4px); border-color: rgba(255,22,115,0.2);
+      box-shadow: 0 10px 36px rgba(0,0,0,0.5);
+    }
+    .lifecycle-connector {
+      flex-shrink: 0; width: 24px;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(133,153,255,0.35); font-size: 16px;
+    }
+    .lifecycle-row-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(133,153,255,0.5); margin-bottom: 12px;
+    }
+    .lifecycle-step-num {
+      width: 26px; height: 26px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 500;
+      background: rgba(161,0,255,0.12); border: 1px solid rgba(161,0,255,0.25);
+      color: #A100FF; margin: 0 auto 10px;
+    }
+    .lifecycle-step-name {
+      font-family: 'Space Grotesk', sans-serif; font-size: 11.5px; font-weight: 600;
+      color: #fff; margin-bottom: 6px; line-height: 1.3;
+    }
+    .lifecycle-step-desc {
+      font-family: 'Inter', sans-serif; font-size: 10.5px; color: rgba(163,163,163,0.7);
+      line-height: 1.5;
+    }
+
+    /* ── ICON BACKGROUNDS ── */
+    .icon-bg-red    { background: rgba(255,22,53,0.14); }
+    .icon-bg-pink   { background: rgba(255,22,115,0.14); }
+    .icon-bg-purple { background: rgba(161,0,255,0.14); }
+    .icon-bg-blue   { background: rgba(133,153,255,0.14); }
+    .icon-bg-orange { background: rgba(255,94,8,0.14); }
+    .icon-bg-green  { background: rgba(28,131,40,0.14); }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #000623; }
+    ::-webkit-scrollbar-thumb { background: #000947; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #FF1635; }
+
+    /* ── REDUCED MOTION ── */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .float-anim { animation: none; }
+      .btn-primary, .btn-outline, .feature-card, .cap-card, .lifecycle-step, .agent-thumb { transition: none; }
+      .agent-thumb-name { transition: none; opacity: 1; }
+    }
+  </style>
+
+  <link rel="stylesheet" href="glow.css">
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="nav.css">
+
+  <style>
+    /* ── agents.html light-mode overrides ── */
+
+    /* Alt sections (#overview, #evolution) — bg flip */
+    html[data-theme="light"] #overview,
+    html[data-theme="light"] #evolution {
+      background: #F2EFFF !important;
+    }
+    html[data-theme="light"] #overview h2,
+    html[data-theme="light"] #overview h3,
+    html[data-theme="light"] #overview p:not(.label) { color: #0D0020 !important; }
+    html[data-theme="light"] #evolution h2,
+    html[data-theme="light"] #evolution h3,
+    html[data-theme="light"] #evolution p:not(.label) { color: #0D0020 !important; }
+
+    /* Dark sections (#what-is, #lifecycle, #contact) */
+    html[data-theme="light"] #what-is h2,
+    html[data-theme="light"] #what-is h3,
+    html[data-theme="light"] #what-is p:not(.label) { color: #0D0020 !important; }
+    html[data-theme="light"] #lifecycle h2,
+    html[data-theme="light"] #lifecycle p:not(.label):not(.lifecycle-step-desc):not(.lifecycle-row-label) { color: #0D0020 !important; }
+    html[data-theme="light"] #contact h2,
+    html[data-theme="light"] #contact p:not(.label) { color: #0D0020 !important; }
+
+    /* Feature cards (on alt bg) */
+    html[data-theme="light"] .feature-card {
+      background: #fff !important;
+      border-color: rgba(161,0,255,0.12) !important;
+      box-shadow: 0 4px 24px rgba(100,60,180,0.08), 0 1px 6px rgba(0,0,0,0.04) !important;
+    }
+    html[data-theme="light"] .feature-card:hover {
+      border-color: rgba(255,22,115,0.22) !important;
+      box-shadow: 0 12px 40px rgba(100,60,180,0.12), 0 2px 8px rgba(0,0,0,0.06) !important;
+    }
+    html[data-theme="light"] .feature-card h3 { color: #0D0020 !important; }
+    html[data-theme="light"] .feature-card p  { color: #5A5270 !important; }
+
+    /* Cap cards (on alt bg) */
+    html[data-theme="light"] .cap-card {
+      background: #fff !important;
+      border-color: rgba(161,0,255,0.12) !important;
+      box-shadow: 0 4px 24px rgba(100,60,180,0.08), 0 1px 6px rgba(0,0,0,0.04) !important;
+    }
+    html[data-theme="light"] .cap-card:hover {
+      border-color: rgba(161,0,255,0.28) !important;
+      box-shadow: 0 14px 44px rgba(100,60,180,0.12), 0 3px 10px rgba(0,0,0,0.06) !important;
+    }
+    html[data-theme="light"] .cap-card h3 { color: #0D0020 !important; }
+    html[data-theme="light"] .cap-card p  { color: #5A5270 !important; }
+
+    /* Lifecycle cards */
+    html[data-theme="light"] .lifecycle-step {
+      background: #fff !important;
+      border-color: rgba(161,0,255,0.12) !important;
+      box-shadow: 0 4px 16px rgba(100,60,180,0.07), 0 1px 4px rgba(0,0,0,0.04) !important;
+    }
+    html[data-theme="light"] .lifecycle-step:hover {
+      border-color: rgba(255,22,115,0.2) !important;
+    }
+    html[data-theme="light"] .lifecycle-step-name { color: #0D0020 !important; }
+    html[data-theme="light"] .lifecycle-step-desc { color: #5A5270 !important; }
+    html[data-theme="light"] .lifecycle-connector { color: rgba(161,0,255,0.3) !important; }
+    html[data-theme="light"] .lifecycle-row-label { color: rgba(161,0,255,0.5) !important; }
+
+    /* btn-outline on light bg */
+    html[data-theme="light"] .btn-outline {
+      color: #0D0020 !important;
+      border-color: rgba(161,0,255,0.30) !important;
+    }
+    html[data-theme="light"] .btn-outline:hover {
+      background: rgba(161,0,255,0.06) !important;
+      border-color: rgba(161,0,255,0.55) !important;
+    }
+  </style>
+</head>
+
+<body class="bg-[#000623] text-white font-body overflow-x-hidden">
+
+  <!-- ═══════════════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════════════ -->
+  <nav id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
+    <!-- Primary bar -->
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
+      <a href="index.html" aria-label="Pix3l Home" class="shrink-0 focus-visible:outline-2 focus-visible:outline-[#FF1673] focus-visible:outline-offset-4 rounded">
+        <img id="nav-logo" src="assets/logos/logo-meet-dark-white.svg" alt="PIX3L" class="h-7 w-auto">
+      </a>
+      <!-- Global product links -->
+      <div class="hidden lg:flex items-center gap-7">
+        <a href="cascade.html" class="global-nav-link">Cascade</a>
+        <a href="crunch.html"  class="global-nav-link">CRUNCH</a>
+        <a href="agents.html"  class="global-nav-link current">Agents</a>
+        <a href="viki.html"    class="global-nav-link">VIKI</a>
+      </div>
+      <!-- Right: toggle + CTA + hamburger -->
+      <div class="flex items-center gap-6 shrink-0">
+        <button id="theme-toggle" aria-label="Switch to light mode">
+          <svg id="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <svg id="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+        <a href="viki.html" class="hidden lg:inline-flex btn-primary py-2.5 px-5 text-sm">
+          Meet Viki
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <button id="hamburger" class="lg:hidden flex flex-col gap-[5px] p-2 rounded focus-visible:outline-2 focus-visible:outline-[#FF1673]" aria-label="Toggle menu" aria-expanded="false">
+          <span id="h1" class="block w-6 h-[2px] bg-white rounded-full origin-center transition-transform duration-300"></span>
+          <span id="h2" class="block w-6 h-[2px] bg-white rounded-full transition-opacity duration-300"></span>
+          <span id="h3" class="block w-6 h-[2px] bg-white rounded-full origin-center transition-transform duration-300"></span>
+        </button>
+      </div>
+    </div>
+    <!-- Subnav bar -->
+    <div id="subnav">
+      <div class="subnav-inner">
+        <a href="#overview"  class="subnav-link">Overview</a>
+        <a href="#what-is"   class="subnav-link">What is an Agent</a>
+        <a href="#evolution" class="subnav-link">Evolution</a>
+        <a href="#lifecycle" class="subnav-link">AIX Lifecycle</a>
+        <a href="#contact"   class="subnav-link">Contact</a>
+      </div>
+    </div>
+    <!-- Mobile drawer -->
+    <div id="mobile-drawer" class="hidden lg:hidden flex-col px-6 pb-5 pt-1 gap-0"
+         style="background: rgba(0,6,35,0.97); border-bottom: 1px solid rgba(255,255,255,0.06);">
+      <p class="drawer-label">Products</p>
+      <a href="cascade.html" class="nav-link py-2.5 border-b border-white/[0.07]">Cascade</a>
+      <a href="crunch.html"  class="nav-link py-2.5 border-b border-white/[0.07]">CRUNCH</a>
+      <a href="agents.html"  class="nav-link py-2.5 border-b border-white/[0.07]">Agents</a>
+      <a href="viki.html"    class="nav-link py-2.5 border-b border-white/[0.07]">VIKI</a>
+      <p class="drawer-label">On this page</p>
+      <a href="#overview"  class="nav-link py-2.5 border-b border-white/[0.07]">Overview</a>
+      <a href="#what-is"   class="nav-link py-2.5 border-b border-white/[0.07]">What is an Agent</a>
+      <a href="#evolution" class="nav-link py-2.5 border-b border-white/[0.07]">Evolution</a>
+      <a href="#lifecycle" class="nav-link py-2.5 border-b border-white/[0.07]">AIX Lifecycle</a>
+      <a href="#contact"   class="nav-link py-2.5 border-b border-white/[0.07]">Contact</a>
+      <a href="viki.html" class="btn-primary mt-4 justify-center" style="display:flex;">Meet Viki</a>
+    </div>
+  </nav>
+
+
+  <!-- ═══════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════ -->
+  <section id="hero" class="grain relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
+
+    <!-- BG layers -->
+    <div class="absolute inset-0">
+      <img src="assets/images/backgrounds/agentic-blocks.png" alt="" aria-hidden="true" loading="lazy"
+           class="w-full h-full object-cover opacity-[0.07]">
+      <div class="absolute inset-0 hero-glow"></div>
+      <div class="absolute inset-0"
+           style="background: linear-gradient(to bottom, rgba(0,6,35,0.3) 0%, rgba(0,6,35,0.0) 30%, rgba(0,6,35,0.6) 75%, #000623 100%);"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="relative z-10 text-center px-6 max-w-5xl mx-auto pt-28 pb-20">
+
+      <p class="reveal label mb-4" style="transition-delay:.10s;">Pix3l AI Platform</p>
+
+      <h1 class="reveal font-display font-bold text-[clamp(3rem,7.5vw,6rem)] tracking-[-0.03em] leading-[1.03] mb-6"
+          style="transition-delay:.16s;">
+        Agentic AI.<br>
+        <span class="gradient-text">Agents that act.</span>
+      </h1>
+
+      <p class="reveal text-[rgba(255,255,255,0.72)] text-lg sm:text-xl leading-[1.74] max-w-2xl mx-auto mb-10"
+         style="transition-delay:.24s;">
+        AI that understands context, plans ahead, and takes action. Pix3l agents don't just respond — they reason, decide, and execute across the full lifecycle of a task.
+      </p>
+
+      <div class="reveal flex flex-wrap gap-4 justify-center" style="transition-delay:.32s;">
+        <a href="#overview" class="btn-primary text-base px-7 py-3.5">
+          Get All Agents
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 7.5h11M8.5 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="cascade.html" class="btn-outline text-base px-7 py-3.5">
+          View Cascade
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 7.5h11M8.5 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2" aria-hidden="true">
+      <div style="width:24px; height:38px; border:1.5px solid rgba(255,255,255,0.2); border-radius:12px; display:flex; justify-content:center; padding-top:6px;">
+        <div style="width:4px; height:8px; background:rgba(255,255,255,0.4); border-radius:2px; animation: scrollDot 2s ease-in-out infinite;"></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       OVERVIEW — Smarter, Faster, Agentic
+  ═══════════════════════════════════════════════ -->
+  <section id="overview" class="grain relative py-28 overflow-hidden" style="background: #04082A;">
+    <div class="absolute inset-0 section-glow-blue pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+
+      <!-- Header -->
+      <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+        <p class="label mb-3">Why Agentic</p>
+        <div class="red-rule mx-auto mb-7"></div>
+        <h2 class="font-display font-bold text-[clamp(2rem,4.5vw,3.5rem)] tracking-[-0.03em] leading-[1.1] mb-5">
+          Smarter, Faster,<br>
+          <span class="gradient-text">Agentic.</span>
+        </h2>
+        <p class="text-[#A3A3A3] text-lg leading-[1.72]">
+          AI agents that treat the root problem, not just the symptom. Built on Pix3l's AiX philosophy, every agent plans, executes, and adapts — without waiting to be told what to do next.
+        </p>
+      </div>
+
+      <!-- 3 feature cards -->
+      <div class="grid md:grid-cols-3 gap-6 mb-14">
+
+        <div class="feature-card p-7 reveal">
+          <div class="w-12 h-12 rounded-xl icon-bg-red flex items-center justify-center mb-5">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF1635" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <h3 class="font-display font-semibold text-[17px] mb-2">Always Active</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.72]">Agents don't wait to be asked. They monitor signals, react to conditions, and execute the moment a trigger is met — around the clock.</p>
+        </div>
+
+        <div class="feature-card p-7 reveal" style="transition-delay:.08s;">
+          <div class="w-12 h-12 rounded-xl icon-bg-purple flex items-center justify-center mb-5">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#A100FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            </svg>
+          </div>
+          <h3 class="font-display font-semibold text-[17px] mb-2">Context-Aware</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.72]">Every decision is grounded in your data, your history, and your goals. Agents carry context across sessions and adapt their behavior over time.</p>
+        </div>
+
+        <div class="feature-card p-7 reveal" style="transition-delay:.16s;">
+          <div class="w-12 h-12 rounded-xl icon-bg-blue flex items-center justify-center mb-5">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8599FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+          </div>
+          <h3 class="font-display font-semibold text-[17px] mb-2">Goal-Driven</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.72]">From a single task to a complex multi-step workflow, agents plan with a clear objective in mind — evaluating progress and course-correcting as needed.</p>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="text-center reveal" style="transition-delay:.24s;">
+        <a href="cascade.html#agents" class="btn-primary px-8 py-3.5 text-base">
+          All Agents
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 7.5h11M8.5 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       WHAT IS AN AI AGENT
+  ═══════════════════════════════════════════════ -->
+  <section id="what-is" class="grain relative py-28 overflow-hidden" style="background: #000623;">
+    <div class="absolute inset-0 section-glow-purple pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+      <div class="grid lg:grid-cols-2 gap-16 xl:gap-24 items-center">
+
+        <!-- Copy -->
+        <div class="reveal">
+          <p class="label mb-3">Understanding Agents</p>
+          <div class="red-rule mb-7"></div>
+          <h2 class="font-display font-bold text-[clamp(2rem,4vw,3.25rem)] tracking-[-0.03em] leading-[1.1] mb-3">
+            What is an<br>
+            <span class="gradient-text">AI Agent?</span>
+          </h2>
+          <p class="text-[#8599FF] font-display font-medium text-lg mb-5">
+            How agents solve complex problems.
+          </p>
+          <p class="text-[#A3A3A3] text-base leading-[1.74] mb-4">
+            An AI agent is a system that perceives its environment, forms a plan, and takes action to reach a goal — without step-by-step human instruction. Unlike a chatbot that responds to a single prompt, an agent chains actions together, uses tools, and adapts when something unexpected happens.
+          </p>
+          <p class="text-[#A3A3A3] text-base leading-[1.74] mb-9">
+            Pix3l agents are built with defined roles, persistent memory, and the ability to collaborate. Each agent owns its stage in the workflow, hands off cleanly to the next, and reports back with structured output your team can act on.
+          </p>
+          <a href="#evolution" class="btn-primary">
+            See the Evolution
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <!-- Agent grid -->
+        <div class="reveal" style="transition-delay:.14s;">
+          <div class="grid grid-cols-3 gap-3">
+            <a href="agents/atlas.html" class="agent-thumb aspect-square">
+              <img src="assets/cascade/agents/atlas.png" alt="Atlas agent" class="w-full h-full object-cover" loading="lazy">
+              <span class="agent-thumb-name">Atlas</span>
+            </a>
+            <a href="agents/oracle.html" class="agent-thumb aspect-square">
+              <img src="assets/cascade/agents/oracle.png" alt="Oracle agent" class="w-full h-full object-cover" loading="lazy">
+              <span class="agent-thumb-name">Oracle</span>
+            </a>
+            <a href="agents/nova.html" class="agent-thumb aspect-square">
+              <img src="assets/cascade/agents/nova.png" alt="Nova agent" class="w-full h-full object-cover" loading="lazy">
+              <span class="agent-thumb-name">Nova</span>
+            </a>
+            <a href="agents/echo.html" class="agent-thumb aspect-square">
+              <img src="assets/cascade/agents/echo.png" alt="Echo agent" class="w-full h-full object-cover" loading="lazy">
+              <span class="agent-thumb-name">Echo</span>
+            </a>
+            <a href="agents/iris.html" class="agent-thumb aspect-square">
+              <img src="assets/cascade/agents/iris.png" alt="Iris agent" class="w-full h-full object-cover" loading="lazy">
+              <span class="agent-thumb-name">Iris</span>
+            </a>
+            <a href="agents/syra.html" class="agent-thumb aspect-square">
+              <img src="assets/cascade/agents/syra.png" alt="Syra agent" class="w-full h-full object-cover" loading="lazy">
+              <span class="agent-thumb-name">Syra</span>
+            </a>
+            <a href="agents/davinci.html" class="agent-thumb aspect-square">
+              <img src="assets/cascade/agents/davinci.png" alt="Davinci agent" class="w-full h-full object-cover" loading="lazy">
+              <span class="agent-thumb-name">Da Vinci</span>
+            </a>
+            <a href="agents/chronos.html" class="agent-thumb aspect-square">
+              <img src="assets/cascade/agents/chronos.png" alt="Chronos agent" class="w-full h-full object-cover" loading="lazy">
+              <span class="agent-thumb-name">Chronos</span>
+            </a>
+            <a href="agents/nikola.html" class="agent-thumb aspect-square">
+              <img src="assets/cascade/agents/nikola.png" alt="Nikola agent" class="w-full h-full object-cover" loading="lazy">
+              <span class="agent-thumb-name">Nikola</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       NEXT EVOLUTION
+  ═══════════════════════════════════════════════ -->
+  <section id="evolution" class="grain relative py-28 overflow-hidden" style="background: #04082A;">
+    <div class="absolute inset-0 section-glow-blue pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+
+      <!-- Header -->
+      <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+        <p class="label mb-3">The Next Frontier</p>
+        <div class="red-rule mx-auto mb-7"></div>
+        <h2 class="font-display font-bold text-[clamp(2rem,4.5vw,3.5rem)] tracking-[-0.03em] leading-[1.1] mb-5">
+          Agentic AI:<br>
+          <span class="gradient-text">The Next Evolution.</span>
+        </h2>
+        <p class="text-[#A3A3A3] text-lg leading-[1.72]">
+          The gap between AI that responds and AI that acts is widening. Agentic systems represent a fundamental shift in how intelligence integrates into real work — faster decisions, broader scope, deeper autonomy.
+        </p>
+      </div>
+
+      <!-- 4 capability cards -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+        <div class="cap-card p-6 reveal">
+          <div class="w-11 h-11 rounded-xl icon-bg-red flex items-center justify-center mb-5">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF1635" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+          </div>
+          <h3 class="font-display font-semibold text-[16px] mb-2">Autonomous Action</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.7]">Agents initiate, execute, and complete tasks without requiring a human prompt at each step. They own the outcome, not just the output.</p>
+        </div>
+
+        <div class="cap-card p-6 reveal" style="transition-delay:.08s;">
+          <div class="w-11 h-11 rounded-xl icon-bg-purple flex items-center justify-center mb-5">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A100FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <h3 class="font-display font-semibold text-[16px] mb-2">Collaborative Teaming</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.7]">Multiple agents coordinate in real time — passing context, splitting work, and resolving conflicts without human mediation.</p>
+        </div>
+
+        <div class="cap-card p-6 reveal" style="transition-delay:.16s;">
+          <div class="w-11 h-11 rounded-xl icon-bg-blue flex items-center justify-center mb-5">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8599FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+            </svg>
+          </div>
+          <h3 class="font-display font-semibold text-[16px] mb-2">Continuous Learning</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.7]">Agents build a persistent memory of outcomes, preferences, and patterns. Every task makes the next one sharper and faster.</p>
+        </div>
+
+        <div class="cap-card p-6 reveal" style="transition-delay:.24s;">
+          <div class="w-11 h-11 rounded-xl icon-bg-pink flex items-center justify-center mb-5">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FF1673" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
+          <h3 class="font-display font-semibold text-[16px] mb-2">Dynamic Reasoning</h3>
+          <p class="text-[#A3A3A3] text-sm leading-[1.7]">When conditions change, agents don't stall. They re-evaluate their plan, weigh trade-offs, and choose a new path forward in real time.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       AIX LIFECYCLE
+  ═══════════════════════════════════════════════ -->
+  <section id="lifecycle" class="grain relative py-28 overflow-hidden" style="background: #000623;">
+    <div class="absolute inset-0 section-glow-purple pointer-events-none"></div>
+
+    <!-- Subtle wave bg -->
+    <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <img src="assets/images/backgrounds/digital-wave.png" alt="" loading="lazy"
+           class="w-full h-full object-cover opacity-[0.04]">
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+
+      <!-- Header -->
+      <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+        <p class="label mb-3">AIX Framework</p>
+        <div class="red-rule mx-auto mb-7"></div>
+        <h2 class="font-display font-bold text-[clamp(2rem,4.5vw,3.5rem)] tracking-[-0.03em] leading-[1.1] mb-5">
+          My AIX<br>
+          <span class="gradient-text-blue">Lifecycle.</span>
+        </h2>
+        <p class="text-[#A3A3A3] text-lg leading-[1.72]">
+          The design framework for Agentic Intelligence. Every Pix3l agent follows the AIX lifecycle — a structured, repeatable path from raw input to verified, auditable output.
+        </p>
+      </div>
+
+      <!-- Row 1: AIX Agent -->
+      <div class="mb-8 reveal" style="transition-delay:.08s;">
+        <p class="lifecycle-row-label">Step 1 — AIX Agent</p>
+        <div class="overflow-x-auto -mx-6 px-6" style="padding-top:8px; margin-top:-8px; overflow-y:visible;">
+          <div class="flex items-stretch gap-2" style="min-width: 760px;">
+
+            <div class="lifecycle-step">
+              <div class="lifecycle-step-num">01</div>
+              <div class="lifecycle-step-name">Parse Input</div>
+              <div class="lifecycle-step-desc">Ingest raw data, identify format, extract structured fields</div>
+            </div>
+            <div class="lifecycle-connector" aria-hidden="true">→</div>
+
+            <div class="lifecycle-step">
+              <div class="lifecycle-step-num">02</div>
+              <div class="lifecycle-step-name">Audit &amp; Infer</div>
+              <div class="lifecycle-step-desc">Detect anomalies, fill gaps, apply domain heuristics</div>
+            </div>
+            <div class="lifecycle-connector" aria-hidden="true">→</div>
+
+            <div class="lifecycle-step">
+              <div class="lifecycle-step-num">03</div>
+              <div class="lifecycle-step-name">Identify + Resolve</div>
+              <div class="lifecycle-step-desc">Surface conflicts and ambiguities, apply resolution strategy</div>
+            </div>
+            <div class="lifecycle-connector" aria-hidden="true">→</div>
+
+            <div class="lifecycle-step">
+              <div class="lifecycle-step-num">04</div>
+              <div class="lifecycle-step-name">Verify + Commit</div>
+              <div class="lifecycle-step-desc">Validate output quality, confirm against schema, lock state</div>
+            </div>
+            <div class="lifecycle-connector" aria-hidden="true">→</div>
+
+            <div class="lifecycle-step">
+              <div class="lifecycle-step-num">05</div>
+              <div class="lifecycle-step-name">Report</div>
+              <div class="lifecycle-step-desc">Emit structured log with confidence scores and change diffs</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Row 2: AIX Reasoning -->
+      <div class="reveal" style="transition-delay:.16s;">
+        <p class="lifecycle-row-label">Step 2 — AIX Reasoning</p>
+        <div class="overflow-x-auto -mx-6 px-6" style="padding-top:8px; margin-top:-8px; overflow-y:visible;">
+          <div class="flex items-stretch gap-2" style="min-width: 760px;">
+
+            <div class="lifecycle-step">
+              <div class="lifecycle-step-num">01</div>
+              <div class="lifecycle-step-name">Gather Context</div>
+              <div class="lifecycle-step-desc">Pull session history, user preferences, and environmental state</div>
+            </div>
+            <div class="lifecycle-connector" aria-hidden="true">→</div>
+
+            <div class="lifecycle-step">
+              <div class="lifecycle-step-num">02</div>
+              <div class="lifecycle-step-name">Map Dependencies</div>
+              <div class="lifecycle-step-desc">Model the task graph, identify blockers and prerequisites</div>
+            </div>
+            <div class="lifecycle-connector" aria-hidden="true">→</div>
+
+            <div class="lifecycle-step">
+              <div class="lifecycle-step-num">03</div>
+              <div class="lifecycle-step-name">Evaluate Options</div>
+              <div class="lifecycle-step-desc">Score candidate actions against cost, risk, and outcome models</div>
+            </div>
+            <div class="lifecycle-connector" aria-hidden="true">→</div>
+
+            <div class="lifecycle-step">
+              <div class="lifecycle-step-num">04</div>
+              <div class="lifecycle-step-name">Select Strategy</div>
+              <div class="lifecycle-step-desc">Commit to a plan, allocate tools and sub-agents as needed</div>
+            </div>
+            <div class="lifecycle-connector" aria-hidden="true">→</div>
+
+            <div class="lifecycle-step">
+              <div class="lifecycle-step-num">05</div>
+              <div class="lifecycle-step-name">Execute Plan</div>
+              <div class="lifecycle-step-desc">Run actions, observe feedback, adapt until the goal is reached</div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="text-center mt-14 reveal" style="transition-delay:.24s;">
+        <a href="mailto:trey@pix3l.co" class="btn-primary px-8 py-3.5 text-base">
+          Contact Us
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       CONTACT CTA
+  ═══════════════════════════════════════════════ -->
+  <section id="contact" class="grain relative py-28 overflow-hidden text-center"
+           style="background: linear-gradient(180deg, #000623 0%, #000947 60%, #000623 100%);">
+    <div class="absolute inset-0 section-glow-purple pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-3xl mx-auto px-6 reveal">
+      <p class="label mb-3">Get Started</p>
+      <h2 class="font-display font-bold text-[clamp(2.2rem,5vw,4rem)] tracking-[-0.03em] leading-[1.08] mb-5">
+        Ready to deploy<br>
+        <span class="gradient-text">Agentic AI?</span>
+      </h2>
+      <p class="text-[#A3A3A3] text-lg leading-[1.7] mb-10 max-w-xl mx-auto">
+        Pix3l builds custom agentic systems for enterprise workflows. Reach out to discuss your use case, data environment, and deployment timeline.
+      </p>
+      <div class="flex flex-wrap gap-4 justify-center">
+        <a href="mailto:trey@pix3l.co" class="btn-primary px-8 py-3.5 text-base">
+          trey@pix3l.co
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </a>
+        <a href="cascade.html" class="btn-outline px-8 py-3.5 text-base">
+          View Cascade
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 7.5h11M8.5 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+      <div class="mt-10 pt-8 border-t border-white/[0.06]">
+        <a href="index.html" class="nav-link text-sm opacity-60 hover:opacity-100 transition-opacity duration-200">
+          ← Back to Pix3l LLC
+        </a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════ -->
+  <footer class="relative py-12 border-t border-white/[0.06]" style="background: #000623;">
+    <div class="max-w-7xl mx-auto px-6">
+
+      <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+        <a href="index.html" class="focus-visible:outline-2 focus-visible:outline-[#FF1673] focus-visible:outline-offset-4 rounded">
+          <img id="footer-logo" src="assets/logos/logo-meet-dark-white.svg"
+               alt="Pix3l LLC" class="h-7 w-auto opacity-60" loading="lazy">
+        </a>
+
+        <div class="flex flex-wrap justify-center gap-6">
+          <a href="#overview"  class="nav-link text-[13px]">Overview</a>
+          <a href="#what-is"   class="nav-link text-[13px]">What is an Agent</a>
+          <a href="#evolution" class="nav-link text-[13px]">Evolution</a>
+          <a href="#lifecycle" class="nav-link text-[13px]">AIX Lifecycle</a>
+          <a href="cascade.html" class="nav-link text-[13px]">Cascade</a>
+          <a href="index.html"   class="nav-link text-[13px]">Pix3l LLC</a>
+        </div>
+
+        <div class="text-center md:text-right">
+          <a href="mailto:trey@pix3l.co" class="text-[#FF1673] text-sm transition-colors duration-200 hover:text-[#FF1635]">trey@pix3l.co</a>
+        </div>
+      </div>
+
+      <div class="mt-8 pt-6 border-t border-white/[0.05] flex flex-col sm:flex-row items-center justify-between gap-2">
+        <p class="font-mono text-[11px] text-white/25">© 2026 Pix3l LLC. All rights reserved.</p>
+        <p class="font-mono text-[11px] text-white/[0.18]">Agentic AI — Powered by Pix3l</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ═══════════════════════════════════════════════
+       JAVASCRIPT
+  ═══════════════════════════════════════════════ -->
+  <script src="theme.js"></script>
+  <script src="nav.js"></script>
+  <script>
+    // ── Scroll-reveal ──
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.08, rootMargin: '0px 0px -36px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // Trigger hero immediately
+    setTimeout(() => {
+      document.querySelectorAll('#hero .reveal').forEach(el => el.classList.add('visible'));
+    }, 80);
+  </script>
+  <script src="glow.js"></script>
+</body>
+</html>

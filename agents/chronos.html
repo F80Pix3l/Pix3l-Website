@@ -25,6 +25,7 @@
     }
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -91,24 +92,26 @@
   </style>
   <link rel="stylesheet" href="../glow.css">
   <link rel="stylesheet" href="../theme.css">
+  <link rel="stylesheet" href="../nav.css">
 </head>
 <body>
 
 <!-- NAVBAR -->
-<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-colors duration-300" style="background: transparent;">
-  <div class="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
-    <a href="../index.html" class="flex items-center shrink-0" aria-label="Pix3l LLC homepage">
-      <img id="nav-logo" src="../assets/logos/logo-meet-dark-white.svg" alt="Pix3l LLC" class="h-8 w-auto">
+<nav id="navbar" style="position:fixed; top:0; left:0; right:0; z-index:50;">
+  <!-- Primary bar -->
+  <div style="max-width:80rem; margin:0 auto; padding:0 24px; height:64px; display:flex; align-items:center; justify-content:space-between; gap:24px;">
+    <a href="../index.html" aria-label="Pix3l Home" style="flex-shrink:0;">
+      <img id="nav-logo" src="../assets/logos/logo-meet-dark-white.svg" alt="PIX3L" style="height:28px; width:auto;">
     </a>
-    <div class="hidden md:flex items-center gap-8">
-      <a href="../index.html#about"     class="nav-link">About</a>
-      <a href="../index.html#solutions" class="nav-link">Design Solutions</a>
-      <a href="../index.html#products"  class="nav-link">AI Agents</a>
-      <a href="../index.html#devops"    class="nav-link">Dev Ops</a>
-      <a href="../index.html#contact"   class="nav-link">Contact</a>
+    <!-- Global links -->
+    <div class="hidden lg:flex items-center gap-7">
+      <a href="../cascade.html" class="global-nav-link">Cascade</a>
+      <a href="../crunch.html"  class="global-nav-link">CRUNCH</a>
+      <a href="../agents.html"  class="global-nav-link current">Agents</a>
+      <a href="../viki.html"    class="global-nav-link">VIKI</a>
     </div>
-    <!-- Right: toggle 24px left of CTA, mobile menu -->
-    <div class="flex items-center gap-6 shrink-0">
+    <!-- Right -->
+    <div class="flex items-center gap-6" style="flex-shrink:0;">
       <button id="theme-toggle" aria-label="Switch to light mode">
         <svg id="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
@@ -116,39 +119,49 @@
           <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
           <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
         </svg>
+        <svg id="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
       </button>
-      <a href="../cascade.html" class="btn-primary hidden md:inline-flex text-sm px-5 py-2">View Cascade</a>
-      <button id="menu-btn" class="md:hidden p-2 rounded-lg" aria-label="Open menu" style="color:rgba(255,255,255,0.8);">
-        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="19" y2="6"/><line x1="3" y1="12" x2="19" y2="12"/><line x1="3" y1="18" x2="19" y2="18"/></svg>
+      <a href="../cascade.html" class="hidden lg:inline-flex btn-primary" style="padding:10px 20px; font-size:14px;">
+        View Cascade
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <button id="hamburger" class="lg:hidden flex flex-col gap-[5px] p-2 rounded focus-visible:outline-2 focus-visible:outline-[#FF1673]" aria-label="Toggle menu" aria-expanded="false">
+        <span id="h1" style="display:block; width:24px; height:2px; background:white; border-radius:9999px; transform-origin:center; transition:transform 0.3s;"></span>
+        <span id="h2" style="display:block; width:24px; height:2px; background:white; border-radius:9999px; transition:opacity 0.3s;"></span>
+        <span id="h3" style="display:block; width:24px; height:2px; background:white; border-radius:9999px; transform-origin:center; transition:transform 0.3s;"></span>
       </button>
     </div>
   </div>
-  <div id="drawer" class="md:hidden fixed inset-0 z-40 pointer-events-none">
-    <div id="drawer-bg" class="absolute inset-0 bg-black/60 opacity-0 transition-opacity duration-300" style="backdrop-filter:blur(4px);"></div>
-    <div id="drawer-panel" class="absolute top-0 right-0 h-full w-72 translate-x-full transition-transform duration-300"
-         style="background: rgba(0,9,71,0.98); border-left: 1px solid rgba(255,255,255,0.08);">
-      <div class="flex items-center justify-between px-6 h-16 border-b border-white/[0.07]">
-        <span class="font-display font-semibold text-sm">Menu</span>
-        <button id="close-btn" class="p-2 rounded-lg" aria-label="Close menu" style="color:rgba(255,255,255,0.7);">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="4" x2="16" y2="16"/><line x1="16" y1="4" x2="4" y2="16"/></svg>
-        </button>
-      </div>
-      <div class="flex flex-col px-6 py-8 gap-0">
-        <a href="../index.html#about"     class="nav-link py-3 border-b border-white/8">About</a>
-        <a href="../index.html#solutions" class="nav-link py-3 border-b border-white/8">Design Solutions</a>
-        <a href="../index.html#products"  class="nav-link py-3 border-b border-white/8">AI Agents</a>
-        <a href="../index.html#devops"    class="nav-link py-3 border-b border-white/8">Dev Ops</a>
-        <a href="../index.html#contact"   class="nav-link py-3">Contact</a>
-      </div>
-      <div class="px-6">
-        <a href="../cascade.html" class="btn-primary w-full justify-center">View Cascade</a>
-      </div>
+  <!-- Subnav -->
+  <div id="subnav">
+    <div class="subnav-inner">
+      <a href="../agents.html" class="subnav-link" style="color:rgba(133,153,255,0.5);">← Agents</a>
+      <a href="#hero"         class="subnav-link">Overview</a>
+      <a href="#overview"     class="subnav-link">About</a>
+      <a href="#capabilities" class="subnav-link">Capabilities</a>
+      <a href="#contact"      class="subnav-link">Contact</a>
     </div>
+  </div>
+  <!-- Mobile drawer -->
+  <div id="mobile-drawer" class="hidden lg:hidden flex-col px-6 pb-5 pt-1 gap-0" style="background:rgba(0,6,35,0.97); border-bottom:1px solid rgba(255,255,255,0.06);">
+    <p class="drawer-label">Products</p>
+    <a href="../cascade.html" class="nav-link py-2.5 border-b border-white/[0.07]">Cascade</a>
+    <a href="../crunch.html"  class="nav-link py-2.5 border-b border-white/[0.07]">CRUNCH</a>
+    <a href="../agents.html"  class="nav-link py-2.5 border-b border-white/[0.07]">Agents</a>
+    <a href="../viki.html"    class="nav-link py-2.5 border-b border-white/[0.07]">VIKI</a>
+    <p class="drawer-label">On this page</p>
+    <a href="#hero"         class="nav-link py-2.5 border-b border-white/[0.07]">Overview</a>
+    <a href="#overview"     class="nav-link py-2.5 border-b border-white/[0.07]">About</a>
+    <a href="#capabilities" class="nav-link py-2.5 border-b border-white/[0.07]">Capabilities</a>
+    <a href="#contact"      class="nav-link py-2.5 border-b border-white/[0.07]">Contact</a>
+    <a href="../cascade.html" class="btn-primary mt-4 justify-center">View Cascade</a>
   </div>
 </nav>
 
 <!-- HERO -->
-<section class="grain relative min-h-screen flex items-center overflow-hidden pt-20">
+<section id="hero" class="grain relative min-h-screen flex items-center overflow-hidden pt-20">
   <div class="absolute inset-0" style="background: linear-gradient(180deg, #000623 0%, #000A3A 100%);"></div>
   <div class="absolute inset-0 pointer-events-none" style="background:
     radial-gradient(ellipse 80% 90% at 20% 40%, rgba(28,131,40,0.13) 0%, transparent 65%),
@@ -156,7 +169,7 @@
     radial-gradient(ellipse 55% 60% at 95% 85%, rgba(133,153,255,0.07) 0%, transparent 60%);"></div>
   <div class="absolute inset-0 pointer-events-none">
     <img src="../assets/images/backgrounds/agentic-blocks.png" alt="" aria-hidden="true"
-         class="w-full h-full object-cover" style="opacity:0.05;">
+         class="w-full h-full object-cover" style="opacity:0.05;" loading="lazy">
   </div>
   <div class="relative z-10 max-w-7xl mx-auto px-6 py-24 grid md:grid-cols-2 gap-16 items-center">
     <div class="flex justify-center md:justify-start reveal">
@@ -164,7 +177,8 @@
         <div class="absolute -inset-4 rounded-3xl" style="background: radial-gradient(ellipse at center, rgba(28,131,40,0.15) 0%, transparent 70%);"></div>
         <img src="../assets/cascade/agents/chronos.png" alt="Chronos"
              class="relative w-72 h-72 md:w-96 md:h-96 object-cover rounded-2xl"
-             style="box-shadow: 0 0 40px rgba(28,131,40,0.25), 0 24px 64px rgba(0,0,0,0.5);">
+             style="box-shadow: 0 0 40px rgba(28,131,40,0.25), 0 24px 64px rgba(0,0,0,0.5);"
+             fetchpriority="high" loading="eager">
       </div>
     </div>
     <div class="reveal" style="transition-delay:.1s;">
@@ -181,7 +195,7 @@
 </section>
 
 <!-- BIO + CAPABILITIES -->
-<section class="grain relative py-24 overflow-hidden" style="background: transparent;">
+<section id="overview" class="grain relative py-24 overflow-hidden" style="background: transparent;">
   <div class="absolute inset-0 pointer-events-none" style="background:
     radial-gradient(ellipse 80% 70% at 90% 30%, rgba(28,131,40,0.09) 0%, transparent 65%),
     radial-gradient(ellipse 60% 60% at 5% 65%, rgba(161,0,255,0.07) 0%, transparent 60%);"></div>
@@ -222,7 +236,7 @@
 </section>
 
 <!-- TECH STACK -->
-<section class="grain relative py-20 overflow-hidden" style="background: transparent;">
+<section id="capabilities" class="grain relative py-20 overflow-hidden" style="background: transparent;">
   <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(133,153,255,0.06) 0%, transparent 65%);"></div>
   <div class="max-w-7xl mx-auto px-6">
     <p class="font-mono text-[11px] tracking-[0.18em] uppercase mb-8 text-white/40 text-center reveal">Tech Stack</p>
@@ -253,13 +267,13 @@
 </section>
 
 <!-- MEET THE TEAM NAV -->
-<section class="grain relative py-20 overflow-hidden" style="background: transparent;">
+<section id="contact" class="grain relative py-20 overflow-hidden" style="background: transparent;">
   <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(28,131,40,0.07) 0%, transparent 65%);"></div>
   <div class="max-w-7xl mx-auto px-6">
     <p class="font-mono text-[11px] tracking-[0.18em] uppercase mb-8 text-white/40 text-center">Meet the Team</p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center items-stretch max-w-xl mx-auto">
       <a href="davinci.html" class="agent-nav-card flex-1">
-        <img src="../assets/cascade/agents/davinci.png" alt="DaVinci">
+        <img src="../assets/cascade/agents/davinci.png" alt="DaVinci" loading="lazy">
         <div>
           <p class="font-mono text-[9px] text-white/40 uppercase tracking-widest mb-0.5">Previous</p>
           <p class="font-display font-semibold text-[15px]">DaVinci</p>
@@ -274,7 +288,7 @@
           <p class="font-mono text-[9px] text-white/40 uppercase tracking-widest mb-0.5">Next</p>
           <p class="font-display font-semibold text-[15px]">Atlas</p>
         </div>
-        <img src="../assets/cascade/agents/atlas.png" alt="Atlas">
+        <img src="../assets/cascade/agents/atlas.png" alt="Atlas" loading="lazy">
       </a>
     </div>
   </div>
@@ -284,7 +298,7 @@
 <footer class="relative py-12 border-t border-white/[0.06]" style="background: #000623;">
   <div class="max-w-7xl mx-auto px-6">
     <div class="flex flex-col md:flex-row items-center justify-between gap-8">
-      <img id="footer-logo" src="../assets/logos/logo-meet-dark-white.svg" alt="Pix3l LLC" class="h-7 w-auto opacity-60">
+      <img id="footer-logo" src="../assets/logos/logo-meet-dark-white.svg" alt="Pix3l LLC" class="h-7 w-auto opacity-60" loading="lazy">
       <div class="flex flex-wrap justify-center gap-6">
         <a href="../index.html"   class="nav-link text-[13px]">Home</a>
         <a href="../cascade.html" class="nav-link text-[13px]">Cascade</a>
@@ -310,36 +324,8 @@
 </footer>
 
 <script src="../theme.js"></script>
+<script src="../nav.js"></script>
 <script>
-  const navbar = document.getElementById('navbar');
-  function updateNav() {
-    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-    if (window.scrollY > 40) {
-      navbar.style.background = isLight ? 'rgba(242,239,255,0.95)' : 'rgba(0,6,35,0.92)';
-      navbar.style.backdropFilter = 'blur(14px)';
-      navbar.style.webkitBackdropFilter = 'blur(14px)';
-      navbar.style.borderBottom = isLight ? '1px solid rgba(161,0,255,0.10)' : '1px solid rgba(255,255,255,0.07)';
-    } else {
-      navbar.style.background = 'transparent';
-      navbar.style.backdropFilter = 'none';
-      navbar.style.webkitBackdropFilter = 'none';
-      navbar.style.borderBottom = 'none';
-    }
-  }
-  window.addEventListener('scroll', updateNav, { passive: true });
-  window.initTheme(updateNav);
-
-  const menuBtn = document.getElementById('menu-btn');
-  const closeBtn = document.getElementById('close-btn');
-  const drawer = document.getElementById('drawer');
-  const drawerBg = document.getElementById('drawer-bg');
-  const drawerPanel = document.getElementById('drawer-panel');
-  function openDrawer() { drawer.style.pointerEvents = 'auto'; drawerBg.style.opacity = '1'; drawerPanel.style.transform = 'translateX(0)'; }
-  function closeDrawer() { drawer.style.pointerEvents = 'none'; drawerBg.style.opacity = '0'; drawerPanel.style.transform = 'translateX(100%)'; }
-  menuBtn.addEventListener('click', openDrawer);
-  closeBtn.addEventListener('click', closeDrawer);
-  drawerBg.addEventListener('click', closeDrawer);
-
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.12 });

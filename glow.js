@@ -13,6 +13,7 @@
     '.stat-card',
     '.workflow-card',
     '.tech-chip',
+    '.cap-card',
   ];
 
   function fixImageContainerRadius(card) {

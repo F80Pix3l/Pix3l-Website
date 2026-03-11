@@ -434,3 +434,17 @@ html[data-theme="light"] #pipeline .absolute img,
 html[data-theme="light"] #features .absolute img { opacity: 0.03 !important; }
 html[data-theme="light"] #pipeline .absolute[style*="to right"],
 html[data-theme="light"] #features .absolute[style*="to right"] { opacity: 0.05 !important; }
+
+/* ── Global nav links (light mode) ── */
+html[data-theme="light"] .global-nav-link       { color: rgba(13,0,32,0.55) !important; }
+html[data-theme="light"] .global-nav-link:hover  { color: #0D0020 !important; }
+html[data-theme="light"] .global-nav-link.current { color: #0D0020 !important; }
+
+/* ── Subnav (light mode) ── */
+html[data-theme="light"] #subnav { border-image: linear-gradient(90deg, transparent, rgba(161,0,255,0.12) 20%, rgba(161,0,255,0.07) 50%, rgba(161,0,255,0.12) 80%, transparent) 1 !important; }
+html[data-theme="light"] .subnav-link        { color: rgba(13,0,32,0.38) !important; }
+html[data-theme="light"] .subnav-link:hover  { color: rgba(13,0,32,0.75) !important; }
+html[data-theme="light"] .subnav-link.active { color: #FF1673 !important; }
+
+/* ── Mobile drawer section label ── */
+html[data-theme="light"] .drawer-label { color: rgba(13,0,32,0.35) !important; }

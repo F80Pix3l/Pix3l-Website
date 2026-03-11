@@ -1,0 +1,78 @@
+/* ══════════════════════════════════════════════════════
+   PIX3L — NAV.CSS
+   Shared navigation styles for all pages.
+   Light-mode overrides live in theme.css — do not duplicate here.
+══════════════════════════════════════════════════════ */
+
+/* ── Scroll offset ── */
+html { scroll-padding-top: 100px; }
+
+/* ── Global product nav links ── */
+.global-nav-link {
+  font-family: 'Space Grotesk', sans-serif; font-size: 13.5px; font-weight: 500;
+  color: rgba(255,255,255,0.55); text-decoration: none;
+  position: relative; letter-spacing: -0.005em;
+  transition: color 0.2s ease;
+}
+.global-nav-link::after {
+  content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 2px;
+  background: #FF1635; border-radius: 1px; transition: width 0.25s ease;
+}
+.global-nav-link:hover { color: #fff; }
+.global-nav-link:hover::after { width: 100%; }
+.global-nav-link.current { color: #fff; }
+.global-nav-link.current::after { width: 100%; background: #FF1673; }
+.global-nav-link:focus-visible { outline: 2px solid #FF1673; outline-offset: 4px; border-radius: 2px; }
+
+/* ── Subnav bar ── */
+#subnav {
+  border-top: 1px solid transparent;
+  border-image: linear-gradient(90deg, transparent, #000947 20%, rgba(161,0,255,0.18) 50%, #000947 80%, transparent) 1;
+  height: 0; overflow: hidden; opacity: 0;
+  transition: height 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease;
+  scrollbar-width: none;
+}
+#subnav.subnav-visible { height: 34px; overflow-x: auto; opacity: 1; }
+#subnav::-webkit-scrollbar { display: none; }
+
+.subnav-inner {
+  max-width: 80rem; margin: 0 auto; padding: 0 24px;
+  height: 100%; display: flex; align-items: center; justify-content: center; gap: 28px;
+}
+
+.subnav-link {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500;
+  letter-spacing: 0.10em; text-transform: uppercase;
+  color: rgba(255,255,255,0.38); text-decoration: none;
+  white-space: nowrap; flex-shrink: 0; transition: color 0.2s ease;
+}
+.subnav-link:hover { color: rgba(255,255,255,0.7); }
+.subnav-link.active { color: #FF1673; }
+.subnav-link:focus-visible { outline: 2px solid #FF1673; outline-offset: 4px; border-radius: 2px; }
+
+/* ── Primary bar: 3-column grid for true center alignment ── */
+#navbar > div:first-child {
+  display: grid !important;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  column-gap: 24px;
+}
+#navbar > div:first-child > *:last-child {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+}
+
+/* ── Nav CTA button — consistent size across all pages ── */
+#navbar .btn-primary {
+  padding: 10px 20px !important;
+  font-size: 14px !important;
+  line-height: 1.2 !important;
+}
+
+/* ── Mobile drawer section label ── */
+.drawer-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.28); padding-top: 14px; padding-bottom: 6px;
+}

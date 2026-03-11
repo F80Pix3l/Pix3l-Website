@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <title>Cascade — AI Social Video Automation by Pix3l</title>
   <meta name="description" content="Cascade by Pix3l turns long-form video into optimized short-form content for every platform, powered by a pipeline of 10 AI agents.">
   <link rel="canonical" href="https://pix3l-website.vercel.app/cascade.html">
@@ -272,6 +274,7 @@
   </style>
   <link rel="stylesheet" href="glow.css">
   <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="nav.css">
   <style>
     /* cascade.html light-mode section text overrides */
     html[data-theme="light"] #platforms h2,
@@ -296,23 +299,22 @@
        NAVBAR
   ═══════════════════════════════════════════════ -->
   <nav id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
+    <!-- Primary bar -->
     <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
 
       <a href="index.html" aria-label="Pix3l Home" class="shrink-0 focus-visible:outline-2 focus-visible:outline-[#FF1673] focus-visible:outline-offset-4 rounded">
-        <img id="nav-logo" src="assets/logos/logo-meet-dark-white.svg"
-             alt="PIX3L" class="h-7 w-auto">
+        <img id="nav-logo" src="assets/logos/logo-meet-dark-white.svg" alt="PIX3L" class="h-7 w-auto">
       </a>
 
-      <!-- Desktop links -->
+      <!-- Global product links -->
       <div class="hidden lg:flex items-center gap-7">
-        <a href="#overview"  class="nav-link">Overview</a>
-        <a href="#pipeline"  class="nav-link">Pipeline</a>
-        <a href="#agents"    class="nav-link">Agents</a>
-        <a href="#platforms" class="nav-link">Platforms</a>
-        <a href="#contact"   class="nav-link">Contact</a>
+        <a href="cascade.html" class="global-nav-link current">Cascade</a>
+        <a href="crunch.html"  class="global-nav-link">CRUNCH</a>
+        <a href="agents.html"  class="global-nav-link">Agents</a>
+        <a href="viki.html"    class="global-nav-link">VIKI</a>
       </div>
 
-      <!-- Right: toggle 24px left of CTA, hamburger on mobile -->
+      <!-- Right: toggle + CTA + hamburger -->
       <div class="flex items-center gap-6 shrink-0">
         <button id="theme-toggle" aria-label="Switch to light mode">
           <svg id="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -325,8 +327,8 @@
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
           </svg>
         </button>
-        <a href="viki.html" class="hidden lg:inline-flex btn-primary py-2.5 px-5 text-sm">
-          Meet VIKI
+        <a href="agents.html" class="hidden lg:inline-flex btn-primary py-2.5 px-5 text-sm">
+          Meet the Agents
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
         <button id="hamburger" class="lg:hidden flex flex-col gap-[5px] p-2 rounded focus-visible:outline-2 focus-visible:outline-[#FF1673]" aria-label="Toggle menu" aria-expanded="false">
@@ -337,14 +339,31 @@
       </div>
     </div>
 
+    <!-- Subnav bar -->
+    <div id="subnav">
+      <div class="subnav-inner">
+        <a href="#overview"  class="subnav-link">Overview</a>
+        <a href="#pipeline"  class="subnav-link">Pipeline</a>
+        <a href="#agents"    class="subnav-link">Agents</a>
+        <a href="#platforms" class="subnav-link">Platforms</a>
+        <a href="#contact"   class="subnav-link">Contact</a>
+      </div>
+    </div>
+
     <!-- Mobile drawer -->
-    <div id="mobile-drawer" class="hidden lg:hidden flex-col px-6 pb-6 pt-2 gap-3" style="background: rgba(0,6,35,0.97); border-bottom: 1px solid rgba(255,255,255,0.06);">
-      <a href="#overview"  class="nav-link py-3 border-b border-white/8">Overview</a>
-      <a href="#pipeline"  class="nav-link py-3 border-b border-white/8">Pipeline</a>
-      <a href="#agents"    class="nav-link py-3 border-b border-white/8">Agents</a>
-      <a href="#platforms" class="nav-link py-3 border-b border-white/8">Platforms</a>
-      <a href="#contact"   class="nav-link py-3 border-b border-white/8">Contact</a>
-      <a href="viki.html" class="btn-primary mt-3 justify-center">Meet VIKI</a>
+    <div id="mobile-drawer" class="hidden lg:hidden flex-col px-6 pb-5 pt-1 gap-0" style="background: rgba(0,6,35,0.97); border-bottom: 1px solid rgba(255,255,255,0.06);">
+      <p class="drawer-label">Products</p>
+      <a href="cascade.html" class="nav-link py-2.5 border-b border-white/[0.07]">Cascade</a>
+      <a href="crunch.html"  class="nav-link py-2.5 border-b border-white/[0.07]">CRUNCH</a>
+      <a href="agents.html"  class="nav-link py-2.5 border-b border-white/[0.07]">Agents</a>
+      <a href="viki.html"    class="nav-link py-2.5 border-b border-white/[0.07]">VIKI</a>
+      <p class="drawer-label">On this page</p>
+      <a href="#overview"  class="nav-link py-2.5 border-b border-white/[0.07]">Overview</a>
+      <a href="#pipeline"  class="nav-link py-2.5 border-b border-white/[0.07]">Pipeline</a>
+      <a href="#agents"    class="nav-link py-2.5 border-b border-white/[0.07]">Agents</a>
+      <a href="#platforms" class="nav-link py-2.5 border-b border-white/[0.07]">Platforms</a>
+      <a href="#contact"   class="nav-link py-2.5 border-b border-white/[0.07]">Contact</a>
+      <a href="agents.html" class="btn-primary mt-4 justify-center">Meet the Agents</a>
     </div>
   </nav>
 
@@ -356,7 +375,7 @@
 
     <!-- BG layers -->
     <div class="absolute inset-0">
-      <img src="assets/images/backgrounds/agentic-blocks.png" alt="" aria-hidden="true"
+      <img src="assets/images/backgrounds/agentic-blocks.png" alt="" aria-hidden="true" loading="lazy"
            class="w-full h-full object-cover opacity-[0.08]">
       <div class="absolute inset-0 hero-glow"></div>
       <div class="absolute inset-0"
@@ -475,7 +494,7 @@
            style="background: linear-gradient(180deg, #000623 0%, #000947 50%, #000623 100%);">
 
     <div class="absolute inset-0 pointer-events-none">
-      <img src="assets/images/backgrounds/agentic-blocks.png" alt="" aria-hidden="true"
+      <img src="assets/images/backgrounds/agentic-blocks.png" alt="" aria-hidden="true" loading="lazy"
            class="w-full h-full object-cover opacity-[0.11]">
       <div class="absolute inset-0"
            style="background: linear-gradient(to right, #000623 0%, transparent 45%, #000623 100%);"></div>
@@ -616,7 +635,7 @@
 
         <a href="agents/syra.html" class="agent-card reveal" style="transition-delay:.04s; text-decoration:none; display:block;">
           <div class="agent-img-wrap">
-            <img src="assets/cascade/agents/syra.png" alt="Syra — The Conductor">
+            <img src="assets/cascade/agents/syra.png" alt="Syra — The Conductor" loading="lazy">
           </div>
           <div class="p-5">
             <p class="font-mono text-[10px] text-[#FF1673] tracking-widest uppercase mb-1">Orchestration</p>
@@ -627,7 +646,7 @@
 
         <a href="agents/oracle.html" class="agent-card reveal" style="transition-delay:.08s; text-decoration:none; display:block;">
           <div class="agent-img-wrap">
-            <img src="assets/cascade/agents/oracle.png" alt="Oracle — The Empath">
+            <img src="assets/cascade/agents/oracle.png" alt="Oracle — The Empath" loading="lazy">
           </div>
           <div class="p-5">
             <p class="font-mono text-[10px] text-[#FF1635] tracking-widest uppercase mb-1">Ingestion</p>
@@ -638,7 +657,7 @@
 
         <a href="agents/echo.html" class="agent-card reveal" style="transition-delay:.12s; text-decoration:none; display:block;">
           <div class="agent-img-wrap">
-            <img src="assets/cascade/agents/echo.png" alt="Echo — The Linguist">
+            <img src="assets/cascade/agents/echo.png" alt="Echo — The Linguist" loading="lazy">
           </div>
           <div class="p-5">
             <p class="font-mono text-[10px] text-[#A100FF] tracking-widest uppercase mb-1">Copywriting</p>
@@ -649,7 +668,7 @@
 
         <a href="agents/nikola.html" class="agent-card reveal" style="transition-delay:.16s; text-decoration:none; display:block;">
           <div class="agent-img-wrap">
-            <img src="assets/cascade/agents/nikola.png" alt="Nikola — The Visionary">
+            <img src="assets/cascade/agents/nikola.png" alt="Nikola — The Visionary" loading="lazy">
           </div>
           <div class="p-5">
             <p class="font-mono text-[10px] text-[#8599FF] tracking-widest uppercase mb-1">Brand Voice</p>
@@ -660,7 +679,7 @@
 
         <a href="agents/iris.html" class="agent-card reveal" style="transition-delay:.20s; text-decoration:none; display:block;">
           <div class="agent-img-wrap">
-            <img src="assets/cascade/agents/iris.png" alt="Iris — The Framer">
+            <img src="assets/cascade/agents/iris.png" alt="Iris — The Framer" loading="lazy">
           </div>
           <div class="p-5">
             <p class="font-mono text-[10px] text-[#FF1673] tracking-widest uppercase mb-1">Clip Generation</p>
@@ -671,7 +690,7 @@
 
         <a href="agents/davinci.html" class="agent-card reveal" style="transition-delay:.08s; text-decoration:none; display:block;">
           <div class="agent-img-wrap">
-            <img src="assets/cascade/agents/davinci.png" alt="DaVinci — The Alchemist">
+            <img src="assets/cascade/agents/davinci.png" alt="DaVinci — The Alchemist" loading="lazy">
           </div>
           <div class="p-5">
             <p class="font-mono text-[10px] text-[#FF5E08] tracking-widest uppercase mb-1">Thumbnails</p>
@@ -682,7 +701,7 @@
 
         <a href="agents/chronos.html" class="agent-card reveal" style="transition-delay:.12s; text-decoration:none; display:block;">
           <div class="agent-img-wrap">
-            <img src="assets/cascade/agents/chronos.png" alt="Chronos — The Architect of Time">
+            <img src="assets/cascade/agents/chronos.png" alt="Chronos — The Architect of Time" loading="lazy">
           </div>
           <div class="p-5">
             <p class="font-mono text-[10px] text-[#1C8328] tracking-widest uppercase mb-1">Scheduling</p>
@@ -693,7 +712,7 @@
 
         <a href="agents/atlas.html" class="agent-card reveal" style="transition-delay:.16s; text-decoration:none; display:block;">
           <div class="agent-img-wrap">
-            <img src="assets/cascade/agents/atlas.png" alt="Atlas — The Mentor">
+            <img src="assets/cascade/agents/atlas.png" alt="Atlas — The Mentor" loading="lazy">
           </div>
           <div class="p-5">
             <p class="font-mono text-[10px] text-[#FF1635] tracking-widest uppercase mb-1">Publishing</p>
@@ -704,7 +723,7 @@
 
         <a href="agents/nova.html" class="agent-card reveal" style="transition-delay:.20s; text-decoration:none; display:block;">
           <div class="agent-img-wrap">
-            <img src="assets/cascade/agents/nova.png" alt="Nova — The Seer">
+            <img src="assets/cascade/agents/nova.png" alt="Nova — The Seer" loading="lazy">
           </div>
           <div class="p-5">
             <p class="font-mono text-[10px] text-[#A100FF] tracking-widest uppercase mb-1">Analytics</p>
@@ -715,7 +734,7 @@
 
         <a href="viki.html" class="agent-card reveal" style="transition-delay:.24s; text-decoration:none; display:block;">
           <div class="agent-img-wrap">
-            <img src="assets/cascade/agents/viki.png" alt="VIKI">
+            <img src="assets/cascade/agents/viki.png" alt="VIKI" loading="lazy">
           </div>
           <div class="p-5">
             <p class="font-mono text-[10px] text-[#8599FF] tracking-widest uppercase mb-1">Interface</p>
@@ -736,7 +755,7 @@
            style="background: linear-gradient(180deg, #000623 0%, #000947 50%, #000623 100%);">
 
     <div class="absolute inset-0 pointer-events-none">
-      <img src="assets/images/backgrounds/digital-wave.png" alt="" aria-hidden="true"
+      <img src="assets/images/backgrounds/digital-wave.png" alt="" aria-hidden="true" loading="lazy"
            class="w-full h-full object-cover opacity-[0.07]">
       <div class="absolute inset-0"
            style="background: linear-gradient(to right, #000947 0%, transparent 40%, #000947 100%);"></div>
@@ -942,7 +961,7 @@
       <div class="flex flex-col md:flex-row items-center justify-between gap-8">
         <a href="index.html" class="focus-visible:outline-2 focus-visible:outline-[#FF1673] focus-visible:outline-offset-4 rounded">
           <img id="footer-logo" src="assets/logos/logo-meet-dark-white.svg"
-               alt="Pix3l LLC" class="h-7 w-auto opacity-60">
+               alt="Pix3l LLC" class="h-7 w-auto opacity-60" loading="lazy">
         </a>
 
         <div class="flex flex-wrap justify-center gap-6">
@@ -971,47 +990,8 @@
        JAVASCRIPT
   ═══════════════════════════════════════════════ -->
   <script src="theme.js"></script>
+  <script src="nav.js"></script>
   <script>
-    // ── Navbar scroll transparency ──
-    const nav = document.getElementById('navbar');
-    const updateNav = () => {
-      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-      if (window.scrollY > 64) {
-        nav.style.cssText = isLight
-          ? 'background:rgba(242,239,255,0.95);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid rgba(161,0,255,0.10);'
-          : 'background:rgba(0,6,35,0.93);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid rgba(255,255,255,0.06);';
-      } else {
-        nav.style.cssText = 'background:transparent;';
-      }
-    };
-    window.addEventListener('scroll', updateNav, { passive: true });
-    window.initTheme(updateNav);
-
-    // ── Mobile menu ──
-    const hamburger = document.getElementById('hamburger');
-    const drawer    = document.getElementById('mobile-drawer');
-    const h1 = document.getElementById('h1');
-    const h2 = document.getElementById('h2');
-    const h3 = document.getElementById('h3');
-    let open = false;
-
-    hamburger.addEventListener('click', () => {
-      open = !open;
-      hamburger.setAttribute('aria-expanded', open);
-      drawer.classList.toggle('hidden', !open);
-      drawer.classList.toggle('flex',   open);
-      h1.style.transform = open ? 'rotate(45deg) translate(4px,4px)'  : '';
-      h2.style.opacity   = open ? '0' : '1';
-      h3.style.transform = open ? 'rotate(-45deg) translate(4px,-4px)' : '';
-    });
-
-    drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-      open = false;
-      hamburger.setAttribute('aria-expanded', false);
-      drawer.classList.add('hidden'); drawer.classList.remove('flex');
-      h1.style.transform = ''; h2.style.opacity = '1'; h3.style.transform = '';
-    }));
-
     // ── Scroll-reveal (IntersectionObserver) ──
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
