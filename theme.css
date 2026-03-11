@@ -375,6 +375,28 @@ html[data-theme="light"] .platform-pill {
   border-color: rgba(161,0,255,0.14) !important;
 }
 
+/* crunch.html: pipeline steps + stack strip */
+html[data-theme="light"] .pipeline-step-num {
+  background: rgba(161,0,255,0.07) !important;
+  border-color: rgba(161,0,255,0.20) !important;
+  color: #4A55C0 !important;
+}
+html[data-theme="light"] .pipeline-step-name { color: #0D0020 !important; }
+html[data-theme="light"] .pipeline-step-desc { color: #5A5270 !important; }
+html[data-theme="light"] .pipeline-steps-grid::before {
+  background: linear-gradient(to right, rgba(161,0,255,0.05), rgba(161,0,255,0.20), rgba(161,0,255,0.05)) !important;
+}
+html[data-theme="light"] .stack-strip { border-top-color: rgba(161,0,255,0.12) !important; }
+html[data-theme="light"] .stack-chip {
+  background: rgba(255,255,255,0.85) !important;
+  border-color: rgba(161,0,255,0.14) !important;
+  color: #0D0020 !important;
+}
+html[data-theme="light"] .stack-chip:hover {
+  border-color: rgba(161,0,255,0.28) !important;
+  background: rgba(255,255,255,0.97) !important;
+}
+
 /* Suppress dark side-fade overlays inside pipeline and features */
 html[data-theme="light"] #pipeline .absolute img,
 html[data-theme="light"] #features .absolute img { opacity: 0.03 !important; }

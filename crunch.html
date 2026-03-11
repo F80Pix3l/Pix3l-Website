@@ -616,6 +616,127 @@
       color: var(--color-text-secondary);
     }
 
+    /* ── PIPELINE STEPS ── */
+    .pipeline-steps {
+      margin-top: var(--space-16);
+      text-align: center;
+    }
+    .pipeline-steps-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-8);
+    }
+    .pipeline-steps-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0;
+      position: relative;
+    }
+    @media (max-width: 767px) {
+      .pipeline-steps-grid { grid-template-columns: 1fr 1fr; gap: var(--space-6); }
+      .pipeline-steps-grid::before { display: none; }
+    }
+    .pipeline-steps-grid::before {
+      content: '';
+      position: absolute;
+      top: 21px;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(to right, rgba(133,153,255,0.05), rgba(133,153,255,0.3), rgba(133,153,255,0.05));
+      z-index: 0;
+    }
+    .pipeline-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-3);
+      padding: 0 var(--space-3);
+      position: relative;
+      z-index: 1;
+    }
+    .pipeline-step-num {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      background: rgba(133,153,255,0.08);
+      border: 1px solid rgba(133,153,255,0.22);
+      color: var(--vista-blue);
+      flex-shrink: 0;
+    }
+    .pipeline-step-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-text-primary);
+    }
+    .pipeline-step-desc {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+      max-width: 150px;
+    }
+
+    /* ── STACK STRIP ── */
+    .stack-strip {
+      margin-top: var(--space-12);
+      padding-top: var(--space-12);
+      border-top: 1px solid var(--color-border);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-4);
+    }
+    .stack-strip-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-text-secondary);
+      width: 100%;
+      text-align: center;
+      margin-bottom: var(--space-2);
+    }
+    .stack-chip {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: 7px 16px;
+      border-radius: 99px;
+      background: rgba(133,153,255,0.07);
+      border: 1px solid rgba(133,153,255,0.18);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--color-text-primary);
+      transition: border-color 0.2s var(--ease-standard), background 0.2s var(--ease-standard);
+    }
+    .stack-chip:hover {
+      border-color: rgba(133,153,255,0.38);
+      background: rgba(133,153,255,0.12);
+    }
+    .stack-chip-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
     /* ============================================================
        SECTION SHARED
     ============================================================ */
@@ -1309,6 +1430,50 @@
           </div>
 
         </div>
+
+        <!-- Pipeline detail -->
+        <div class="pipeline-steps" data-reveal>
+          <p class="pipeline-steps-label">What happens in between</p>
+          <div class="pipeline-steps-grid">
+            <div class="pipeline-step">
+              <div class="pipeline-step-num">01</div>
+              <span class="pipeline-step-name">Parse</span>
+              <p class="pipeline-step-desc">File loaded into a distributed compute frame. Encoding, delimiter, and column count detected automatically.</p>
+            </div>
+            <div class="pipeline-step">
+              <div class="pipeline-step-num">02</div>
+              <span class="pipeline-step-name">Analyze</span>
+              <p class="pipeline-step-desc">Claude reads every column header and samples each field. Data types, formats, and semantic intent are mapped.</p>
+            </div>
+            <div class="pipeline-step">
+              <div class="pipeline-step-num">03</div>
+              <span class="pipeline-step-name">Normalize</span>
+              <p class="pipeline-step-desc">Dates cast to ISO 8601. Currency stripped to float. Names title-cased. Abbreviations and mixed casing unified.</p>
+            </div>
+            <div class="pipeline-step">
+              <div class="pipeline-step-num">04</div>
+              <span class="pipeline-step-name">Resolve</span>
+              <p class="pipeline-step-desc">Nulls and blanks handled by context. Inferred values are flagged with an asterisk and written to a separate log.</p>
+            </div>
+            <div class="pipeline-step">
+              <div class="pipeline-step-num">05</div>
+              <span class="pipeline-step-name">Audit</span>
+              <p class="pipeline-step-desc">Every transformation is committed to a human-readable change log before the clean file is written to output.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stack -->
+        <div class="stack-strip" data-reveal>
+          <span class="stack-strip-label">Stack</span>
+          <div class="stack-chip"><span class="stack-chip-dot" style="background:#E25A1C;"></span>Apache Spark</div>
+          <div class="stack-chip"><span class="stack-chip-dot" style="background:#0070E0;"></span>Delta Lake</div>
+          <div class="stack-chip"><span class="stack-chip-dot" style="background:#A100FF;"></span>Claude AI</div>
+          <div class="stack-chip"><span class="stack-chip-dot" style="background:#8599FF;"></span>PySpark</div>
+          <div class="stack-chip"><span class="stack-chip-dot" style="background:#3fcf8e;"></span>Delta Sharing</div>
+          <div class="stack-chip"><span class="stack-chip-dot" style="background:#FF1673;"></span>REST API</div>
+        </div>
+
       </div>
     </section>
 
