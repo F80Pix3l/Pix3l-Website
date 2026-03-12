@@ -521,3 +521,108 @@ html[data-theme="light"] .legend-item { color: #5A5270 !important; }
 html[data-theme="light"] .diagram-wrapper {
   background: linear-gradient(180deg, #F2EFFF 0%, #EDE8FF 50%, #EAE4FF 100%) !important;
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   AiX PHILOSOPHY PAGE — Light mode overrides
+══════════════════════════════════════════════════════════════════ */
+
+/* Hero */
+html[data-theme="light"] .aix-hero-bg {
+  background:
+    radial-gradient(ellipse 70% 60% at 80% 20%, rgba(161,0,255,0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 15% 80%, rgba(133,153,255,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse 100% 80% at 50% 0%, rgba(234,228,255,0.8) 0%, transparent 80%),
+    #F2EFFF !important;
+}
+html[data-theme="light"] .aix-hero-grid {
+  background-image: radial-gradient(circle, rgba(161,0,255,0.14) 1px, transparent 1px) !important;
+}
+html[data-theme="light"] .aix-hero-orb-purple {
+  background: radial-gradient(circle, rgba(161,0,255,0.07) 0%, transparent 70%) !important;
+}
+html[data-theme="light"] .aix-hero-orb-blue {
+  background: radial-gradient(circle, rgba(133,153,255,0.06) 0%, transparent 70%) !important;
+}
+html[data-theme="light"] .aix-hero-sub {
+  color: rgba(0,9,71,0.65) !important;
+}
+html[data-theme="light"] .aix-hero-tagline {
+  color: #5A5270 !important;
+}
+html[data-theme="light"] .aix-hero-tagline strong {
+  color: #0D0020 !important;
+}
+html[data-theme="light"] .aix-hero-stats {
+  border-top-color: rgba(161,0,255,0.14) !important;
+}
+html[data-theme="light"] .aix-stat-num {
+  color: #0D0020 !important;
+}
+html[data-theme="light"] .aix-stat-label {
+  color: #7A6A9A !important;
+}
+html[data-theme="light"] .aix-hero-eyebrow {
+  color: #6B00CC !important;
+}
+
+/* Philosophy section */
+html[data-theme="light"] .philosophy-section {
+  background: linear-gradient(180deg, #F2EFFF 0%, #EDE8FF 100%) !important;
+  border-color: rgba(161,0,255,0.12) !important;
+}
+html[data-theme="light"] .philosophy-col-body {
+  color: #5A5270 !important;
+}
+html[data-theme="light"] .philosophy-col-body strong {
+  color: #0D0020 !important;
+}
+
+/* Principles section */
+html[data-theme="light"] .principle-card {
+  background: rgba(255,255,255,0.85) !important;
+  border-color: rgba(161,0,255,0.12) !important;
+  box-shadow: 0 4px 16px rgba(100,60,180,0.07), 0 1px 4px rgba(0,0,0,0.04) !important;
+}
+html[data-theme="light"] .principle-card:hover {
+  background: rgba(255,255,255,0.95) !important;
+  border-color: rgba(161,0,255,0.25) !important;
+  box-shadow: 0 8px 32px rgba(100,60,180,0.12), 0 2px 8px rgba(0,0,0,0.06) !important;
+}
+html[data-theme="light"] .principle-number {
+  color: #9B8AB8 !important;
+}
+html[data-theme="light"] .principle-title {
+  color: #0D0020 !important;
+}
+html[data-theme="light"] .principle-body {
+  color: #5A5270 !important;
+}
+
+/* Research section */
+html[data-theme="light"] .research-section {
+  background: linear-gradient(135deg, rgba(161,0,255,0.05) 0%, #EDE8FF 50%, rgba(133,153,255,0.04) 100%) !important;
+  border-color: rgba(161,0,255,0.12) !important;
+}
+html[data-theme="light"] .research-method-group h4 {
+  color: #6B00CC !important;
+  border-bottom-color: rgba(161,0,255,0.14) !important;
+}
+html[data-theme="light"] .research-method-list li {
+  color: #5A5270 !important;
+}
+
+/* CTA section */
+html[data-theme="light"] .cta-section-heading {
+  color: #0D0020 !important;
+}
+html[data-theme="light"] .cta-section-sub {
+  color: #5A5270 !important;
+}
+
+/* Shared section labels + dividers */
+html[data-theme="light"] .section-heading {
+  color: #0D0020 !important;
+}
+html[data-theme="light"] .section-body {
+  color: #5A5270 !important;
+}
