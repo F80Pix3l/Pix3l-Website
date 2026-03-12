@@ -271,6 +271,116 @@
       .marquee-track { animation: none; }
       .flow-line { animation: none; }
       .btn-primary, .btn-outline, .agent-card, .service-card, .stat-card, .pipeline-card { transition: none; }
+      .hero-v2-wordmark { animation: none; background-position: 0% 50%; }
+      .hero-v2-eyebrow-dot { animation: none; }
+    }
+
+    /* ── HERO v2 (AiX-style) ── */
+    @keyframes gradientShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulseDot {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(255,22,53,0.5); }
+      50%       { box-shadow: 0 0 0 6px rgba(255,22,53,0); }
+    }
+
+    .hero-v2 {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+      padding-block-start: 100px;
+    }
+    .hero-v2-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 80% 20%, rgba(255,22,53,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 15% 80%, rgba(161,0,255,0.10) 0%, transparent 55%),
+        radial-gradient(ellipse 100% 80% at 50% 0%, rgba(0,9,71,0.8) 0%, transparent 80%),
+        #000623;
+    }
+    .hero-v2-image { position: absolute; inset: 0; z-index: 0; }
+    .hero-v2-image img { width: 100%; height: 100%; object-fit: cover; opacity: 0.055; }
+    .hero-v2-grid {
+      position: absolute; inset: 0; z-index: 1;
+      background-image: radial-gradient(circle, rgba(133,153,255,0.18) 1px, transparent 1px);
+      background-size: 36px 36px;
+      mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, black 30%, transparent 100%);
+      pointer-events: none;
+    }
+    .hero-v2-orb-red {
+      position: absolute; top: 15%; right: 8%;
+      width: 360px; height: 360px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,22,53,0.16) 0%, transparent 70%);
+      filter: blur(50px); pointer-events: none;
+    }
+    .hero-v2-orb-purple {
+      position: absolute; bottom: 20%; left: 4%;
+      width: 300px; height: 300px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(161,0,255,0.12) 0%, transparent 70%);
+      filter: blur(40px); pointer-events: none;
+    }
+    .hero-v2-content { position: relative; z-index: 2; }
+    .hero-v2-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: #FF1673; margin-bottom: 24px;
+    }
+    .hero-v2-eyebrow-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #FF1635;
+      animation: pulseDot 2.4s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    .hero-v2-headline { margin-bottom: 32px; }
+    .hero-v2-wordmark {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(4.5rem, 13vw, 10rem);
+      font-weight: 700; letter-spacing: -0.04em; line-height: 0.9;
+      background: linear-gradient(135deg, #FF1635 0%, #FF1673 40%, #A100FF 100%);
+      background-size: 200% 200%;
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientShift 6s cubic-bezier(0.4,0,0.2,1) infinite;
+      display: block;
+    }
+    .hero-v2-sub {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 2.6rem);
+      font-weight: 300; letter-spacing: -0.02em; line-height: 1.2;
+      color: rgba(255,255,255,0.75); display: block;
+    }
+    .hero-v2-tagline {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(1rem, 1.6vw, 1.15rem);
+      color: #A3A3A3; line-height: 1.75;
+      max-width: 560px; margin-bottom: 32px;
+    }
+    .hero-v2-tagline strong { color: #F5F5F5; font-weight: 600; }
+    .hero-v2-actions { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 48px; }
+    .hero-v2-stats {
+      display: flex; flex-wrap: wrap; gap: 32px;
+      padding-top: 32px;
+      border-top: 1px solid rgba(133,153,255,0.15);
+    }
+    .hero-v2-stat { display: flex; flex-direction: column; gap: 2px; }
+    .hero-v2-stat-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; color: #F5F5F5;
+    }
+    .hero-v2-stat-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #A3A3A3;
     }
   </style>
   <link rel="stylesheet" href="glow.css">
@@ -375,55 +485,58 @@
   <!-- ═══════════════════════════════════════════════
        HERO
   ═══════════════════════════════════════════════ -->
-  <section id="hero" class="grain relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
-
-    <!-- BG layers -->
-    <div class="absolute inset-0">
-      <img src="assets/images/backgrounds/agentic-blocks.png" alt="" aria-hidden="true" loading="lazy"
-           class="w-full h-full object-cover opacity-[0.08]">
-      <div class="absolute inset-0 hero-glow"></div>
-      <div class="absolute inset-0"
-           style="background: linear-gradient(to bottom, rgba(0,6,35,0.3) 0%, rgba(0,6,35,0.0) 30%, rgba(0,6,35,0.6) 75%, #000623 100%);"></div>
+  <section id="hero" class="hero-v2" aria-labelledby="cascade-hero-heading">
+    <div class="hero-v2-bg"        aria-hidden="true"></div>
+    <div class="hero-v2-image"     aria-hidden="true">
+      <img src="assets/images/backgrounds/agentic-blocks.png" alt="" loading="lazy">
     </div>
+    <div class="hero-v2-grid"      aria-hidden="true"></div>
+    <div class="hero-v2-orb-red"   aria-hidden="true"></div>
+    <div class="hero-v2-orb-purple" aria-hidden="true"></div>
 
-    <!-- Content -->
-    <div class="relative z-10 text-center px-6 max-w-5xl mx-auto pt-28 pb-20">
+    <div class="hero-v2-content max-w-7xl mx-auto px-6 w-full">
+      <div class="hero-v2-eyebrow" style="animation: fadeUp 0.5s cubic-bezier(0,0,0.2,1) both;">
+        <span class="hero-v2-eyebrow-dot"></span>
+        Pix3l · AI Orchestration
+      </div>
 
+      <div class="hero-v2-headline">
+        <span class="hero-v2-wordmark" id="cascade-hero-heading" style="animation: fadeUp 0.5s cubic-bezier(0,0,0.2,1) 0.08s both;">Cascade.</span>
+        <span class="hero-v2-sub" style="animation: fadeUp 0.5s cubic-bezier(0,0,0.2,1) 0.16s both;">One Pipeline. Every Platform.</span>
+      </div>
 
-      <!-- Label -->
-      <p class="reveal label mb-4" style="transition-delay:.10s;">Pix3l AI Product</p>
-
-      <!-- Headline -->
-      <h1 class="reveal font-display font-bold text-[clamp(2.2rem,6vw,4.6rem)] tracking-[-0.03em] leading-[1.06] mb-6"
-          style="transition-delay:.16s;">
-        One Pipeline.<br>
-        <span class="gradient-text">Ten AI Agents.</span><br>
-        Every Platform.
-      </h1>
-
-      <!-- Sub-copy -->
-      <p class="reveal text-white text-lg sm:text-xl leading-[1.72] max-w-2xl mx-auto mb-10"
-         style="transition-delay:.24s;">
-        Cascade transforms long-form video into optimized short-form content across YouTube, Instagram, TikTok, Facebook, and LinkedIn. Automatically, intelligently, at scale.
+      <p class="hero-v2-tagline" style="animation: fadeUp 0.5s cubic-bezier(0,0,0.2,1) 0.24s both;">
+        <strong>10 AI agents. 5 platforms.</strong> Cascade transforms long-form video into optimized short-form content across YouTube, Instagram, TikTok, Facebook, and LinkedIn, automatically, intelligently, at scale.
       </p>
 
-      <!-- CTAs -->
-      <div class="reveal flex flex-wrap gap-4 justify-center" style="transition-delay:.32s;">
-        <a href="cascade-architecture.html" class="btn-primary text-base px-7 py-3.5">
+      <div class="hero-v2-actions" style="animation: fadeUp 0.5s cubic-bezier(0,0,0.2,1) 0.32s both;">
+        <a href="cascade-architecture.html" class="btn-primary" style="font-size: 15px; padding: 14px 28px; min-height: 52px; border-radius: 12px;">
           See the Architecture
           <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 7.5h11M8.5 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a href="#agents" class="btn-outline text-base px-7 py-3.5">
+        <a href="#agents" class="btn-outline" style="font-size: 15px; padding: 14px 28px; min-height: 52px; border-radius: 12px;">
           Meet the Agents
           <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2 7.5h11M8.5 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
       </div>
-    </div>
 
-    <!-- Scroll indicator -->
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2" aria-hidden="true">
-      <div style="width:24px; height:38px; border:1.5px solid rgba(255,255,255,0.2); border-radius:12px; display:flex; justify-content:center; padding-top:6px;">
-        <div style="width:4px; height:8px; background:rgba(255,255,255,0.4); border-radius:2px; animation: scrollDot 2s ease-in-out infinite;"></div>
+      <div class="hero-v2-stats" style="animation: fadeUp 0.5s cubic-bezier(0,0,0.2,1) 0.40s both;">
+        <div class="hero-v2-stat">
+          <span class="hero-v2-stat-num">10</span>
+          <span class="hero-v2-stat-label">AI Agents</span>
+        </div>
+        <div class="hero-v2-stat">
+          <span class="hero-v2-stat-num">5</span>
+          <span class="hero-v2-stat-label">Platforms</span>
+        </div>
+        <div class="hero-v2-stat">
+          <span class="hero-v2-stat-num">8</span>
+          <span class="hero-v2-stat-label">Pipeline Stages</span>
+        </div>
+        <div class="hero-v2-stat">
+          <span class="hero-v2-stat-num">∞</span>
+          <span class="hero-v2-stat-label">Brand Memory</span>
+        </div>
       </div>
     </div>
   </section>

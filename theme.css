@@ -310,18 +310,27 @@ html[data-theme="light"] #hero .absolute.bottom-8 > div > div { background: rgba
    Chained gradients: each section end-color = next section start-color
 ══════════════════════════════════════════════════════════ */
 
-/* Hero: hide bg image, replace dark glow, replace dark overlay */
-html[data-theme="light"] #hero > .absolute:first-child img { opacity: 0 !important; }
-html[data-theme="light"] #hero .hero-glow {
+/* cascade.html — Hero v2 light mode */
+html[data-theme="light"] .hero-v2-bg {
   background:
-    radial-gradient(ellipse 80% 70% at 20% 10%,  rgba(161,0,255,0.12) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 55% at 80% 80%,  rgba(133,153,255,0.10) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 40% at 50% 40%,  rgba(255,22,53,0.05) 0%, transparent 60%) !important;
+    radial-gradient(ellipse 70% 60% at 80% 20%, rgba(255,22,53,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 15% 80%, rgba(161,0,255,0.06) 0%, transparent 55%),
+    radial-gradient(ellipse 100% 80% at 50% 0%, rgba(234,228,255,0.8) 0%, transparent 80%),
+    #F2EFFF !important;
 }
-html[data-theme="light"] #hero .absolute[style*="linear-gradient(to bottom"] {
-  background: linear-gradient(to bottom, transparent 0%, transparent 20%, rgba(242,239,255,0.5) 50%, #F2EFFF 68%, #F2EFFF 100%) !important;
-  opacity: 1 !important;
+html[data-theme="light"] .hero-v2-image img { opacity: 0 !important; }
+html[data-theme="light"] .hero-v2-grid {
+  background-image: radial-gradient(circle, rgba(161,0,255,0.15) 1px, transparent 1px) !important;
 }
+html[data-theme="light"] .hero-v2-orb-red    { background: radial-gradient(circle, rgba(255,22,53,0.07) 0%, transparent 70%) !important; }
+html[data-theme="light"] .hero-v2-orb-purple { background: radial-gradient(circle, rgba(161,0,255,0.07) 0%, transparent 70%) !important; }
+html[data-theme="light"] .hero-v2-eyebrow    { color: #CC0055 !important; }
+html[data-theme="light"] .hero-v2-sub        { color: rgba(0,9,71,0.65) !important; }
+html[data-theme="light"] .hero-v2-tagline    { color: #5A5270 !important; }
+html[data-theme="light"] .hero-v2-tagline strong { color: #0D0020 !important; }
+html[data-theme="light"] .hero-v2-stats      { border-top-color: rgba(255,22,53,0.12) !important; }
+html[data-theme="light"] .hero-v2-stat-num   { color: #0D0020 !important; }
+html[data-theme="light"] .hero-v2-stat-label { color: #7A6A9A !important; }
 
 /* Section chain: hero fades to #F2EFFF, then flows into visible lavender */
 html[data-theme="light"] #overview  { background: linear-gradient(180deg, #F2EFFF 0%, #E4DCFF 55%, #DDD8FF 100%) !important; }
