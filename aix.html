@@ -230,9 +230,9 @@
       inset: 0;
       z-index: 0;
       background:
-        radial-gradient(ellipse 70% 60% at 80% 20%, rgba(161,0,255,0.14) 0%, transparent 60%),
-        radial-gradient(ellipse 50% 50% at 15% 80%, rgba(133,153,255,0.10) 0%, transparent 55%),
-        radial-gradient(ellipse 100% 80% at 50% 0%, rgba(0,9,71,0.8) 0%, transparent 80%),
+        radial-gradient(ellipse 70% 60% at 80% 20%, rgba(161,0,255,0.13) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 50% at 15% 80%, rgba(133,153,255,0.09) 0%, transparent 60%),
+        radial-gradient(ellipse 110% 90% at 50% 0%, rgba(0,9,71,0.45) 0%, transparent 85%),
         var(--dark-navy);
     }
 
@@ -378,14 +378,14 @@
       font-family: var(--font-mono);
       font-size: 11px;
       font-weight: 500;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--purple);
       margin-bottom: var(--space-4);
     }
     .section-heading {
       font-family: var(--font-display);
-      font-size: clamp(2rem, 4vw, 3rem);
+      font-size: clamp(2rem, 4.5vw, 3.5rem);
       font-weight: 700;
       letter-spacing: -0.03em;
       line-height: 1.15;
@@ -411,7 +411,7 @@
        PHILOSOPHY INTRO
     ============================================================ */
     .philosophy-section {
-      background: linear-gradient(180deg, #000623 0%, #000830 50%, #000C44 100%);
+      background: linear-gradient(180deg, #000623 0%, #000726 12%, #000830 30%, #000A3A 50%, #000C44 65%, #000A3A 80%, #000830 90%, #000623 100%);
       position: relative;
       overflow: hidden;
     }
@@ -464,7 +464,7 @@
     ============================================================ */
     .principles-section {
       position: relative;
-      background: linear-gradient(180deg, #000C44 0%, #000E52 35%, #000C44 70%, #000830 100%);
+      background: linear-gradient(180deg, #000623 0%, #000830 12%, #000C44 28%, #000E52 50%, #000C44 72%, #000830 88%, #000623 100%);
     }
     .principles-section::before {
       content: '';
@@ -575,73 +575,6 @@
     .card-pinky   .principle-icon { background: rgba(255,22,115,0.10);  border-color: rgba(255,22,115,0.22); }
     .card-red     .principle-icon { background: rgba(255,22,53,0.10);   border-color: rgba(255,22,53,0.22); }
 
-    /* ============================================================
-       RESEARCH CALLOUT
-    ============================================================ */
-    .research-section {
-      background: linear-gradient(180deg, #000830 0%, #000D3D 40%, #000947 70%, #000623 100%);
-      position: relative;
-      overflow: hidden;
-    }
-    .research-section::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 50% 100% at 0% 50%, rgba(161,0,255,0.08) 0%, transparent 60%);
-      pointer-events: none;
-    }
-
-    .research-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: var(--space-12);
-      align-items: center;
-    }
-    @media (min-width: 768px) {
-      .research-grid { grid-template-columns: 1fr 1fr; gap: var(--space-16); }
-    }
-
-    .research-method-cols {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-6);
-    }
-
-    .research-method-group h4 {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--vista-blue);
-      margin-bottom: var(--space-3);
-      padding-bottom: var(--space-2);
-      border-bottom: 1px solid var(--color-border);
-    }
-
-    .research-method-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-2);
-    }
-    .research-method-list li {
-      font-family: var(--font-body);
-      font-size: var(--text-sm);
-      color: var(--color-text-secondary);
-      display: flex;
-      align-items: center;
-      gap: var(--space-2);
-    }
-    .research-method-list li::before {
-      content: '';
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--purple);
-      flex-shrink: 0;
-      opacity: 0.6;
-    }
 
     /* ============================================================
        CTA SECTION
@@ -651,6 +584,7 @@
       overflow: hidden;
       padding-block: var(--space-24);
       text-align: center;
+      background: linear-gradient(180deg, #000623 0%, #000830 35%, #000623 100%);
     }
     .cta-section::before {
       content: '';
@@ -664,7 +598,7 @@
 
     .cta-section-heading {
       font-family: var(--font-display);
-      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-size: clamp(2.2rem, 5vw, 4rem);
       font-weight: 700;
       letter-spacing: -0.04em;
       line-height: 1.1;
@@ -740,7 +674,6 @@
         </button>
         <a href="mailto:trey@pix3l.co" class="hidden lg:inline-flex btn btn-primary" style="padding: 10px 20px; min-height: unset; font-size: 14px;">
           Let's Talk
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
         <button id="hamburger" class="lg:hidden flex flex-col gap-[5px] p-2 rounded" aria-label="Toggle menu" aria-expanded="false" style="background:none;border:none;cursor:pointer;">
           <span id="h1" class="block w-6 h-[2px] bg-white rounded-full origin-center transition-transform duration-300"></span>
@@ -754,7 +687,6 @@
       <div class="subnav-inner">
         <a href="#philosophy" class="subnav-link">Philosophy</a>
         <a href="#principles"  class="subnav-link">Principles</a>
-        <a href="#research"    class="subnav-link">Research</a>
         <a href="#contact"     class="subnav-link">Contact</a>
       </div>
     </div>
@@ -769,7 +701,6 @@
       <p class="drawer-label">On this page</p>
       <a href="#philosophy" class="nav-link py-2.5 border-b border-white/[0.07]">Philosophy</a>
       <a href="#principles"  class="nav-link py-2.5 border-b border-white/[0.07]">Principles</a>
-      <a href="#research"    class="nav-link py-2.5 border-b border-white/[0.07]">Research</a>
       <a href="#contact"     class="nav-link py-2.5 border-b border-white/[0.07]">Contact</a>
       <a href="mailto:trey@pix3l.co" class="btn btn-primary mt-4 justify-center" style="display:flex;">Let's Talk</a>
     </div>
@@ -824,10 +755,6 @@
           <div class="aix-stat-item">
             <span class="aix-stat-num">AI</span>
             <span class="aix-stat-label">Ready</span>
-          </div>
-          <div class="aix-stat-item">
-            <span class="aix-stat-num">Research</span>
-            <span class="aix-stat-label">Grounded</span>
           </div>
         </div>
       </div>
@@ -997,72 +924,11 @@
       </div>
     </section>
 
-    <!-- ══════════════════════════════════════════════
-         RESEARCH
-    ══════════════════════════════════════════════ -->
-    <section class="research-section section" id="research" aria-labelledby="research-heading">
-      <div class="container" style="position: relative; z-index: 1;">
-        <div class="research-grid">
-
-          <div>
-            <p class="section-label" data-reveal>Research Grounded</p>
-            <div class="accent-divider" data-reveal></div>
-            <h2 class="section-heading" id="research-heading" data-reveal>
-              Grounded in insight,<br>growing with intelligence.
-            </h2>
-            <p class="section-body" data-reveal style="margin-bottom: var(--space-6);">
-              My AiX principles are rooted in research, not the dry, textbook kind, but the hands-on kind that uncovers real-world needs, trust factors, and adoption barriers.
-            </p>
-            <p class="section-body" data-reveal style="margin-bottom: var(--space-8);">
-              I've guided hundreds of digital projects, using modern testing methods to reveal insights you won't get from assumptions alone. Most projects benefit from a blend of approaches, and it's often the combination that delivers the clearest picture of your users.
-            </p>
-            <div data-reveal>
-              <a href="mailto:trey@pix3l.co" class="btn btn-purple">
-                Discuss Research
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </a>
-            </div>
-          </div>
-
-          <div data-reveal>
-            <div class="research-method-cols">
-              <div class="research-method-group">
-                <h4>Attitudinal</h4>
-                <ul class="research-method-list">
-                  <li>Concept Testing</li>
-                  <li>Focus Groups</li>
-                  <li>User Interviews</li>
-                  <li>Card Sorting</li>
-                  <li>Intercept Surveys</li>
-                  <li>Desirability Studies</li>
-                  <li>Participatory Design</li>
-                  <li>Customer Feedback</li>
-                </ul>
-              </div>
-              <div class="research-method-group">
-                <h4>Behavioral</h4>
-                <ul class="research-method-list">
-                  <li>Eye Tracking</li>
-                  <li>A/B Testing</li>
-                  <li>Usability Testing</li>
-                  <li>Journey Mapping</li>
-                  <li>User Personas</li>
-                  <li>Clickstream Analysis</li>
-                  <li>Unmoderated Studies</li>
-                  <li>Ethnographic Field</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
 
     <!-- ══════════════════════════════════════════════
          CTA
     ══════════════════════════════════════════════ -->
-    <section class="cta-section" id="contact-cta" aria-labelledby="cta-heading">
+    <section class="cta-section" id="contact-cta" style="padding-block-start: calc(var(--space-24) + var(--space-16));" aria-labelledby="cta-heading">
       <div class="container" style="position: relative; z-index: 1;">
         <p class="section-label" style="display: block; text-align: center; margin-bottom: var(--space-4);" data-reveal>Let's Connect</p>
         <h2 class="cta-section-heading" id="cta-heading" data-reveal>Want to chat?</h2>
@@ -1096,13 +962,12 @@
 
         <div class="flex flex-wrap justify-center gap-6">
           <a href="#principles"  class="nav-link text-[13px]">Principles</a>
-          <a href="#research"    class="nav-link text-[13px]">Research</a>
           <a href="bio.html"     class="nav-link text-[13px]">About Trey</a>
           <a href="index.html"   class="nav-link text-[13px]">Pix3l LLC</a>
         </div>
 
         <div class="text-center md:text-right">
-          <a href="mailto:trey@pix3l.co" class="text-[#FF1673] text-sm transition-colors duration-200 hover:text-[#FF1635]">trey@pix3l.co</a>
+          <a href="mailto:trey@pix3l.co" class="text-[#FF1673] text-sm transition-colors duration-200 hover:text-[#FF1635]" style="font-family:'Space Grotesk',sans-serif;font-weight:500;letter-spacing:-0.005em;">trey@pix3l.co</a>
         </div>
       </div>
 

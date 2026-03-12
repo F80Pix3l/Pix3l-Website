@@ -217,9 +217,7 @@ html[data-theme="light"] .agent-nav-card:hover {
   border-color: rgba(161,0,255,0.25) !important;
 }
 html[data-theme="light"] .cap-pill {
-  background: rgba(13,0,32,0.05) !important;
-  border-color: rgba(13,0,32,0.12) !important;
-  color: rgba(13,0,32,0.55) !important;
+  color: #FF1673 !important;
 }
 
 /* Tailwind text-white utility overrides for light mode */
@@ -287,6 +285,22 @@ html[data-theme="light"] header .relative.z-10 p { color: #2A1840 !important; }
 
 /* Note: #contact white-text override is handled per-page in index.html
    since only that page's #contact has a near-opaque dark image overlay. */
+
+/* ── AiX philosophy section (index.html #aix) ── */
+html[data-theme="light"] #aix .grid.grid-cols-2 > div.rounded-xl {
+  background: rgba(255,255,255,0.75) !important;
+  border-color: rgba(161,0,255,0.16) !important;
+  box-shadow: 0 4px 16px rgba(161,0,255,0.07), 0 1px 4px rgba(0,0,0,0.04) !important;
+}
+html[data-theme="light"] #aix .grid.grid-cols-2 > div.col-span-2 {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+html[data-theme="light"] #aix .grid.grid-cols-2 > div .w-8 {
+  background: rgba(161,0,255,0.10) !important;
+}
+html[data-theme="light"] #aix .font-display.font-semibold { color: #0D0020 !important; }
+html[data-theme="light"] #aix .font-mono.text-\[\#A3A3A3\] { color: #5A5270 !important; }
 
 /* Agent avatar ring borders */
 html[data-theme="light"] .border-\[\#000623\] { border-color: #F2EFFF !important; }
@@ -638,3 +652,86 @@ html[data-theme="light"] .section-heading {
 html[data-theme="light"] .section-body {
   color: #5A5270 !important;
 }
+
+/* ═══════════════════════════════════════════════
+   viki.html — light mode
+═══════════════════════════════════════════════ */
+
+/* Section gradient chain: hero (#F2EFFF) → who → features → how-it-works → tech-stack → contact → team */
+html[data-theme="light"] #who-is-viki  { background: linear-gradient(180deg, #F2EFFF 0%, #EDE8FF 55%, #E8E2FF 100%) !important; }
+html[data-theme="light"] #features     { background: linear-gradient(180deg, #E8E2FF 0%, #E4DCFF 50%, #E8E2FF 100%) !important; }
+html[data-theme="light"] #how-it-works { background: linear-gradient(180deg, #E8E2FF 0%, #EDE8FF 55%, #EDE8FF 100%) !important; }
+html[data-theme="light"] #tech-stack   { background: linear-gradient(180deg, #EDE8FF 0%, #E8E2FF 50%, #E4DCFF 100%) !important; }
+html[data-theme="light"] #contact      { background: linear-gradient(180deg, #E4DCFF 0%, #DDD8FF 40%, #E4DCFF 100%) !important; }
+html[data-theme="light"] #team         { background: linear-gradient(180deg, #E4DCFF 0%, #EDE8FF 55%, #F2EFFF 100%) !important; }
+html[data-theme="light"] footer[style*="000623"] { background: #F2EFFF !important; border-top-color: rgba(161,0,255,0.10) !important; }
+
+/* Suppress dark radial glow overlays in each section */
+html[data-theme="light"] #who-is-viki  .absolute,
+html[data-theme="light"] #features     .absolute[style*="radial-gradient"],
+html[data-theme="light"] #how-it-works .absolute[style*="radial-gradient"],
+html[data-theme="light"] #tech-stack   .absolute[style*="radial-gradient"],
+html[data-theme="light"] #contact      .absolute[style*="radial-gradient"] { opacity: 0.04 !important; }
+
+/* Text: headings + body */
+html[data-theme="light"] #who-is-viki h2,
+html[data-theme="light"] #who-is-viki p:not([class*="cap-pill"]) { color: #0D0020 !important; }
+html[data-theme="light"] #who-is-viki [style*="rgba(255,255,255,0.45)"] { color: #5A5270 !important; }
+
+html[data-theme="light"] #features h2,
+html[data-theme="light"] #features h3,
+html[data-theme="light"] #features p:not([class*="cap-pill"]) { color: #0D0020 !important; }
+
+html[data-theme="light"] #how-it-works h2,
+html[data-theme="light"] #how-it-works h3,
+html[data-theme="light"] #how-it-works p { color: #0D0020 !important; }
+
+html[data-theme="light"] #tech-stack h2,
+html[data-theme="light"] #tech-stack p { color: #0D0020 !important; }
+
+html[data-theme="light"] #contact h2,
+html[data-theme="light"] #contact p { color: #0D0020 !important; }
+
+html[data-theme="light"] #team h2,
+html[data-theme="light"] #team h3,
+html[data-theme="light"] #team p { color: #0D0020 !important; }
+
+/* Feature cards */
+html[data-theme="light"] .feature-card {
+  background: rgba(255,255,255,0.75) !important;
+  border-color: rgba(161,0,255,0.15) !important;
+  box-shadow: 0 4px 24px rgba(100,60,180,0.09), 0 1px 6px rgba(0,0,0,0.04) !important;
+}
+html[data-theme="light"] .feature-card:hover {
+  border-color: rgba(161,0,255,0.30) !important;
+  background: rgba(255,255,255,0.92) !important;
+  box-shadow: 0 10px 40px rgba(100,60,180,0.13), 0 2px 8px rgba(0,0,0,0.05) !important;
+}
+html[data-theme="light"] .feature-card h3 { color: #0D0020 !important; }
+html[data-theme="light"] .feature-card p  { color: #5A5270 !important; }
+
+/* Workflow cards (how-it-works) */
+html[data-theme="light"] .workflow-card {
+  background: rgba(255,255,255,0.80) !important;
+  border-color: rgba(161,0,255,0.14) !important;
+  box-shadow: 0 4px 20px rgba(100,60,180,0.08), 0 1px 4px rgba(0,0,0,0.04) !important;
+}
+html[data-theme="light"] .workflow-card p { color: #0D0020 !important; }
+html[data-theme="light"] .workflow-card p:last-child { color: #5A5270 !important; }
+html[data-theme="light"] .flow-num { color: rgba(161,0,255,0.5) !important; }
+
+/* Tech chips */
+html[data-theme="light"] .tech-chip {
+  background: rgba(255,255,255,0.80) !important;
+  border-color: rgba(161,0,255,0.14) !important;
+  box-shadow: 0 3px 12px rgba(100,60,180,0.07), 0 1px 4px rgba(0,0,0,0.04) !important;
+}
+html[data-theme="light"] .tech-chip p { color: #0D0020 !important; }
+html[data-theme="light"] .tech-chip p:last-child { color: #5A5270 !important; }
+
+/* Footer text */
+html[data-theme="light"] footer .text-\[\#A3A3A3\],
+html[data-theme="light"] footer [style*="color:#A3A3A3"],
+html[data-theme="light"] footer [style*="opacity:0.6"] { color: #5A5270 !important; opacity: 1 !important; }
+html[data-theme="light"] footer a { color: #5A5270 !important; }
+html[data-theme="light"] footer a:hover { color: #0D0020 !important; }
