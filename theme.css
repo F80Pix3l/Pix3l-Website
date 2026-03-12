@@ -448,3 +448,76 @@ html[data-theme="light"] .subnav-link.active { color: #FF1673 !important; }
 
 /* ── Mobile drawer section label ── */
 html[data-theme="light"] .drawer-label { color: rgba(13,0,32,0.35) !important; }
+
+/* ══════════════════════════════════════════════════════════
+   CASCADE-ARCHITECTURE.HTML — light mode
+══════════════════════════════════════════════════════════ */
+
+/* Hero background: swap dark base for lavender */
+html[data-theme="light"] .arch-hero-bg {
+  background:
+    radial-gradient(ellipse 70% 60% at 80% 20%, rgba(161,0,255,0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 15% 80%, rgba(255,22,53,0.06) 0%, transparent 55%),
+    radial-gradient(ellipse 100% 80% at 50% 0%, rgba(234,228,255,0.7) 0%, transparent 80%),
+    #F2EFFF !important;
+}
+
+/* Dot grid: use purple dots like crunch hero-grid */
+html[data-theme="light"] .arch-hero-grid {
+  background-image: radial-gradient(circle, rgba(161,0,255,0.15) 1px, transparent 1px) !important;
+}
+
+/* Orbs: reduce intensity for light bg */
+html[data-theme="light"] .arch-hero-orb-red {
+  background: radial-gradient(circle, rgba(255,22,53,0.07) 0%, transparent 70%) !important;
+}
+html[data-theme="light"] .arch-hero-orb-purple {
+  background: radial-gradient(circle, rgba(161,0,255,0.07) 0%, transparent 70%) !important;
+}
+
+/* Badge pill */
+html[data-theme="light"] .arch-hero-badge {
+  border-color: rgba(161,0,255,0.22) !important;
+  background: rgba(161,0,255,0.05) !important;
+  color: #6B00CC !important;
+}
+html[data-theme="light"] .arch-hero-badge-divider {
+  background: rgba(161,0,255,0.22) !important;
+}
+
+/* Tagline strong */
+html[data-theme="light"] .arch-hero-tagline strong { color: #0D0020 !important; }
+
+/* Stats bar */
+html[data-theme="light"] .arch-hero-stats { border-top-color: rgba(161,0,255,0.12) !important; }
+html[data-theme="light"] .arch-stat-num   { color: #0D0020 !important; }
+
+/* Diagram nodes */
+html[data-theme="light"] .node,
+html[data-theme="light"] .output-node {
+  background: rgba(255,255,255,0.88) !important;
+  border-color: rgba(161,0,255,0.12) !important;
+  box-shadow: 0 4px 16px rgba(100,60,180,0.07), 0 1px 4px rgba(0,0,0,0.04) !important;
+}
+html[data-theme="light"] .node:hover,
+html[data-theme="light"] .output-node:hover {
+  border-color: rgba(161,0,255,0.28) !important;
+  box-shadow: 0 8px 28px rgba(100,60,180,0.11) !important;
+}
+html[data-theme="light"] .node-title { color: #0D0020 !important; }
+html[data-theme="light"] .node-sub   { color: #5A5270 !important; }
+
+/* Arrow connectors */
+html[data-theme="light"] .arrow-label {
+  background: #F2EFFF !important;
+  border-color: rgba(161,0,255,0.14) !important;
+  color: #5A5270 !important;
+}
+
+/* Legend */
+html[data-theme="light"] .legend-item { color: #5A5270 !important; }
+
+/* Diagram wrapper background flow */
+html[data-theme="light"] .diagram-wrapper {
+  background: linear-gradient(180deg, #F2EFFF 0%, #EDE8FF 50%, #EAE4FF 100%) !important;
+}

@@ -73,10 +73,7 @@
     color: var(--color-text-primary);
     font-family: var(--font-display);
     min-height: 100vh;
-    padding: 120px var(--space-6) var(--space-8);
-    background-image:
-      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(161, 0, 255, 0.12) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 40% at 90% 80%, rgba(255, 22, 53, 0.07) 0%, transparent 55%);
+    padding: 0;
   }
 
   /* ── BUTTONS ── */
@@ -123,35 +120,168 @@
       radial-gradient(ellipse 50% 60% at 90% 30%, rgba(133,153,255,0.06) 0%, transparent 60%);
   }
 
-  /* ─── HEADER ─────────────────────────────── */
-  .header {
-    text-align: center;
-    margin-bottom: 96px;
-    animation: fadeUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+  /* ─── HERO ──────────────────────────────── */
+  .arch-hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    padding-block-start: 100px;
+    padding-inline: var(--space-6);
   }
-  .brand-tag {
+  .arch-hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 80% 20%, rgba(161,0,255,0.14) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 15% 80%, rgba(255,22,53,0.10) 0%, transparent 55%),
+      radial-gradient(ellipse 100% 80% at 50% 0%, rgba(0,9,71,0.8) 0%, transparent 80%),
+      #000623;
+  }
+  .arch-hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(133,153,255,0.16) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, black 30%, transparent 100%);
+    pointer-events: none;
+  }
+  .arch-hero-orb-red {
+    position: absolute;
+    top: 15%; right: 8%;
+    width: 360px; height: 360px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,22,53,0.14) 0%, transparent 70%);
+    filter: blur(48px);
+    pointer-events: none;
+  }
+  .arch-hero-orb-purple {
+    position: absolute;
+    bottom: 20%; left: 5%;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(161,0,255,0.12) 0%, transparent 70%);
+    filter: blur(40px);
+    pointer-events: none;
+  }
+  .arch-hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .arch-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 16px;
+    border: 1px solid rgba(133,153,255,0.3);
+    border-radius: 99px;
+    background: rgba(133,153,255,0.06);
+    margin-bottom: var(--space-8);
     font-family: var(--font-mono);
     font-size: 11px;
-    letter-spacing: 0.18em;
+    font-weight: 500;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--blue);
-    margin-bottom: var(--space-3);
   }
-  .brand-tag span { color: var(--red); }
-  .header h1 {
-    font-size: clamp(28px, 4vw, 48px);
+  .arch-hero-badge-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--red);
+    box-shadow: 0 0 8px rgba(255,22,53,0.8);
+    animation: badgePulse 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  .arch-hero-badge-divider {
+    width: 1px; height: 12px;
+    background: rgba(133,153,255,0.3);
+  }
+  .arch-hero-headline {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 11vw, 9rem);
     font-weight: 700;
+    line-height: 0.92;
     letter-spacing: -0.03em;
-    line-height: 1.1;
-    margin-bottom: var(--space-3);
+    margin-bottom: var(--space-8);
   }
-  .header h1 em {
-    font-style: normal;
-    background: linear-gradient(90deg, var(--red), var(--pink));
+  .arch-hero-wordmark {
+    display: block;
+    background: linear-gradient(135deg, #FF1635 0%, #A100FF 60%, #FF1673 100%);
+    background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    animation: gradientShift 6s ease infinite;
   }
+  .arch-hero-sub {
+    display: block;
+    font-size: clamp(1.4rem, 4vw, 3rem);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    color: var(--color-text-secondary);
+    margin-top: var(--space-3);
+  }
+  .arch-hero-tagline {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1rem, 1.8vw, 1.2rem);
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+    max-width: 540px;
+    margin-bottom: var(--space-12);
+  }
+  .arch-hero-tagline strong { color: var(--color-text-primary); font-weight: 600; }
+  .arch-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    align-items: center;
+    margin-bottom: var(--space-12);
+  }
+  .arch-hero-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-8);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+  }
+  .arch-stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .arch-stat-num {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--color-text-primary);
+    line-height: 1;
+  }
+  .arch-stat-num span {
+    font-size: 1.2rem;
+    color: var(--red);
+    font-weight: 500;
+  }
+  .arch-stat-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+  }
+
+  /* ── DIAGRAM WRAPPER ── */
+  .diagram-wrapper {
+    padding: var(--space-16) var(--space-6) var(--space-8);
+  }
+
+  /* old .header styles — kept for compat */
   .header p {
     font-size: 14px;
     color: var(--color-text-secondary);
@@ -389,6 +519,7 @@
     gap: var(--space-4);
     justify-content: center;
     margin-top: var(--space-8);
+    padding-bottom: var(--space-16);
     animation: fadeUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.5s both;
   }
   .legend-item {
@@ -409,6 +540,15 @@
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(14px); }
     to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes gradientShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  @keyframes badgePulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,22,53,0.5); }
+    50%       { box-shadow: 0 0 0 6px rgba(255,22,53,0); }
   }
   @media (prefers-reduced-motion: reduce) {
     * { animation: none !important; transition: none !important; }
@@ -491,14 +631,66 @@
   </div>
 </nav>
 
-<!-- HEADER -->
-<header class="header">
-  <p class="brand-tag">Pix<span>3</span>l / CASCADE</p>
-  <h1>Intelligent AI Agent System<br><em>End-to-End Architecture</em></h1>
-  <p>Content Ingestion &rarr; Processing &rarr; Voice-Aligned Output &rarr; Multi-Platform Publishing</p>
-</header>
+<!-- HERO -->
+<section class="arch-hero" aria-labelledby="arch-hero-heading">
+  <div class="arch-hero-bg" aria-hidden="true"></div>
+  <div class="arch-hero-grid" aria-hidden="true"></div>
+  <div class="arch-hero-orb-red" aria-hidden="true"></div>
+  <div class="arch-hero-orb-purple" aria-hidden="true"></div>
 
+  <div class="arch-hero-content">
+
+    <h1 class="arch-hero-headline" id="arch-hero-heading" style="animation: fadeUp 0.5s cubic-bezier(0.4,0,0.2,1) 0.05s both;">
+      <span class="arch-hero-wordmark">CASCADE.</span>
+      <span class="arch-hero-sub">End-to-End Architecture</span>
+    </h1>
+
+    <p class="arch-hero-tagline" style="animation: fadeUp 0.5s cubic-bezier(0.4,0,0.2,1) 0.2s both;">
+      <strong>7 intelligent layers.</strong> One seamless pipeline from raw content ingestion to multi-platform publishing, powered by specialized AI agents at every stage.
+    </p>
+
+    <div class="arch-hero-actions" style="animation: fadeUp 0.5s cubic-bezier(0.4,0,0.2,1) 0.28s both;">
+      <a href="#diagram" class="btn-primary px-8 py-3.5 text-base">
+        Explore the Diagram
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 1v12M3 10l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="cascade.html" class="btn-outline px-8 py-3.5 text-base">
+        Back to Cascade
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+
+    <div class="arch-hero-stats" style="animation: fadeUp 0.5s cubic-bezier(0.4,0,0.2,1) 0.36s both;" aria-label="Architecture statistics">
+      <div class="arch-stat-item">
+        <span class="arch-stat-num">7<span> layers</span></span>
+        <span class="arch-stat-label">Processing stages</span>
+      </div>
+      <div class="arch-stat-item">
+        <span class="arch-stat-num">10<span>+</span></span>
+        <span class="arch-stat-label">AI agents</span>
+      </div>
+      <div class="arch-stat-item">
+        <span class="arch-stat-num">5<span>+</span></span>
+        <span class="arch-stat-label">Platforms supported</span>
+      </div>
+      <div class="arch-stat-item">
+        <span class="arch-stat-num">1<span>×</span></span>
+        <span class="arch-stat-label">Content in, all formats out</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="diagram-wrapper" id="diagram">
 <main class="diagram" role="main" aria-label="Cascade system architecture diagram">
+
+  <!-- ── DIAGRAM INTRO ── -->
+  <div style="max-width: 720px; margin-bottom: var(--space-8); animation: fadeUp 0.5s cubic-bezier(0.4,0,0.2,1) both;">
+    <p style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--pink); margin-bottom: var(--space-3);">System Overview</p>
+    <h2 style="font-family: var(--font-display); font-size: clamp(1.5rem, 2.5vw, 2.2rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: var(--space-3); color: var(--color-text-primary);">How Cascade processes<br>content, end to end.</h2>
+    <p style="font-family: 'Inter', sans-serif; font-size: 14px; color: var(--color-text-secondary); line-height: 1.7; max-width: 600px;">Each row represents a processing layer. Data flows top to bottom through 7 stages: raw content enters at the top and exits as fully formatted, platform-ready posts. Colored labels on the left identify each layer's role.</p>
+  </div>
 
   <!-- ── LAYER 1: INGESTION ────────────────── -->
   <div class="row" aria-label="Layer 1: Content Ingestion">
@@ -850,7 +1042,6 @@
   </div>
 
 </main>
-
 <!-- LEGEND -->
 <div class="legend" aria-label="Layer legend">
   <div class="legend-item"><div class="legend-dot" style="background: var(--red);"></div>Ingestion Layer</div>
@@ -861,6 +1052,8 @@
   <div class="legend-item"><div class="legend-dot" style="background: #2ecc40;"></div>Multi-Platform Publishing</div>
   <div class="legend-item"><div class="legend-dot" style="background: var(--blue);"></div>Analytics &amp; Feedback</div>
 </div>
+
+</div><!-- /.diagram-wrapper -->
 
 
 <!-- ════════════════════════════════════════════════
