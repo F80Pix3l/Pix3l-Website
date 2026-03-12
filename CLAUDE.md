@@ -77,6 +77,7 @@ All assets live in `assets/` relative to the project root. Never use placeholder
 
 | Asset | Path |
 |---|---|
+| Favicon | `favicon.svg` — always include `<link rel="icon" type="image/svg+xml" href="favicon.svg">` in every page `<head>` |
 | Logo (dark bg, with tagline) | `assets/logos/logo-digital-works-white.svg` |
 | Logo (dark bg, no tagline) | `assets/logos/logo-meet-dark-white.svg` |
 | Hero background | `assets/images/hero/welcome-hero.png` |
