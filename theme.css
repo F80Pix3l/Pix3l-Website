@@ -567,8 +567,7 @@ html[data-theme="light"] .aix-hero-eyebrow {
 
 /* Philosophy section */
 html[data-theme="light"] .philosophy-section {
-  background: linear-gradient(180deg, #F2EFFF 0%, #EDE8FF 100%) !important;
-  border-color: rgba(161,0,255,0.12) !important;
+  background: linear-gradient(180deg, #F2EFFF 0%, #EDE8FF 50%, #E8E2FF 100%) !important;
 }
 html[data-theme="light"] .philosophy-col-body {
   color: #5A5270 !important;
@@ -598,10 +597,14 @@ html[data-theme="light"] .principle-body {
   color: #5A5270 !important;
 }
 
+/* Principles section */
+html[data-theme="light"] .principles-section {
+  background: linear-gradient(180deg, #E8E2FF 0%, #E4DCFF 35%, #E8E2FF 70%, #EDE8FF 100%) !important;
+}
+
 /* Research section */
 html[data-theme="light"] .research-section {
-  background: linear-gradient(135deg, rgba(161,0,255,0.05) 0%, #EDE8FF 50%, rgba(133,153,255,0.04) 100%) !important;
-  border-color: rgba(161,0,255,0.12) !important;
+  background: linear-gradient(180deg, #EDE8FF 0%, #E8E2FF 40%, #EDE8FF 70%, #F2EFFF 100%) !important;
 }
 html[data-theme="light"] .research-method-group h4 {
   color: #6B00CC !important;
