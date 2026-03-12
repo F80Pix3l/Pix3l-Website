@@ -133,20 +133,8 @@
     .red-rule { width: 44px; height: 3px; background: linear-gradient(90deg, #FF1635, #FF1673); border-radius: 2px; }
 
     /* ── HERO ── */
-    .hero-bg-img {
-      position: absolute; inset: 0; z-index: 0;
-      background-image: url('assets/images/bio/pix3l-bio-hero.jpg');
-      background-size: cover; background-position: center top;
-    }
-    .hero-overlay {
-      position: absolute; inset: 0; z-index: 1;
-      background: linear-gradient(
-        180deg,
-        rgba(0,6,35,0.72) 0%,
-        rgba(0,6,35,0.82) 55%,
-        rgba(0,6,35,0.97) 100%
-      );
-    }
+    .hero-bg-img { display: none; }
+    .hero-overlay { display: none; }
 
     /* ── PORTRAIT ── */
     .portrait-ring {
@@ -266,9 +254,7 @@
     /* Footer */
     html[data-theme="light"] footer { background: #EDE8FF !important; border-top-color: rgba(161,0,255,0.10) !important; }
 
-    /* Hero: strip photo + overlay, show light purple gradient matching other pages */
-    html[data-theme="light"] #hero .hero-bg-img { background-image: none !important; }
-    html[data-theme="light"] #hero .hero-overlay { background: none !important; }
+    /* Hero: light mode gradient matching other pages */
     html[data-theme="light"] #hero {
       background:
         radial-gradient(ellipse 70% 60% at 80% 20%, rgba(161,0,255,0.09) 0%, transparent 60%),
