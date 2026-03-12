@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cascade Architecture | Pix3l</title>
+  <meta name="description" content="End-to-end architecture of Cascade, Pix3l's AI agent pipeline for automated social video production.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://pix3l.io/cascade-architecture">
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://pix3l.io/cascade-architecture">
+  <meta property="og:title"       content="Cascade Architecture | Pix3l">
+  <meta property="og:description" content="End-to-end architecture of Cascade, Pix3l's AI agent pipeline for automated social video production.">
+  <meta property="og:image"       content="https://pix3l.io/assets/images/hero/welcome-hero.png">
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Cascade Architecture | Pix3l">
+  <meta name="twitter:description" content="End-to-end architecture of Cascade, Pix3l's AI agent pipeline for automated social video production.">
+  <meta name="twitter:image"       content="https://pix3l.io/assets/images/hero/welcome-hero.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'big-red':      '#FF1635',
+            'pinky':        '#FF1673',
+            'purple-spark': '#A100FF',
+            'vista-blue':   '#8599FF',
+            'navy':         '#000947',
+            'dark-navy':    '#000623',
+            'night':        '#0A0A0A',
+            'silver':       '#A3A3A3',
+          },
+          fontFamily: {
+            display: ['Space Grotesk', 'sans-serif'],
+            body:    ['Inter', 'sans-serif'],
+            mono:    ['JetBrains Mono', 'monospace'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" href="glow.css">
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="nav.css">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── GRAIN ── */
+    .grain::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.028; pointer-events: none; z-index: 2;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #000623; }
+    ::-webkit-scrollbar-thumb { background: #000947; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #FF1635; }
+
+    /* ── SHADOWS ── */
+    .shadow-card { box-shadow: 0 8px 40px rgba(0,9,71,0.7), 0 2px 10px rgba(0,0,0,0.5); }
+    .shadow-red   { box-shadow: 0 4px 24px rgba(255,22,53,0.28), 0 1px 6px rgba(255,22,53,0.12); }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 26px;
+      background: linear-gradient(135deg, #FF1635, #FF1673);
+      color: #fff;
+      font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: -0.01em;
+      border-radius: 8px; border: none; cursor: pointer; text-decoration: none;
+      box-shadow: 0 4px 22px rgba(255,22,53,0.32), 0 1px 4px rgba(255,22,53,0.14);
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease, opacity 0.15s ease;
+    }
+    .btn-primary:hover  { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(255,22,53,0.42), 0 2px 8px rgba(255,22,53,0.2); }
+    .btn-primary:active { transform: translateY(0); opacity: 0.88; }
+    .btn-primary:focus-visible { outline: 2px solid #FF1673; outline-offset: 3px; }
+
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 26px;
+      background: transparent; color: #fff;
+      font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 14px;
+      border: 1.5px solid rgba(133,153,255,0.35); border-radius: 8px;
+      text-decoration: none; cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), border-color 0.2s ease, background 0.2s ease;
+    }
+    .btn-outline:hover  { transform: translateY(-2px); border-color: rgba(133,153,255,0.75); background: rgba(133,153,255,0.07); }
+    .btn-outline:active { transform: translateY(0); }
+    .btn-outline:focus-visible { outline: 2px solid #8599FF; outline-offset: 3px; }
+
+    /* ── NAV LINK ── */
+    .nav-link {
+      font-family: 'Space Grotesk', sans-serif; font-size: 13.5px; font-weight: 500;
+      color: rgba(255,255,255,0.65); text-decoration: none;
+      position: relative; letter-spacing: -0.005em;
+      transition: color 0.2s ease;
+    }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -3px; left: 0; width: 0; height: 2px;
+      background: #FF1635; border-radius: 1px; transition: width 0.25s ease;
+    }
+    .nav-link:hover { color: #fff; }
+    .nav-link:hover::after { width: 100%; }
+    .nav-link:focus-visible { outline: 2px solid #FF1673; outline-offset: 4px; border-radius: 2px; }
+
+    /* ── DIAGRAM ── */
+    :root {
+      --color-bg:             #000623;
+      --color-surface:        #000947;
+      --color-surface-2:      #000E52;
+      --color-border:         rgba(133,153,255,0.15);
+      --color-border-bright:  rgba(133,153,255,0.35);
+      --color-text-primary:   #F5F5F5;
+      --color-text-secondary: #A3A3A3;
+
+      --red:    #FF1635;
+      --pink:   #FF1673;
+      --purple: #A100FF;
+      --blue:   #8599FF;
+      --orange: #FF5E08;
+      --green:  #1C8328;
+
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body:    'Inter', sans-serif;
+      --font-mono:    'JetBrains Mono', monospace;
+
+      --radius: 8px;
+      --radius-lg: 14px;
+
+      --space-1: 4px;  --space-2: 8px;  --space-3: 12px;
+      --space-4: 16px; --space-6: 24px; --space-8: 32px;
+      --space-12: 48px; --space-16: 64px;
+    }
+
+    /* ── HEADER ── */
+    .arch-header {
+      text-align: center;
+      padding: calc(var(--space-16) + 64px) var(--space-6) calc(var(--space-16) * 2);
+      animation: fadeUp 0.5s cubic-bezier(0.4,0,0.2,1) both;
+    }
+    .label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #FF1673;
+    }
+    .red-rule { width: 44px; height: 3px; background: linear-gradient(90deg, #FF1635, #FF1673); border-radius: 2px; }
+    .arch-header h1 {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4vw, 52px);
+      font-weight: 700; letter-spacing: -0.03em; line-height: 1.08;
+      margin-bottom: var(--space-3);
+    }
+    .arch-header h1 em {
+      font-style: normal;
+      background: linear-gradient(90deg, var(--red), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .arch-header p {
+      font-family: var(--font-mono);
+      font-size: 13px; color: var(--color-text-secondary); letter-spacing: 0.04em;
+    }
+
+    /* ── DIAGRAM SHELL ── */
+    .diagram {
+      max-width: 1200px; margin: 0 auto var(--space-16);
+      padding: 0 var(--space-6);
+      display: flex; flex-direction: column; gap: var(--space-4);
+    }
+
+    /* ── ROW ── */
+    .row {
+      display: flex; align-items: stretch; gap: var(--space-4);
+      animation: fadeUp 0.5s cubic-bezier(0.4,0,0.2,1) both;
+    }
+    .row:nth-child(1) { animation-delay: 0.05s; }
+    .row:nth-child(2) { animation-delay: 0.12s; }
+    .row:nth-child(3) { animation-delay: 0.19s; }
+    .row:nth-child(4) { animation-delay: 0.26s; }
+    .row:nth-child(5) { animation-delay: 0.33s; }
+    .row:nth-child(6) { animation-delay: 0.40s; }
+    .row:nth-child(7) { animation-delay: 0.47s; }
+
+    /* ── LAYER LABEL ── */
+    .layer-label {
+      writing-mode: vertical-rl; text-orientation: mixed;
+      transform: rotate(180deg);
+      font-family: var(--font-mono); font-size: 10px;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--color-text-secondary);
+      min-width: 32px; display: flex; align-items: center; justify-content: center;
+      border-left: 2px solid var(--color-border);
+      padding-left: var(--space-2); flex-shrink: 0;
+    }
+    .layer-label.red    { border-color: var(--red);    color: var(--red); }
+    .layer-label.purple { border-color: var(--purple); color: var(--purple); }
+    .layer-label.blue   { border-color: var(--blue);   color: var(--blue); }
+    .layer-label.pink   { border-color: var(--pink);   color: var(--pink); }
+    .layer-label.orange { border-color: var(--orange); color: var(--orange); }
+    .layer-label.green  { border-color: var(--green);  color: var(--green); }
+
+    /* ── NODES ── */
+    .nodes { display: flex; gap: var(--space-4); flex: 1; align-items: stretch; }
+
+    .node {
+      flex: 1;
+      background: linear-gradient(140deg, rgba(0,14,82,0.85) 0%, rgba(0,9,71,0.65) 100%);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4);
+      position: relative; overflow: hidden;
+      box-shadow: 0 6px 28px rgba(0,0,0,0.45), 0 2px 8px rgba(0,0,0,0.3);
+      transition: border-color 0.25s cubic-bezier(0.4,0,0.2,1), transform 0.25s cubic-bezier(0.4,0,0.2,1), box-shadow 0.25s ease;
+      cursor: default;
+    }
+    .node:hover {
+      transform: translateY(-3px);
+      border-color: var(--color-border-bright);
+      box-shadow: 0 14px 48px rgba(0,0,0,0.55), 0 4px 14px rgba(0,0,0,0.35);
+    }
+    .node:focus-visible { outline: 2px solid var(--pink); outline-offset: 3px; }
+
+    .node-accent {
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px; border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+    .node.red    .node-accent { background: linear-gradient(90deg, var(--red), var(--pink)); }
+    .node.purple .node-accent { background: linear-gradient(90deg, var(--purple), var(--blue)); }
+    .node.blue   .node-accent { background: linear-gradient(90deg, var(--blue), rgba(133,153,255,0.3)); }
+    .node.pink   .node-accent { background: linear-gradient(90deg, var(--pink), var(--orange)); }
+    .node.orange .node-accent { background: linear-gradient(90deg, var(--orange), var(--red)); }
+    .node.green  .node-accent { background: linear-gradient(90deg, var(--green), #2ecc40); }
+
+    .node-icon   { font-size: 20px; margin-bottom: var(--space-2); display: block; }
+    .node-title  { font-family: var(--font-display); font-size: 13px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: var(--space-1); line-height: 1.2; }
+    .node-sub    { font-family: var(--font-mono); font-size: 10px; color: var(--color-text-secondary); letter-spacing: 0.04em; line-height: 1.5; }
+    .node-tags   { display: flex; flex-wrap: wrap; gap: var(--space-1); margin-top: var(--space-3); }
+
+    .tag {
+      font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 2px 7px; border-radius: 4px; border: 1px solid;
+    }
+    .tag.red    { color: var(--red);    border-color: rgba(255,22,53,0.4);   background: rgba(255,22,53,0.08); }
+    .tag.purple { color: var(--purple); border-color: rgba(161,0,255,0.4);   background: rgba(161,0,255,0.08); }
+    .tag.blue   { color: var(--blue);   border-color: rgba(133,153,255,0.4); background: rgba(133,153,255,0.08); }
+    .tag.pink   { color: var(--pink);   border-color: rgba(255,22,115,0.4);  background: rgba(255,22,115,0.08); }
+    .tag.orange { color: var(--orange); border-color: rgba(255,94,8,0.4);    background: rgba(255,94,8,0.08); }
+    .tag.green  { color: #2ecc40;       border-color: rgba(46,204,64,0.4);   background: rgba(46,204,64,0.08); }
+
+    /* ── ARROW CONNECTOR ── */
+    .connector { display: flex; justify-content: center; align-items: center; padding: 0 0 0 36px; gap: var(--space-4); }
+    .connector-line { flex: 1; display: flex; align-items: center; justify-content: center; gap: var(--space-3); position: relative; }
+    .arrow-down { display: flex; flex-direction: column; align-items: center; gap: 2px; flex: 1; }
+    .arrow-shaft { width: 1px; height: 16px; background: linear-gradient(to bottom, var(--color-border), var(--color-border-bright)); }
+    .arrow-head  { width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 7px solid var(--color-border-bright); }
+    .arrow-label {
+      font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--color-text-secondary); padding: 2px 8px;
+      border: 1px solid var(--color-border); border-radius: 20px;
+      background: var(--color-bg); white-space: nowrap;
+    }
+
+    /* ── WIDE NODE ── */
+    .node.wide { flex: 2; }
+
+    /* ── SECTION TITLE ── */
+    .section-title {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--color-text-secondary); text-align: center;
+      padding: var(--space-2) 0; margin-left: 36px;
+      border-bottom: 1px dashed var(--color-border); margin-bottom: var(--space-2);
+    }
+
+    /* ── OUTPUT GRID ── */
+    .output-nodes {
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      gap: var(--space-3); flex: 1;
+    }
+    .output-node {
+      background: linear-gradient(140deg, rgba(0,14,82,0.85) 0%, rgba(0,9,71,0.65) 100%);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-3); text-align: center;
+      position: relative; overflow: hidden;
+      box-shadow: 0 6px 28px rgba(0,0,0,0.45), 0 2px 8px rgba(0,0,0,0.3);
+      transition: border-color 0.25s cubic-bezier(0.4,0,0.2,1), transform 0.25s cubic-bezier(0.4,0,0.2,1), box-shadow 0.25s ease;
+    }
+    .output-node:hover {
+      transform: translateY(-3px);
+      border-color: var(--color-border-bright);
+      box-shadow: 0 14px 48px rgba(0,0,0,0.55), 0 4px 14px rgba(0,0,0,0.35);
+    }
+    .output-node .node-accent { position: absolute; top: 0; left: 0; right: 0; height: 2px; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+    .output-node .node-icon  { font-size: 22px; margin-bottom: var(--space-2); display: block; }
+    .output-node .node-title { font-family: var(--font-display); font-size: 12px; font-weight: 700; margin-bottom: 2px; }
+    .output-node .node-sub   { font-family: var(--font-mono); font-size: 9px; color: var(--color-text-secondary); }
+
+    /* ── LEGEND ── */
+    .legend {
+      display: flex; flex-wrap: wrap; gap: var(--space-4);
+      justify-content: center;
+      padding: var(--space-8) var(--space-6) var(--space-12);
+      animation: fadeUp 0.5s cubic-bezier(0.4,0,0.2,1) 0.5s both;
+    }
+    .legend-item { display: flex; align-items: center; gap: var(--space-2); font-family: var(--font-mono); font-size: 11px; color: var(--color-text-secondary); }
+    .legend-dot  { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── REDUCED MOTION ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      .output-nodes { grid-template-columns: repeat(3, 1fr); }
+      .row { flex-wrap: wrap; }
+      .layer-label { writing-mode: horizontal-tb; transform: none; min-width: auto; border-left: none; border-bottom: 2px solid; padding-left: 0; padding-bottom: var(--space-1); }
+      .nodes { flex-wrap: wrap; }
+      .node { min-width: 140px; }
+    }
+
+    /* ── LIGHT MODE OVERRIDES ── */
+    html[data-theme="light"] .node,
+    html[data-theme="light"] .output-node {
+      background: linear-gradient(140deg, rgba(255,255,255,0.92) 0%, rgba(245,242,255,0.85) 100%) !important;
+      border-color: rgba(161,0,255,0.12) !important;
+      box-shadow: 0 4px 20px rgba(13,0,32,0.08), 0 1px 4px rgba(13,0,32,0.06) !important;
+    }
+    html[data-theme="light"] .node:hover,
+    html[data-theme="light"] .output-node:hover {
+      border-color: rgba(255,22,115,0.25) !important;
+      box-shadow: 0 10px 36px rgba(13,0,32,0.12), 0 2px 8px rgba(13,0,32,0.08) !important;
+    }
+    html[data-theme="light"] .node-title { color: #0D0020; }
+    html[data-theme="light"] .node-sub   { color: #5A5270; }
+    html[data-theme="light"] .arch-header h1 { color: #0D0020; }
+    html[data-theme="light"] .arch-header p  { color: #5A5270; }
+    html[data-theme="light"] .label { color: #A100FF; }
+    html[data-theme="light"] .arrow-label { background: #F2EFFF; color: #5A5270; border-color: rgba(161,0,255,0.15); }
+    html[data-theme="light"] .arrow-shaft { background: linear-gradient(to bottom, rgba(161,0,255,0.15), rgba(161,0,255,0.35)); }
+    html[data-theme="light"] .arrow-head  { border-top-color: rgba(161,0,255,0.35); }
+    html[data-theme="light"] .legend-item { color: #5A5270; }
+    html[data-theme="light"] .section-title { color: #5A5270; border-bottom-color: rgba(161,0,255,0.15); }
+  </style>
+</head>
+<body class="bg-[#000623] text-white font-body overflow-x-hidden">
+
+  <!-- ═══════════════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════════════ -->
+  <nav id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
+
+      <a href="index.html" aria-label="Pix3l Home" class="shrink-0 focus-visible:outline-2 focus-visible:outline-[#FF1673] focus-visible:outline-offset-4 rounded">
+        <img id="nav-logo" src="assets/logos/logo-meet-dark-white.svg" alt="PIX3L" class="h-7 w-auto">
+      </a>
+
+      <div class="hidden lg:flex items-center gap-7">
+        <a href="cascade.html" class="global-nav-link current">Cascade</a>
+        <a href="crunch.html"  class="global-nav-link">CRUNCH</a>
+        <a href="agents.html"  class="global-nav-link">Agents</a>
+        <a href="viki.html"    class="global-nav-link">VIKI</a>
+        <a href="bio.html"     class="global-nav-link">Founder</a>
+      </div>
+
+      <div class="flex items-center gap-6 shrink-0">
+        <button id="theme-toggle" aria-label="Switch to light mode">
+          <svg id="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <svg id="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+        <a href="cascade.html" class="hidden lg:inline-flex btn-primary py-2.5 px-5 text-sm">
+          Back to Cascade
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <button id="hamburger" class="lg:hidden flex flex-col gap-[5px] p-2 rounded focus-visible:outline-2 focus-visible:outline-[#FF1673]" aria-label="Toggle menu" aria-expanded="false">
+          <span id="h1" class="block w-6 h-[2px] bg-white rounded-full origin-center transition-transform duration-300"></span>
+          <span id="h2" class="block w-6 h-[2px] bg-white rounded-full transition-opacity duration-300"></span>
+          <span id="h3" class="block w-6 h-[2px] bg-white rounded-full origin-center transition-transform duration-300"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div id="mobile-drawer" class="hidden lg:hidden flex-col px-6 pb-5 pt-1 gap-0" style="background: rgba(0,6,35,0.97); border-bottom: 1px solid rgba(255,255,255,0.06);">
+      <p class="drawer-label">Products</p>
+      <a href="cascade.html" class="nav-link py-2.5 border-b border-white/[0.07]">Cascade</a>
+      <a href="crunch.html"  class="nav-link py-2.5 border-b border-white/[0.07]">CRUNCH</a>
+      <a href="agents.html"  class="nav-link py-2.5 border-b border-white/[0.07]">Agents</a>
+      <a href="viki.html"    class="nav-link py-2.5 border-b border-white/[0.07]">VIKI</a>
+      <a href="bio.html"     class="nav-link py-2.5 border-b border-white/[0.07]">Founder</a>
+      <a href="cascade.html" class="btn-primary mt-4 justify-center">Back to Cascade</a>
+    </div>
+  </nav>
+
+
+  <!-- ═══════════════════════════════════════════════
+       HERO HEADER
+  ═══════════════════════════════════════════════ -->
+  <div class="grain relative overflow-hidden" style="background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(161,0,255,0.14) 0%, transparent 60%), radial-gradient(ellipse 60% 40% at 90% 80%, rgba(255,22,53,0.08) 0%, transparent 55%), radial-gradient(ellipse 50% 60% at 10% 60%, rgba(133,153,255,0.07) 0%, transparent 55%);">
+    <header class="arch-header">
+      <p class="label mb-3">Pix3l / Cascade</p>
+      <div class="red-rule mx-auto mb-7"></div>
+      <h1>Intelligent AI Agent System<br><em>End-to-End Architecture</em></h1>
+      <p>Content Ingestion &rarr; Processing &rarr; Voice-Aligned Output &rarr; Multi-Platform Publishing</p>
+    </header>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       ARCHITECTURE DIAGRAM
+  ═══════════════════════════════════════════════ -->
+  <main class="diagram" role="main" aria-label="Cascade system architecture diagram">
+
+    <!-- ── LAYER 1: INGESTION ── -->
+    <div class="row" aria-label="Layer 1: Content Ingestion">
+      <div class="layer-label red">Ingestion</div>
+      <div class="nodes">
+        <div class="node red">
+          <div class="node-accent"></div>
+          <span class="node-icon" role="img" aria-label="camera">🎬</span>
+          <div class="node-title">Raw Video Input</div>
+          <div class="node-sub">Long-form video upload<br>or live recording feed</div>
+          <div class="node-tags">
+            <span class="tag red">MP4 / MOV</span>
+            <span class="tag red">4K / HD</span>
+            <span class="tag red">Upload API</span>
+          </div>
+        </div>
+        <div class="node red">
+          <div class="node-accent"></div>
+          <span class="node-icon" role="img" aria-label="microphone">🎙️</span>
+          <div class="node-title">Audio Extraction</div>
+          <div class="node-sub">Stereo / mono audio strip<br>Noise reduction pass</div>
+          <div class="node-tags">
+            <span class="tag red">WAV / AAC</span>
+            <span class="tag red">FFmpeg</span>
+          </div>
+        </div>
+        <div class="node red">
+          <div class="node-accent"></div>
+          <span class="node-icon" role="img" aria-label="document">📄</span>
+          <div class="node-title">Transcript Generation</div>
+          <div class="node-sub">Speech-to-text via Whisper<br>Speaker diarization</div>
+          <div class="node-tags">
+            <span class="tag red">Whisper API</span>
+            <span class="tag red">SRT / VTT</span>
+          </div>
+        </div>
+        <div class="node red">
+          <div class="node-accent"></div>
+          <span class="node-icon" role="img" aria-label="metadata">🔖</span>
+          <div class="node-title">Metadata Intake</div>
+          <div class="node-sub">Creator profile, voice config<br>Brand settings, topic tags</div>
+          <div class="node-tags">
+            <span class="tag red">JSON Config</span>
+            <span class="tag red">Voice Profile</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CONNECTOR 1→2 ── -->
+    <div class="connector" aria-hidden="true">
+      <div class="connector-line">
+        <div class="arrow-down"><div class="arrow-shaft"></div><div class="arrow-head"></div></div>
+        <span class="arrow-label">Raw media + transcript + metadata</span>
+        <div class="arrow-down"><div class="arrow-shaft"></div><div class="arrow-head"></div></div>
+      </div>
+    </div>
+
+    <!-- ── LAYER 2: AI PROCESSING CORE ── -->
+    <div class="row" aria-label="Layer 2: AI Processing Core">
+      <div class="layer-label purple">AI Core</div>
+      <div class="nodes">
+        <div class="node purple wide">
+          <div class="node-accent"></div>
+          <span class="node-icon" role="img" aria-label="brain">🧠</span>
+          <div class="node-title">Claude AI Orchestrator</div>
+          <div class="node-sub">Central intelligence layer. Reads transcript + voice profile.<br>Directs all downstream agent tasks via structured prompts.</div>
+          <div class="node-tags">
+            <span class="tag purple">Anthropic API</span>
+            <span class="tag purple">Claude Sonnet</span>
+            <span class="tag purple">Prompt Chaining</span>
+            <span class="tag purple">Tool Use</span>
+          </div>
+        </div>
+        <div class="node purple">
+          <div class="node-accent"></div>
+          <span class="node-icon" role="img" aria-label="scissors">✂️</span>
+          <div class="node-title">Clip Intelligence</div>
+          <div class="node-sub">Identifies high-signal<br>moments for short-form cuts</div>
+          <div class="node-tags">
+            <span class="tag purple">Timestamp Map</span>
+            <span class="tag purple">Hook Detection</span>
+          </div>
+        </div>
+        <div class="node purple">
+          <div class="node-accent"></div>
+          <span class="node-icon" role="img" aria-label="pen">✍️</span>
+          <div class="node-title">Voice-Aligned Copywriter</div>
+          <div class="node-sub">Captions, hooks, CTAs<br>matched to creator voice</div>
+          <div class="node-tags">
+            <span class="tag purple">Voice Profile</span>
+            <span class="tag purple">Platform Rules</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CONNECTOR 2→3 ── -->
+    <div class="connector" aria-hidden="true">
+      <div class="connector-line">
+        <div class="arrow-down"><div class="arrow-shaft"></div><div class="arrow-head"></div></div>
+        <span class="arrow-label">Clip timestamps + copy + directives</span>
+        <div class="arrow-down"><div class="arrow-shaft"></div><div class="arrow-head"></div></div>
+      </div>
+    </div>
+
+    <!-- ── LAYER 3: MEDIA PRODUCTION ── -->
+    <div class="row" aria-label="Layer 3: Media Production">
+      <div class="layer-label blue">Production</div>
+      <div class="nodes">
+        <div class="node blue">
+          <div class="node-accent"></div>
+          <span class="node-icon" role="img" aria-label="video">🎞️</span>
+          <div class="node-title">Video Clipper Agent</div>
+          <div class="node-sub">Cuts and encodes clips<br>per AI timestamp map</div>
+          <div class="node-tags">
+            <span class="tag blue">FFmpeg</span>
+            <span class="tag blue">H.264 / AV1</span>
+          </div>
+        </div>
+        <div class="node blue">
+          <div class="node-accent"></div>
+          <span class="node-icon" role="img" aria-label="caption">💬</span>
+          <div class="node-title">Caption Renderer</div>
+          <div class="node-sub">Burn-in subtitles<br>Animated word-by-word</div>
+          <div class="node-tags">
+            <span class="tag blue">SRT Burn</span>
+            <span class="tag blue">Motion Type</span>
+          </div>
+        </div>
+        <div class="node blue">
+          <div class="node-accent"></div>
+          <span class="node-icon" role="img" aria-label="image">🖼️</span>
+          <div class="node-title">Thumbnail Generator</div>
+          <div class="node-sub">Frame extraction + AI<br>composition + brand overlay</div>
+          <div class="node-tags">
+            <span class="tag blue">Frame Pick</span>
+            <span class="tag blue">Brand Kit</span>
+            <span class="tag blue">PNG / WEBP</span>
+          </div>
+        </div>
+        <div class="node blue">
+          <div class="node-accent"></div>
+          <span class="node-icon" role="img" aria-label="format">📐</span>
+          <div class="node-title">Format Adapter</div>
+          <div class="node-sub">Resizes and crops per<br>platform aspect ratios</div>
+          <div class="node-tags">
+            <span class="tag blue">9:16 / 16:9</span>
+            <span class="tag blue">1:1 / 4:5</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CONNECTOR 3→4 ── -->
+    <div class="connector" aria-hidden="true">
+      <div class="connector-line">
+        <div class="arrow-down"><div class="arrow-shaft"></div><div class="arrow-head"></div></div>
+        <span class="arrow-label">Finished clips + thumbnails + formatted copy</span>
+        <div class="arrow-down"><div class="arrow-shaft"></div><div class="arrow-head"></div></div>
+      </div>
+    </div>
+
+    <!-- ── LAYER 4: COPY & PACKAGING ── -->
+    <div class="row" aria-label="Layer 4: Copy and Packaging">
+      <div class="layer-label pink">Packaging</div>
+      <div class="nodes">
+        <div class="node pink">
+          <div class="node-accent"></div>
+          <span class="node-icon" role="img" aria-label="hash">🏷️</span>
+          <div class="node-title">Hashtag + SEO Engine</div>
+          <div class="node-sub">Platform-specific tags<br>Trending + evergreen mix</div>
+          <div class="node-tags">
+            <span class="tag pink">TikTok SEO</span>
+            <span class="tag pink">YT Keywords</span>
+          </div>
+        </div>
+        <div class="node pink">
+          <div class="node-accent"></div>
+          <span class="node-icon" role="img" aria-label="pencil">📝</span>
+          <div class="node-title">Post Copy Formatter</div>
+          <div class="node-sub">Platform-native captions<br>Hook + body + CTA</div>
+          <div class="node-tags">
+            <span class="tag pink">Per-Platform</span>
+            <span class="tag pink">Char Limits</span>
+          </div>
+        </div>
+        <div class="node pink">
+          <div class="node-accent"></div>
+          <span class="node-icon" role="img" aria-label="bundle">📦</span>
+          <div class="node-title">Content Bundle</div>
+          <div class="node-sub">Final asset package per<br>platform, ready to publish</div>
+          <div class="node-tags">
+            <span class="tag pink">Asset Map</span>
+            <span class="tag pink">Manifest JSON</span>
+          </div>
+        </div>
+        <div class="node pink">
+          <div class="node-accent"></div>
+          <span class="node-icon" role="img" aria-label="review">👁️</span>
+          <div class="node-title">Human Review Gate</div>
+          <div class="node-sub">Optional approval step<br>Edit, approve, or reject</div>
+          <div class="node-tags">
+            <span class="tag pink">Dashboard UI</span>
+            <span class="tag pink">Webhook Trigger</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CONNECTOR 4→5 ── -->
+    <div class="connector" aria-hidden="true">
+      <div class="connector-line">
+        <div class="arrow-down"><div class="arrow-shaft"></div><div class="arrow-head"></div></div>
+        <span class="arrow-label">Approved bundles dispatched to scheduler</span>
+        <div class="arrow-down"><div class="arrow-shaft"></div><div class="arrow-head"></div></div>
+      </div>
+    </div>
+
+    <!-- ── LAYER 5: SCHEDULING ── -->
+    <div class="row" aria-label="Layer 5: Scheduling">
+      <div class="layer-label orange">Scheduling</div>
+      <div class="nodes">
+        <div class="node orange wide">
+          <div class="node-accent"></div>
+          <span class="node-icon" role="img" aria-label="calendar">📅</span>
+          <div class="node-title">Publish Scheduler</div>
+          <div class="node-sub">AI-recommended posting windows based on audience data and platform peak times.<br>Manual override available. Queue management with priority lanes.</div>
+          <div class="node-tags">
+            <span class="tag orange">Optimal Windows</span>
+            <span class="tag orange">Queue Engine</span>
+            <span class="tag orange">Timezone Aware</span>
+            <span class="tag orange">Retry Logic</span>
+          </div>
+        </div>
+        <div class="node orange">
+          <div class="node-accent"></div>
+          <span class="node-icon" role="img" aria-label="notifications">🔔</span>
+          <div class="node-title">Notification Bus</div>
+          <div class="node-sub">Publish confirmations<br>Error alerts, status hooks</div>
+          <div class="node-tags">
+            <span class="tag orange">Webhooks</span>
+            <span class="tag orange">Email / Slack</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CONNECTOR 5→6 ── -->
+    <div class="connector" aria-hidden="true">
+      <div class="connector-line">
+        <div class="arrow-down"><div class="arrow-shaft"></div><div class="arrow-head"></div></div>
+        <span class="arrow-label">Publish payload dispatched via platform APIs</span>
+        <div class="arrow-down"><div class="arrow-shaft"></div><div class="arrow-head"></div></div>
+      </div>
+    </div>
+
+    <!-- ── LAYER 6: PUBLISHING ── -->
+    <div class="row" aria-label="Layer 6: Multi-Platform Publishing">
+      <div class="layer-label green">Publishing</div>
+      <div class="output-nodes">
+        <div class="output-node">
+          <div class="node-accent" style="background: linear-gradient(90deg, #ff0050, #00f2ea);"></div>
+          <span class="node-icon" role="img" aria-label="TikTok">🎵</span>
+          <div class="node-title">TikTok</div>
+          <div class="node-sub">Primary hub<br>9:16 short-form</div>
+        </div>
+        <div class="output-node">
+          <div class="node-accent" style="background: linear-gradient(90deg, #ff0000, #282828);"></div>
+          <span class="node-icon" role="img" aria-label="YouTube">▶️</span>
+          <div class="node-title">YouTube</div>
+          <div class="node-sub">Long-form +<br>YouTube Shorts</div>
+        </div>
+        <div class="output-node">
+          <div class="node-accent" style="background: linear-gradient(90deg, #833ab4, #fd1d1d, #fcb045);"></div>
+          <span class="node-icon" role="img" aria-label="Instagram">📸</span>
+          <div class="node-title">Instagram</div>
+          <div class="node-sub">Reels + Stories<br>4:5 feed posts</div>
+        </div>
+        <div class="output-node">
+          <div class="node-accent" style="background: linear-gradient(90deg, #1877f2, #166fe5);"></div>
+          <span class="node-icon" role="img" aria-label="Facebook">👥</span>
+          <div class="node-title">Facebook</div>
+          <div class="node-sub">Clips + Reels<br>Page posts</div>
+        </div>
+        <div class="output-node">
+          <div class="node-accent" style="background: linear-gradient(90deg, #0077b5, #00a0dc);"></div>
+          <span class="node-icon" role="img" aria-label="LinkedIn">💼</span>
+          <div class="node-title">LinkedIn</div>
+          <div class="node-sub">Video posts<br>Native articles</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CONNECTOR 6→7 ── -->
+    <div class="connector" aria-hidden="true">
+      <div class="connector-line">
+        <div class="arrow-down"><div class="arrow-shaft"></div><div class="arrow-head"></div></div>
+        <span class="arrow-label">Engagement signals loop back to AI core</span>
+        <div class="arrow-down"><div class="arrow-shaft"></div><div class="arrow-head"></div></div>
+      </div>
+    </div>
+
+    <!-- ── LAYER 7: ANALYTICS FEEDBACK ── -->
+    <div class="row" aria-label="Layer 7: Analytics and Feedback Loop">
+      <div class="layer-label blue">Feedback</div>
+      <div class="nodes">
+        <div class="node blue">
+          <div class="node-accent"></div>
+          <span class="node-icon" role="img" aria-label="chart">📊</span>
+          <div class="node-title">Performance Analytics</div>
+          <div class="node-sub">Views, reach, engagement<br>per platform per post</div>
+          <div class="node-tags">
+            <span class="tag blue">Platform APIs</span>
+            <span class="tag blue">Supabase</span>
+          </div>
+        </div>
+        <div class="node blue">
+          <div class="node-accent"></div>
+          <span class="node-icon" role="img" aria-label="loop">🔄</span>
+          <div class="node-title">AI Feedback Loop</div>
+          <div class="node-sub">Performance signals inform<br>future clip + copy decisions</div>
+          <div class="node-tags">
+            <span class="tag blue">Adaptive Model</span>
+            <span class="tag blue">Voice Tuning</span>
+          </div>
+        </div>
+        <div class="node blue">
+          <div class="node-accent"></div>
+          <span class="node-icon" role="img" aria-label="dashboard">🖥️</span>
+          <div class="node-title">Creator Dashboard</div>
+          <div class="node-sub">Unified view across all<br>platforms and post history</div>
+          <div class="node-tags">
+            <span class="tag blue">React UI</span>
+            <span class="tag blue">Real-Time</span>
+          </div>
+        </div>
+        <div class="node blue">
+          <div class="node-accent"></div>
+          <span class="node-icon" role="img" aria-label="storage">🗄️</span>
+          <div class="node-title">Data Store</div>
+          <div class="node-sub">Assets, configs, history<br>Voice profiles, manifests</div>
+          <div class="node-tags">
+            <span class="tag blue">Supabase</span>
+            <span class="tag blue">Object Storage</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- LEGEND -->
+  <div class="legend" aria-label="Layer legend">
+    <div class="legend-item"><div class="legend-dot" style="background: var(--red);"></div>Ingestion Layer</div>
+    <div class="legend-item"><div class="legend-dot" style="background: var(--purple);"></div>AI Processing Core</div>
+    <div class="legend-item"><div class="legend-dot" style="background: var(--blue);"></div>Media Production</div>
+    <div class="legend-item"><div class="legend-dot" style="background: var(--pink);"></div>Copy &amp; Packaging</div>
+    <div class="legend-item"><div class="legend-dot" style="background: var(--orange);"></div>Scheduling</div>
+    <div class="legend-item"><div class="legend-dot" style="background: #2ecc40;"></div>Multi-Platform Publishing</div>
+    <div class="legend-item"><div class="legend-dot" style="background: var(--blue);"></div>Analytics &amp; Feedback</div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════ -->
+  <footer class="relative py-12 border-t border-white/[0.06]" style="background: #000623;">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+        <a href="index.html" class="focus-visible:outline-2 focus-visible:outline-[#FF1673] focus-visible:outline-offset-4 rounded">
+          <img id="footer-logo" src="assets/logos/logo-meet-dark-white.svg" alt="Pix3l LLC" class="h-7 w-auto opacity-60" loading="lazy">
+        </a>
+        <div class="flex flex-wrap justify-center gap-6">
+          <a href="cascade.html" class="nav-link text-[13px]">Cascade</a>
+          <a href="crunch.html"  class="nav-link text-[13px]">CRUNCH</a>
+          <a href="agents.html"  class="nav-link text-[13px]">Agents</a>
+          <a href="viki.html"    class="nav-link text-[13px]">VIKI</a>
+          <a href="index.html"   class="nav-link text-[13px]">Pix3l LLC</a>
+        </div>
+        <div class="text-center md:text-right">
+          <a href="mailto:trey@pix3l.co" class="text-[#FF1673] text-sm transition-colors duration-200 hover:text-[#FF1635]">trey@pix3l.co</a>
+        </div>
+      </div>
+      <div class="mt-8 pt-6 border-t border-white/[0.05] flex flex-col sm:flex-row items-center justify-between gap-2">
+        <p class="font-mono text-[11px] text-white/25">© 2026 Pix3l LLC. All rights reserved.</p>
+        <p class="font-mono text-[11px] text-white/25">Cascade: AI Social Video Automation</p>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ═══════════════════════════════════════════════
+       JAVASCRIPT
+  ═══════════════════════════════════════════════ -->
+  <script src="theme.js"></script>
+  <script src="nav.js"></script>
+
+</body>
+</html>

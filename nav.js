@@ -14,7 +14,7 @@
   function updateNav() {
     var isLight  = document.documentElement.getAttribute('data-theme') === 'light';
     var scrolled = window.scrollY > 64;
-    subnav.classList.toggle('subnav-visible', scrolled);
+    if (subnav) { subnav.classList.toggle('subnav-visible', scrolled); }
     if (scrolled) {
       nav.style.cssText = isLight
         ? 'background:rgba(242,239,255,0.95);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);box-shadow:0 8px 32px rgba(161,0,255,0.08),0 2px 8px rgba(0,0,0,0.08);'
