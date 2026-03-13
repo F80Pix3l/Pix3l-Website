@@ -7,16 +7,16 @@
   <title>VIKI | Voice and Conversation Agent by Pix3l</title>
   <meta name="description" content="VIKI delivers natural, intelligent voice interactions. Pix3l's conversational agent handles complex dialogue, routing, and real-time assistance.">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://pix3l.io/agents/viki">
+  <link rel="canonical" href="https://pix3l.co/agents/viki">
   <meta property="og:type"        content="website">
-  <meta property="og:url"         content="https://pix3l.io/agents/viki">
+  <meta property="og:url"         content="https://pix3l.co/agents/viki">
   <meta property="og:title"       content="VIKI | Voice and Conversation Agent by Pix3l">
   <meta property="og:description" content="VIKI delivers natural, intelligent voice interactions. Pix3l's conversational agent handles complex dialogue, routing, and real-time assistance.">
-  <meta property="og:image"       content="https://pix3l.io/assets/images/hero/welcome-hero.png">
+  <meta property="og:image"       content="https://pix3l.co/assets/images/hero/welcome-hero.png">
   <meta name="twitter:card"        content="summary_large_image">
   <meta name="twitter:title"       content="VIKI | Voice and Conversation Agent by Pix3l">
   <meta name="twitter:description" content="VIKI delivers natural, intelligent voice interactions. Pix3l's conversational agent handles complex dialogue, routing, and real-time assistance.">
-  <meta name="twitter:image"       content="https://pix3l.io/assets/images/hero/welcome-hero.png">
+  <meta name="twitter:image"       content="https://pix3l.co/assets/images/hero/welcome-hero.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -96,7 +96,25 @@
     html[data-theme="light"] .agent-nav-card:hover { background: rgba(255,255,255,0.88) !important; border-color: rgba(161,0,255,0.28) !important; }
     .agent-nav-card:focus-visible { outline: 2px solid #8599FF; outline-offset: 2px; }
     .agent-nav-card img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+    .agent-nav-card .agent-thumb { border-radius: 50%; overflow: hidden; position: relative; width: 48px; height: 48px; flex-shrink: 0; border: none; box-shadow: none; transition: none; }
+    .agent-nav-card .agent-thumb .pix3l-glow { padding: 3px; }
+    @keyframes gradientShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .hero-wordmark {
+      display: block;
+      background: linear-gradient(135deg, #FF1635 0%, #A100FF 60%, #FF1673 100%) !important;
+      background-size: 200% 200% !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+      background-clip: text !important;
+      color: transparent !important;
+      animation: gradientShift 5s ease infinite;
+    }
     @media (prefers-reduced-motion: reduce) {
+      .hero-wordmark { animation: none; }
       .reveal { transition: none; opacity: 1; transform: none; }
       .btn-primary, .btn-outline { transition: none; }
     }
@@ -104,6 +122,18 @@
   <link rel="stylesheet" href="../glow.css">
   <link rel="stylesheet" href="../theme.css">
   <link rel="stylesheet" href="../nav.css">
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "VIKI",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "url": "https://pix3l.co/agents/viki",
+    "description": "VIKI delivers natural, intelligent voice interactions. Pix3l's conversational agent handles complex dialogue, routing, and real-time assistance.",
+    "author": {"@type":"Organization","name":"Pix3l","url":"https://pix3l.co"}
+  }
+  </script>
 </head>
 <body>
 
@@ -116,11 +146,12 @@
     </a>
     <!-- Global links -->
     <div class="hidden lg:flex items-center gap-7">
-      <a href="../cascade.html" class="global-nav-link">Cascade</a>
+      <a href="../cascade.html" class="global-nav-link">CASCADE</a>
       <a href="../crunch.html"  class="global-nav-link">CRUNCH</a>
-      <a href="../agents.html"  class="global-nav-link current">Agents</a>
       <a href="../viki.html"    class="global-nav-link">VIKI</a>
       <a href="../bill3.html"   class="global-nav-link">BILL3</a>
+      <a href="../agents.html"  class="global-nav-link current">Agents</a>
+      <a href="../aix.html"     class="global-nav-link">AiX</a>
       <a href="../bio.html"     class="global-nav-link">Founder</a>
     </div>
     <!-- Right -->
@@ -159,11 +190,12 @@
   <!-- Mobile drawer -->
   <div id="mobile-drawer" class="hidden lg:hidden flex-col px-6 pb-5 pt-1 gap-0" style="background:rgba(0,6,35,0.97); border-bottom:1px solid rgba(255,255,255,0.06);">
     <p class="drawer-label">Products</p>
-    <a href="../cascade.html" class="nav-link py-2.5 border-b border-white/[0.07]">Cascade</a>
+    <a href="../cascade.html" class="nav-link py-2.5 border-b border-white/[0.07]">CASCADE</a>
     <a href="../crunch.html"  class="nav-link py-2.5 border-b border-white/[0.07]">CRUNCH</a>
-    <a href="../agents.html"  class="nav-link py-2.5 border-b border-white/[0.07]">Agents</a>
     <a href="../viki.html"    class="nav-link py-2.5 border-b border-white/[0.07]">VIKI</a>
-      <a href="../bill3.html"   class="nav-link py-2.5 border-b border-white/[0.07]">BILL3</a>
+    <a href="../bill3.html"   class="nav-link py-2.5 border-b border-white/[0.07]">BILL3</a>
+    <a href="../agents.html"  class="nav-link py-2.5 border-b border-white/[0.07]">Agents</a>
+    <a href="../aix.html"     class="nav-link py-2.5 border-b border-white/[0.07]">AiX</a>
     <a href="../bio.html"    class="nav-link py-2.5 border-b border-white/[0.07]">Founder</a>
     <p class="drawer-label">On this page</p>
     <a href="#hero"         class="nav-link py-2.5 border-b border-white/[0.07]">Overview</a>
@@ -189,14 +221,14 @@
     <div class="flex justify-center md:justify-start reveal">
       <div class="relative agent-portrait">
         <div class="absolute -inset-4 rounded-3xl" style="background: radial-gradient(ellipse at center, rgba(133,153,255,0.15) 0%, transparent 70%);"></div>
-        <img src="../assets/cascade/agents/viki.png" alt="VIKI" fetchpriority="high" loading="eager"
-             class="relative w-72 h-72 md:w-96 md:h-96 object-cover rounded-2xl"
-             style="box-shadow: 0 0 40px rgba(133,153,255,0.25), 0 24px 64px rgba(0,0,0,0.5);">
+        <video src="../reference%20files/videos/combat_viki.mp4" autoplay muted playsinline loop
+               class="relative w-72 h-72 md:w-96 md:h-96 object-cover rounded-2xl"
+               style="box-shadow: 0 0 40px rgba(133,153,255,0.25), 0 24px 64px rgba(0,0,0,0.5);"></video>
       </div>
     </div>
     <div class="reveal" style="transition-delay:.1s;">
       <span class="cap-pill mb-6 inline-block" style="color:#8599FF; border-color:rgba(133,153,255,0.3); background:rgba(133,153,255,0.08);">Interface</span>
-      <h1 class="font-display font-bold text-[clamp(3rem,7vw,5.5rem)] tracking-[-0.04em] leading-[1.0] mb-4">VIKI</h1>
+      <h1 class="font-display font-bold text-[clamp(3rem,7vw,5.5rem)] tracking-[-0.04em] leading-[1.0] mb-4"><span class="hero-wordmark">VIKI</span></h1>
       <p class="font-display text-[clamp(1rem,2vw,1.35rem)] font-light tracking-[-0.01em] mb-6" style="color:#8599FF;">Visual Intelligence and Knowledge Interface. Ask anything. Adjust everything. Review it all.</p>
       <p class="text-[#A3A3A3] text-lg leading-[1.75] mb-8 max-w-lg">VIKI is how you talk to Cascade. She's a conversational AI interface that lets you ask questions, review pipeline outputs, adjust settings, and manage workflows — all in natural language. No dashboards to learn. No technical configuration. Just tell VIKI what you need.</p>
       <div class="flex flex-wrap gap-3">
@@ -297,7 +329,9 @@
     <p class="font-mono text-[11px] tracking-[0.18em] uppercase mb-8 text-white/40 text-center">Meet the Team</p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center items-stretch max-w-xl mx-auto">
       <a href="nova.html" class="agent-nav-card flex-1">
-        <img src="../assets/cascade/agents/nova.png" alt="Nova" loading="lazy">
+        <div class="agent-thumb" style="border-radius:50%; overflow:hidden; width:48px; height:48px; flex-shrink:0;">
+          <img src="../assets/cascade/agents/nova.png" alt="Nova" loading="lazy">
+        </div>
         <div>
           <p class="font-mono text-[9px] text-white/40 uppercase tracking-widest mb-0.5">Previous</p>
           <p class="font-display font-semibold text-[15px]">Nova</p>
@@ -319,7 +353,7 @@
       <img id="footer-logo" src="../assets/logos/logo-meet-dark-white.svg" alt="Pix3l LLC" loading="lazy" class="h-7 w-auto opacity-60">
       <div class="flex flex-wrap justify-center gap-6">
         <a href="../index.html"   class="nav-link text-[13px]">Home</a>
-        <a href="../cascade.html" class="nav-link text-[13px]">Cascade</a>
+        <a href="../cascade.html" class="nav-link text-[13px]">CASCADE</a>
         <a href="syra.html"       class="nav-link text-[13px]">Syra</a>
         <a href="oracle.html"     class="nav-link text-[13px]">Oracle</a>
         <a href="echo.html"       class="nav-link text-[13px]">Echo</a>

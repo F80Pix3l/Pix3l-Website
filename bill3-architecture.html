@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BILL3 System Architecture | Pix3l</title>
+<meta name="description" content="The technical architecture behind BILL3. Six-layer system design covering capture, enrichment, approval, ledger, invoicing, and integration layers.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://pix3l.co/bill3-architecture">
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://pix3l.co/bill3-architecture">
+<meta property="og:title"       content="BILL3 System Architecture | Pix3l">
+<meta property="og:description" content="The technical architecture behind BILL3. Six-layer system design covering capture, enrichment, approval, ledger, invoicing, and integration layers.">
+<meta property="og:image"       content="https://pix3l.co/assets/images/hero/welcome-hero.png">
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:title"       content="BILL3 System Architecture | Pix3l">
+<meta name="twitter:description" content="The technical architecture behind BILL3. Six-layer system design covering capture, enrichment, approval, ledger, invoicing, and integration layers.">
+<meta name="twitter:image"       content="https://pix3l.co/assets/images/hero/welcome-hero.png">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    corePlugins: { container: false },
+    theme: {
+      extend: {
+        colors: {
+          'big-red':   '#FF1635',
+          'pinky':     '#FF1673',
+          'purple':    '#A100FF',
+          'vista':     '#8599FF',
+          'navy':      '#000947',
+          'dark-navy': '#000623'
+        },
+        fontFamily: {
+          display: ['Space Grotesk', 'sans-serif'],
+          body:    ['Inter', 'sans-serif'],
+          mono:    ['JetBrains Mono', 'monospace']
+        }
+      }
+    }
+  }
+</script>
+<style>
+  :root {
+    --color-bg:             #000623;
+    --color-surface:        #000947;
+    --color-surface-2:      #000E52;
+    --color-border:         rgba(133, 153, 255, 0.15);
+    --color-border-bright:  rgba(133, 153, 255, 0.35);
+    --color-text-primary:   #F5F5F5;
+    --color-text-secondary: #A3A3A3;
+
+    --red:    #FF1635;
+    --pink:   #FF1673;
+    --purple: #A100FF;
+    --blue:   #8599FF;
+    --orange: #FF5E08;
+    --green:  #1C8328;
+
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-mono:    'JetBrains Mono', monospace;
+
+    --radius:    8px;
+    --radius-lg: 14px;
+
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-12: 48px;
+    --space-16: 64px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-padding-top: 100px; }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-text-primary);
+    font-family: var(--font-display);
+    min-height: 100vh;
+  }
+
+  /* ── BUTTONS ── */
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 13px 26px;
+    background: linear-gradient(135deg, #FF1635, #FF1673);
+    color: #fff;
+    font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: -0.01em;
+    border-radius: 8px; border: none; cursor: pointer; text-decoration: none;
+    box-shadow: 0 4px 22px rgba(255,22,53,0.32), 0 1px 4px rgba(255,22,53,0.14);
+    transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease, opacity 0.15s ease;
+  }
+  .btn-primary:hover  { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(255,22,53,0.42), 0 2px 8px rgba(255,22,53,0.2); }
+  .btn-primary:active { transform: translateY(0); opacity: 0.88; }
+  .btn-primary:focus-visible { outline: 2px solid #FF1673; outline-offset: 3px; }
+
+  .btn-outline {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 26px;
+    background: transparent; color: #fff;
+    font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 14px;
+    border: 1.5px solid rgba(133,153,255,0.35); border-radius: 8px;
+    text-decoration: none; cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), border-color 0.2s ease, background 0.2s ease;
+  }
+  .btn-outline:hover  { transform: translateY(-2px); border-color: rgba(133,153,255,0.75); background: rgba(133,153,255,0.07); }
+  .btn-outline:active { transform: translateY(0); }
+  .btn-outline:focus-visible { outline: 2px solid #8599FF; outline-offset: 3px; }
+
+  /* ── LABEL / GRADIENT TEXT ── */
+  .label {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase; color: #FF1673;
+  }
+  .gradient-text {
+    background: linear-gradient(135deg, #8599FF 0%, #A100FF 50%, #FF1673 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .section-glow-blue {
+    background:
+      radial-gradient(ellipse 60% 80% at 10% 50%, rgba(133,153,255,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 90% 30%, rgba(161,0,255,0.06) 0%, transparent 60%);
+  }
+
+  /* ── HERO ── */
+  .arch-hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    padding-block-start: 100px;
+    padding-inline: var(--space-6);
+  }
+  .arch-hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 80% 20%, rgba(133,153,255,0.14) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 15% 80%, rgba(161,0,255,0.10) 0%, transparent 55%),
+      radial-gradient(ellipse 100% 80% at 50% 0%, rgba(0,9,71,0.8) 0%, transparent 80%),
+      #000623;
+  }
+  .arch-hero-grid {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle, rgba(133,153,255,0.16) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(ellipse 90% 80% at 50% 50%, black 30%, transparent 100%);
+    pointer-events: none;
+  }
+  .arch-hero-orb-blue {
+    position: absolute; top: 15%; right: 8%;
+    width: 360px; height: 360px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(133,153,255,0.14) 0%, transparent 70%);
+    filter: blur(48px); pointer-events: none;
+  }
+  .arch-hero-orb-purple {
+    position: absolute; bottom: 20%; left: 5%;
+    width: 300px; height: 300px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(161,0,255,0.12) 0%, transparent 70%);
+    filter: blur(40px); pointer-events: none;
+  }
+  .arch-hero-content {
+    position: relative; z-index: 1;
+    max-width: 1200px; margin: 0 auto; width: 100%;
+  }
+  .arch-hero-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 6px 16px;
+    border: none; border-radius: 99px;
+    background: transparent;
+    margin-bottom: var(--space-8);
+    font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue);
+  }
+  .arch-hero-badge-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--blue);
+    box-shadow: 0 0 8px rgba(133,153,255,0.8);
+    animation: badgePulse 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  .arch-hero-badge-divider { width: 1px; height: 12px; background: rgba(133,153,255,0.3); }
+  .arch-hero-headline {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 11vw, 9rem);
+    font-weight: 700; line-height: 0.92; letter-spacing: -0.03em;
+    margin-bottom: var(--space-8);
+  }
+  .arch-hero-wordmark {
+    display: block;
+    background: linear-gradient(135deg, #8599FF 0%, #A100FF 55%, #FF1673 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    animation: gradientShift 6s ease infinite;
+    line-height: 1.05; padding-bottom: 0.06em;
+  }
+  .arch-hero-sub {
+    display: block;
+    font-size: clamp(1.4rem, 4vw, 3rem); font-weight: 300;
+    letter-spacing: -0.01em; color: var(--color-text-secondary);
+    margin-top: var(--space-4);
+  }
+  .arch-hero-tagline {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(1rem, 1.8vw, 1.2rem); color: var(--color-text-secondary);
+    line-height: 1.65; max-width: 540px; margin-bottom: var(--space-12);
+  }
+  .arch-hero-tagline strong { color: var(--color-text-primary); font-weight: 600; }
+  .arch-hero-actions {
+    display: flex; flex-wrap: wrap; gap: var(--space-4);
+    align-items: center; margin-bottom: var(--space-12);
+  }
+  .arch-hero-stats {
+    display: flex; flex-wrap: wrap; gap: var(--space-8);
+    padding-top: var(--space-8); border-top: 1px solid var(--color-border);
+  }
+  .arch-stat-item { display: flex; flex-direction: column; gap: 2px; }
+  .arch-stat-num {
+    font-family: var(--font-display); font-size: 2.2rem; font-weight: 700;
+    letter-spacing: -0.03em; color: var(--color-text-primary); line-height: 1;
+  }
+  .arch-stat-num span { font-size: 1.2rem; color: var(--blue); font-weight: 500; }
+  .arch-stat-label {
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-text-secondary);
+  }
+
+  /* ── DIAGRAM WRAPPER ── */
+  .diagram-wrapper { padding: var(--space-16) var(--space-6) var(--space-8); }
+
+  /* ── DIAGRAM SHELL ── */
+  .diagram {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; flex-direction: column; gap: var(--space-8);
+  }
+
+  /* ── ROW ── */
+  .row {
+    display: flex; align-items: stretch; gap: var(--space-4);
+    animation: fadeUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+  .row:nth-child(1) { animation-delay: 0.05s; }
+  .row:nth-child(2) { animation-delay: 0.12s; }
+  .row:nth-child(3) { animation-delay: 0.19s; }
+  .row:nth-child(4) { animation-delay: 0.26s; }
+  .row:nth-child(5) { animation-delay: 0.33s; }
+  .row:nth-child(6) { animation-delay: 0.40s; }
+
+  /* ── LAYER LABEL ── */
+  .layer-label {
+    writing-mode: vertical-rl; text-orientation: mixed; transform: rotate(180deg);
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--color-text-secondary);
+    min-width: 32px; display: flex; align-items: center; justify-content: center;
+    border-left: 2px solid var(--color-border); padding-left: var(--space-2); flex-shrink: 0;
+  }
+  .layer-label.red    { border-color: var(--red);    color: var(--red); }
+  .layer-label.purple { border-color: var(--purple); color: var(--purple); }
+  .layer-label.blue   { border-color: var(--blue);   color: var(--blue); }
+  .layer-label.pink   { border-color: var(--pink);   color: var(--pink); }
+  .layer-label.orange { border-color: var(--orange); color: var(--orange); }
+  .layer-label.green  { border-color: var(--green);  color: var(--green); }
+
+  /* ── NODE ── */
+  .nodes { display: flex; gap: var(--space-4); flex: 1; align-items: stretch; }
+  .node {
+    flex: 1; background: var(--color-surface);
+    border: 1px solid var(--color-border); border-radius: var(--radius-lg);
+    padding: var(--space-4); position: relative; overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s; cursor: default;
+  }
+  .node:hover { transform: translateY(-2px); border-color: var(--color-border-bright); }
+  .node-accent {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px; border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+  .node.red    .node-accent { background: linear-gradient(90deg, var(--red), var(--pink)); }
+  .node.purple .node-accent { background: linear-gradient(90deg, var(--purple), var(--blue)); }
+  .node.blue   .node-accent { background: linear-gradient(90deg, var(--blue), rgba(133,153,255,0.3)); }
+  .node.pink   .node-accent { background: linear-gradient(90deg, var(--pink), var(--orange)); }
+  .node.orange .node-accent { background: linear-gradient(90deg, var(--orange), var(--red)); }
+  .node.green  .node-accent { background: linear-gradient(90deg, var(--green), #2ecc40); }
+
+  .node-icon { font-size: 20px; margin-bottom: var(--space-2); display: block; }
+  .node-title { font-size: 13px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: var(--space-1); line-height: 1.2; }
+  .node-sub { font-family: var(--font-mono); font-size: 10px; color: var(--color-text-secondary); letter-spacing: 0.04em; line-height: 1.5; }
+  .node-tags { display: flex; flex-wrap: wrap; gap: var(--space-1); margin-top: var(--space-3); }
+  .tag {
+    font-family: var(--font-mono); font-size: 9px;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 2px 7px; border-radius: 4px; border: 1px solid;
+  }
+  .tag.red    { color: var(--red);    border-color: rgba(255,22,53,0.4);   background: rgba(255,22,53,0.08); }
+  .tag.purple { color: var(--purple); border-color: rgba(161,0,255,0.4);   background: rgba(161,0,255,0.08); }
+  .tag.blue   { color: var(--blue);   border-color: rgba(133,153,255,0.4); background: rgba(133,153,255,0.08); }
+  .tag.pink   { color: var(--pink);   border-color: rgba(255,22,115,0.4);  background: rgba(255,22,115,0.08); }
+  .tag.orange { color: var(--orange); border-color: rgba(255,94,8,0.4);    background: rgba(255,94,8,0.08); }
+  .tag.green  { color: #2ecc40;       border-color: rgba(46,204,64,0.4);   background: rgba(46,204,64,0.08); }
+
+  /* ── ARROW CONNECTOR ── */
+  .connector {
+    display: flex; justify-content: center; align-items: center;
+    padding: 0 0 0 36px; gap: var(--space-4);
+  }
+  .connector-line {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    gap: var(--space-3); position: relative;
+  }
+  .arrow-down { display: flex; flex-direction: column; align-items: center; gap: 2px; flex: 1; }
+  .arrow-shaft {
+    width: 1px; height: 28px;
+    background: linear-gradient(to bottom, var(--color-border), var(--color-border-bright));
+  }
+  .arrow-head {
+    width: 0; height: 0;
+    border-left: 5px solid transparent; border-right: 5px solid transparent;
+    border-top: 7px solid var(--color-border-bright);
+  }
+  .arrow-label {
+    font-family: var(--font-mono); font-size: 9px;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-secondary);
+    padding: 2px 8px; border: 1px solid var(--color-border);
+    border-radius: 20px; background: var(--color-bg); white-space: nowrap;
+  }
+
+  /* ── WIDE NODE ── */
+  .node.wide { flex: 2; }
+
+  /* ── OUTPUT GRID ── */
+  .output-nodes {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-3); flex: 1;
+  }
+  .output-node {
+    background: var(--color-surface); border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg); padding: var(--space-3);
+    text-align: center; position: relative; overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .output-node:hover { transform: translateY(-2px); border-color: var(--color-border-bright); }
+  .output-node .node-accent { position: absolute; top: 0; left: 0; right: 0; height: 2px; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+  .output-node .node-icon { font-size: 22px; margin-bottom: var(--space-2); display: block; }
+  .output-node .node-title { font-size: 12px; font-weight: 700; margin-bottom: 2px; }
+  .output-node .node-sub { font-size: 9px; font-family: var(--font-mono); color: var(--color-text-secondary); line-height: 1.5; }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex; flex-wrap: wrap; gap: var(--space-4);
+    justify-content: center; margin-top: var(--space-8);
+    padding-bottom: var(--space-16);
+    animation: fadeUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.5s both;
+  }
+  .legend-item {
+    display: flex; align-items: center; gap: var(--space-2);
+    font-size: 11px; color: var(--color-text-secondary); font-family: var(--font-mono);
+  }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes gradientShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  @keyframes badgePulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(133,153,255,0.5); }
+    50%       { box-shadow: 0 0 0 6px rgba(133,153,255,0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+  @media (max-width: 768px) {
+    .output-nodes { grid-template-columns: repeat(2, 1fr); }
+    .row { flex-wrap: wrap; }
+    .layer-label { writing-mode: horizontal-tb; transform: none; min-width: auto; border-left: none; border-bottom: 2px solid; padding-left: 0; padding-bottom: var(--space-1); }
+    .nodes { flex-wrap: wrap; }
+    .node { min-width: 140px; }
+  }
+</style>
+<link rel="stylesheet" href="glow.css">
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="nav.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "name": "BILL3 System Architecture",
+  "url": "https://pix3l.co/bill3-architecture",
+  "description": "The technical architecture behind BILL3. Six-layer system design covering capture, enrichment, approval, ledger, invoicing, and integration layers.",
+  "author": {"@type":"Organization","name":"Pix3l","url":"https://pix3l.co"}
+}
+</script>
+</head>
+
+<body class="overflow-x-hidden">
+
+<!-- ════════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════════ -->
+<nav id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
+    <a href="index.html" aria-label="Pix3l Home" class="shrink-0 focus-visible:outline-2 focus-visible:outline-[#FF1673] focus-visible:outline-offset-4 rounded">
+      <img id="nav-logo" src="assets/logos/logo-meet-dark-white.svg" alt="PIX3L" class="h-7 w-auto">
+    </a>
+    <div class="hidden lg:flex items-center gap-7">
+      <a href="cascade.html" class="global-nav-link">CASCADE</a>
+      <a href="crunch.html"  class="global-nav-link">CRUNCH</a>
+      <a href="viki.html"    class="global-nav-link">VIKI</a>
+      <a href="bill3.html"   class="global-nav-link current">BILL3</a>
+      <a href="agents.html"  class="global-nav-link">Agents</a>
+      <a href="aix.html"     class="global-nav-link">AiX</a>
+      <a href="bio.html"     class="global-nav-link">Founder</a>
+    </div>
+    <div class="flex items-center gap-6 shrink-0">
+      <button id="theme-toggle" aria-label="Switch to light mode">
+        <svg id="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+        <svg id="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+      <a href="bill3.html" class="hidden lg:inline-flex items-center gap-2 btn-primary py-2.5 px-5 text-sm">
+        Back to BILL3
+      </a>
+      <button id="hamburger" class="lg:hidden flex flex-col gap-[5px] p-2 rounded focus-visible:outline-2 focus-visible:outline-[#FF1673]" aria-label="Toggle menu" aria-expanded="false">
+        <span id="h1" class="block w-6 h-[2px] bg-white rounded-full origin-center transition-transform duration-300"></span>
+        <span id="h2" class="block w-6 h-[2px] bg-white rounded-full transition-opacity duration-300"></span>
+        <span id="h3" class="block w-6 h-[2px] bg-white rounded-full origin-center transition-transform duration-300"></span>
+      </button>
+    </div>
+  </div>
+  <!-- Subnav -->
+  <div id="subnav">
+    <div class="subnav-inner">
+      <a href="bill3.html#hero"        class="subnav-link">Overview</a>
+      <a href="bill3.html#how"         class="subnav-link">How It Works</a>
+      <a href="bill3.html#capture"     class="subnav-link">Capture Modes</a>
+      <a href="#diagram"               class="subnav-link">Architecture</a>
+      <a href="bill3.html#contact"     class="subnav-link">Contact</a>
+    </div>
+  </div>
+  <!-- Mobile drawer -->
+  <div id="mobile-drawer" class="hidden lg:hidden flex-col px-6 pb-5 pt-1 gap-0" style="background: rgba(0,6,35,0.97); border-bottom: 1px solid rgba(255,255,255,0.06);">
+    <p class="drawer-label">Products</p>
+    <a href="cascade.html" class="nav-link py-2.5 border-b border-white/[0.07]">CASCADE</a>
+    <a href="crunch.html"  class="nav-link py-2.5 border-b border-white/[0.07]">CRUNCH</a>
+    <a href="viki.html"    class="nav-link py-2.5 border-b border-white/[0.07]">VIKI</a>
+    <a href="bill3.html"   class="nav-link py-2.5 border-b border-white/[0.07] current">BILL3</a>
+    <a href="agents.html"  class="nav-link py-2.5 border-b border-white/[0.07]">Agents</a>
+    <a href="aix.html"     class="nav-link py-2.5 border-b border-white/[0.07]">AiX</a>
+    <a href="bio.html"     class="nav-link py-2.5 border-b border-white/[0.07]">Founder</a>
+    <a href="bill3.html" class="btn-primary mt-4 justify-center">Back to BILL3</a>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════ -->
+<section class="arch-hero" aria-labelledby="arch-hero-heading">
+  <div class="arch-hero-bg" aria-hidden="true"></div>
+  <div class="arch-hero-grid" aria-hidden="true"></div>
+  <div class="arch-hero-orb-blue" aria-hidden="true"></div>
+  <div class="arch-hero-orb-purple" aria-hidden="true"></div>
+
+  <div class="arch-hero-content">
+
+    <div class="arch-hero-badge" style="animation: fadeUp 0.5s cubic-bezier(0.4,0,0.2,1) both;">
+      <span class="arch-hero-badge-dot"></span>
+      <span class="arch-hero-badge-divider"></span>
+      BILL3 System Architecture
+    </div>
+
+    <h1 class="arch-hero-headline" id="arch-hero-heading" style="animation: fadeUp 0.5s cubic-bezier(0.4,0,0.2,1) 0.05s both;">
+      <span class="arch-hero-wordmark">Track. Bill. Done.</span>
+      <span class="arch-hero-sub">End-to-End Architecture</span>
+    </h1>
+
+    <p class="arch-hero-tagline" style="animation: fadeUp 0.5s cubic-bezier(0.4,0,0.2,1) 0.2s both;">
+      <strong>6 intelligent layers.</strong> Time enters as raw input across four capture modes and exits as a sent invoice, with an AI agent handling every step in between.
+    </p>
+
+    <div class="arch-hero-actions" style="animation: fadeUp 0.5s cubic-bezier(0.4,0,0.2,1) 0.28s both;">
+      <a href="#diagram" class="btn-primary px-8 py-3.5 text-base">
+        Explore the Diagram
+      </a>
+      <a href="bill3.html" class="btn-outline px-8 py-3.5 text-base">
+        Back to BILL3
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+
+    <div class="arch-hero-stats" style="animation: fadeUp 0.5s cubic-bezier(0.4,0,0.2,1) 0.36s both;" aria-label="Architecture statistics">
+      <div class="arch-stat-item">
+        <span class="arch-stat-num">6<span> layers</span></span>
+        <span class="arch-stat-label">Processing stages</span>
+      </div>
+      <div class="arch-stat-item">
+        <span class="arch-stat-num">4<span> modes</span></span>
+        <span class="arch-stat-label">Time capture inputs</span>
+      </div>
+      <div class="arch-stat-item">
+        <span class="arch-stat-num">1<span> click</span></span>
+        <span class="arch-stat-label">To approve and send</span>
+      </div>
+      <div class="arch-stat-item">
+        <span class="arch-stat-num">0<span>h</span></span>
+        <span class="arch-stat-label">Reconstructing from memory</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     DIAGRAM
+════════════════════════════════════════════ -->
+<div class="diagram-wrapper" id="diagram">
+<main class="diagram" role="main" aria-label="BILL3 system architecture diagram">
+
+  <!-- ── DIAGRAM INTRO ── -->
+  <div style="max-width: 720px; margin-bottom: var(--space-8); animation: fadeUp 0.5s cubic-bezier(0.4,0,0.2,1) both;">
+    <p style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); margin-bottom: var(--space-3);">System Overview</p>
+    <h2 style="font-family: var(--font-display); font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: var(--space-3); color: var(--color-text-primary);">How BILL3 captures time<br>and ships the invoice.</h2>
+    <p style="font-family: 'Inter', sans-serif; font-size: 14px; color: var(--color-text-secondary); line-height: 1.7; max-width: 600px;">Each row is a processing layer. Time data enters at the top across four capture modes and flows down through AI processing, invoice drafting, human review, and delivery. Colored labels on the left identify each layer's role.</p>
+  </div>
+
+  <!-- ── LAYER 1: TIME CAPTURE ── -->
+  <div class="row" aria-label="Layer 1: Time Capture">
+    <div class="layer-label red">Capture</div>
+    <div class="nodes">
+      <div class="node red">
+        <div class="node-accent"></div>
+        <span class="node-icon" role="img" aria-label="timer">⏱️</span>
+        <div class="node-title">Timer Mode</div>
+        <div class="node-sub">Active stopwatch<br>Start, pause, stop per task</div>
+        <div class="node-tags">
+          <span class="tag red">Real-Time</span>
+          <span class="tag red">Per Task</span>
+        </div>
+      </div>
+      <div class="node red">
+        <div class="node-accent"></div>
+        <span class="node-icon" role="img" aria-label="pencil">✏️</span>
+        <div class="node-title">Manual Entry</div>
+        <div class="node-sub">Retroactive time logging<br>Date, duration, description</div>
+        <div class="node-tags">
+          <span class="tag red">Backfill</span>
+          <span class="tag red">Free-form</span>
+        </div>
+      </div>
+      <div class="node red">
+        <div class="node-accent"></div>
+        <span class="node-icon" role="img" aria-label="microphone">🎙️</span>
+        <div class="node-title">Voice Capture</div>
+        <div class="node-sub">Speak your work done<br>Transcribed and parsed by AI</div>
+        <div class="node-tags">
+          <span class="tag red">Whisper API</span>
+          <span class="tag red">NLP Parse</span>
+        </div>
+      </div>
+      <div class="node red">
+        <div class="node-accent"></div>
+        <span class="node-icon" role="img" aria-label="monitor">🖥️</span>
+        <div class="node-title">Activity Monitor</div>
+        <div class="node-sub">Passive app and window<br>tracking with idle detection</div>
+        <div class="node-tags">
+          <span class="tag red">Local Only</span>
+          <span class="tag red">Idle Aware</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CONNECTOR 1→2 ── -->
+  <div class="connector" aria-hidden="true">
+    <div class="connector-line">
+      <div class="arrow-down"><div class="arrow-shaft"></div><div class="arrow-head"></div></div>
+      <span class="arrow-label">Raw time entries + context + duration data</span>
+      <div class="arrow-down"><div class="arrow-shaft"></div><div class="arrow-head"></div></div>
+    </div>
+  </div>
+
+  <!-- ── LAYER 2: AI PROCESSING CORE ── -->
+  <div class="row" aria-label="Layer 2: AI Processing Core">
+    <div class="layer-label purple">AI Core</div>
+    <div class="nodes">
+      <div class="node purple wide">
+        <div class="node-accent"></div>
+        <span class="node-icon" role="img" aria-label="brain">🧠</span>
+        <div class="node-title">Claude AI Orchestrator</div>
+        <div class="node-sub">Central intelligence layer. Reads all time entries, applies project context and rate rules.<br>Directs summarization, classification, and invoice drafting via structured prompts.</div>
+        <div class="node-tags">
+          <span class="tag purple">Anthropic API</span>
+          <span class="tag purple">Claude Sonnet</span>
+          <span class="tag purple">Tool Use</span>
+          <span class="tag purple">Prompt Chaining</span>
+        </div>
+      </div>
+      <div class="node purple">
+        <div class="node-accent"></div>
+        <span class="node-icon" role="img" aria-label="tag">🏷️</span>
+        <div class="node-title">Project Classifier</div>
+        <div class="node-sub">Tags each entry to client,<br>project, and billing code</div>
+        <div class="node-tags">
+          <span class="tag purple">Client Map</span>
+          <span class="tag purple">Rate Rules</span>
+        </div>
+      </div>
+      <div class="node purple">
+        <div class="node-accent"></div>
+        <span class="node-icon" role="img" aria-label="notes">📋</span>
+        <div class="node-title">Work Summarizer</div>
+        <div class="node-sub">AI-written description<br>of work per line item</div>
+        <div class="node-tags">
+          <span class="tag purple">Plain Language</span>
+          <span class="tag purple">Client-Ready</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CONNECTOR 2→3 ── -->
+  <div class="connector" aria-hidden="true">
+    <div class="connector-line">
+      <div class="arrow-down"><div class="arrow-shaft"></div><div class="arrow-head"></div></div>
+      <span class="arrow-label">Classified entries + summaries + rate calculations</span>
+      <div class="arrow-down"><div class="arrow-shaft"></div><div class="arrow-head"></div></div>
+    </div>
+  </div>
+
+  <!-- ── LAYER 3: INVOICE DRAFTING ── -->
+  <div class="row" aria-label="Layer 3: Invoice Drafting">
+    <div class="layer-label blue">Drafting</div>
+    <div class="nodes">
+      <div class="node blue">
+        <div class="node-accent"></div>
+        <span class="node-icon" role="img" aria-label="calculator">🧮</span>
+        <div class="node-title">Rate Calculator</div>
+        <div class="node-sub">Applies hourly rates per<br>client, project, or task type</div>
+        <div class="node-tags">
+          <span class="tag blue">Per-Client Rates</span>
+          <span class="tag blue">Overtime Rules</span>
+        </div>
+      </div>
+      <div class="node blue">
+        <div class="node-accent"></div>
+        <span class="node-icon" role="img" aria-label="invoice">🧾</span>
+        <div class="node-title">Invoice Composer</div>
+        <div class="node-sub">Structures line items, totals,<br>terms, and payment instructions</div>
+        <div class="node-tags">
+          <span class="tag blue">Line Items</span>
+          <span class="tag blue">Net Terms</span>
+        </div>
+      </div>
+      <div class="node blue">
+        <div class="node-accent"></div>
+        <span class="node-icon" role="img" aria-label="tax">💰</span>
+        <div class="node-title">Tax Engine</div>
+        <div class="node-sub">Applies applicable tax rates<br>by client region and type</div>
+        <div class="node-tags">
+          <span class="tag blue">Regional Rules</span>
+          <span class="tag blue">Exempt Logic</span>
+        </div>
+      </div>
+      <div class="node blue">
+        <div class="node-accent"></div>
+        <span class="node-icon" role="img" aria-label="pdf">📄</span>
+        <div class="node-title">PDF Renderer</div>
+        <div class="node-sub">Branded invoice document<br>generated and attached</div>
+        <div class="node-tags">
+          <span class="tag blue">PDF / HTML</span>
+          <span class="tag blue">Brand Kit</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CONNECTOR 3→4 ── -->
+  <div class="connector" aria-hidden="true">
+    <div class="connector-line">
+      <div class="arrow-down"><div class="arrow-shaft"></div><div class="arrow-head"></div></div>
+      <span class="arrow-label">Draft invoice ready for human review</span>
+      <div class="arrow-down"><div class="arrow-shaft"></div><div class="arrow-head"></div></div>
+    </div>
+  </div>
+
+  <!-- ── LAYER 4: REVIEW & APPROVAL ── -->
+  <div class="row" aria-label="Layer 4: Human Review and Approval">
+    <div class="layer-label pink">Review</div>
+    <div class="nodes">
+      <div class="node pink wide">
+        <div class="node-accent"></div>
+        <span class="node-icon" role="img" aria-label="review">👁️</span>
+        <div class="node-title">Human Review Gate</div>
+        <div class="node-sub">You see the full draft before anything is sent. Edit line items, adjust descriptions, correct hours, or add a note.<br>Approve to proceed. Reject to revise. You stay in control.</div>
+        <div class="node-tags">
+          <span class="tag pink">Dashboard UI</span>
+          <span class="tag pink">Inline Edits</span>
+          <span class="tag pink">Approve / Reject</span>
+          <span class="tag pink">Version History</span>
+        </div>
+      </div>
+      <div class="node pink">
+        <div class="node-accent"></div>
+        <span class="node-icon" role="img" aria-label="link">🔗</span>
+        <div class="node-title">Payment Link</div>
+        <div class="node-sub">Stripe payment link auto-<br>attached to approved invoice</div>
+        <div class="node-tags">
+          <span class="tag pink">Stripe API</span>
+          <span class="tag pink">One-Click Pay</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CONNECTOR 4→5 ── -->
+  <div class="connector" aria-hidden="true">
+    <div class="connector-line">
+      <div class="arrow-down"><div class="arrow-shaft"></div><div class="arrow-head"></div></div>
+      <span class="arrow-label">Approved invoice dispatched to delivery pipeline</span>
+      <div class="arrow-down"><div class="arrow-shaft"></div><div class="arrow-head"></div></div>
+    </div>
+  </div>
+
+  <!-- ── LAYER 5: DELIVERY ── -->
+  <div class="row" aria-label="Layer 5: Invoice Delivery">
+    <div class="layer-label orange">Delivery</div>
+    <div class="nodes">
+      <div class="node orange wide">
+        <div class="node-accent"></div>
+        <span class="node-icon" role="img" aria-label="email">📧</span>
+        <div class="node-title">Email Sender</div>
+        <div class="node-sub">Sends the final invoice to the client via branded email with PDF attachment and payment link.<br>Delivery confirmation tracked. Retry logic on bounce. Optional follow-up scheduling.</div>
+        <div class="node-tags">
+          <span class="tag orange">SendGrid</span>
+          <span class="tag orange">Brand Template</span>
+          <span class="tag orange">Delivery Confirm</span>
+          <span class="tag orange">Retry Logic</span>
+        </div>
+      </div>
+      <div class="node orange">
+        <div class="node-accent"></div>
+        <span class="node-icon" role="img" aria-label="notification">🔔</span>
+        <div class="node-title">Notification Bus</div>
+        <div class="node-sub">Sent confirmation, open<br>alerts, and payment events</div>
+        <div class="node-tags">
+          <span class="tag orange">Webhooks</span>
+          <span class="tag orange">Push / Email</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CONNECTOR 5→6 ── -->
+  <div class="connector" aria-hidden="true">
+    <div class="connector-line">
+      <div class="arrow-down"><div class="arrow-shaft"></div><div class="arrow-head"></div></div>
+      <span class="arrow-label">Payment signals and client activity feed back to dashboard</span>
+      <div class="arrow-down"><div class="arrow-shaft"></div><div class="arrow-head"></div></div>
+    </div>
+  </div>
+
+  <!-- ── LAYER 6: TRACKING & ANALYTICS ── -->
+  <div class="row" aria-label="Layer 6: Payment Tracking and Analytics">
+    <div class="layer-label green">Tracking</div>
+    <div class="output-nodes">
+      <div class="output-node">
+        <div class="node-accent" style="background: linear-gradient(90deg, #2ecc40, #27ae60);"></div>
+        <span class="node-icon" role="img" aria-label="payment status">✅</span>
+        <div class="node-title">Payment Status</div>
+        <div class="node-sub">Paid, pending,<br>overdue tracking</div>
+      </div>
+      <div class="output-node">
+        <div class="node-accent" style="background: linear-gradient(90deg, #8599FF, #A100FF);"></div>
+        <span class="node-icon" role="img" aria-label="client portal">👤</span>
+        <div class="node-title">Client Portal</div>
+        <div class="node-sub">Client-facing invoice<br>view and pay page</div>
+      </div>
+      <div class="output-node">
+        <div class="node-accent" style="background: linear-gradient(90deg, #FF1673, #FF5E08);"></div>
+        <span class="node-icon" role="img" aria-label="analytics">📊</span>
+        <div class="node-title">Earnings Analytics</div>
+        <div class="node-sub">Revenue by client,<br>project, and period</div>
+      </div>
+      <div class="output-node">
+        <div class="node-accent" style="background: linear-gradient(90deg, #A100FF, #8599FF);"></div>
+        <span class="node-icon" role="img" aria-label="data store">🗄️</span>
+        <div class="node-title">Data Store</div>
+        <div class="node-sub">Invoice history,<br>time logs, client profiles</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- LEGEND -->
+<div class="legend" aria-label="Layer legend">
+  <div class="legend-item"><div class="legend-dot" style="background: var(--red);"></div>Time Capture</div>
+  <div class="legend-item"><div class="legend-dot" style="background: var(--purple);"></div>AI Processing Core</div>
+  <div class="legend-item"><div class="legend-dot" style="background: var(--blue);"></div>Invoice Drafting</div>
+  <div class="legend-item"><div class="legend-dot" style="background: var(--pink);"></div>Review &amp; Approval</div>
+  <div class="legend-item"><div class="legend-dot" style="background: var(--orange);"></div>Delivery</div>
+  <div class="legend-item"><div class="legend-dot" style="background: #2ecc40;"></div>Tracking &amp; Analytics</div>
+</div>
+
+</div><!-- /.diagram-wrapper -->
+
+
+<!-- ════════════════════════════════════════════
+     CONTACT
+════════════════════════════════════════════ -->
+<section class="relative py-28 overflow-hidden text-center" style="background: linear-gradient(180deg, #000623 0%, #000947 60%, #000623 100%);">
+  <div class="absolute inset-0 section-glow-blue pointer-events-none"></div>
+  <div class="relative z-10 max-w-3xl mx-auto px-6">
+    <p class="label mb-3">Get Early Access</p>
+    <h2 class="font-display font-bold text-[clamp(2.2rem,5vw,4rem)] tracking-[-0.03em] leading-[1.08] mb-5">
+      Want to Learn More<br>About <span class="gradient-text">BILL3?</span>
+    </h2>
+    <p class="text-[#A3A3A3] text-lg leading-[1.7] mb-10 max-w-xl mx-auto">
+      BILL3 is in active development. Reach out to discuss early access, integration timelines, or partnership opportunities.
+    </p>
+    <div class="flex flex-wrap gap-4 justify-center">
+      <a href="mailto:trey@pix3l.co" class="btn-primary px-8 py-3.5 text-base">
+        trey@pix3l.co
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </a>
+      <a href="bill3.html" class="btn-outline px-8 py-3.5 text-base">
+        Back to BILL3
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <div class="mt-10 pt-8 border-t border-white/[0.06]">
+      <a href="index.html" class="nav-link text-sm opacity-60 hover:opacity-100" style="transition: opacity 0.2s ease;">
+        Back to Pix3l LLC
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="relative py-12 border-t border-white/[0.06]" style="background: #000623;">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+      <a href="index.html" class="focus-visible:outline-2 focus-visible:outline-[#FF1673] focus-visible:outline-offset-4 rounded">
+        <img id="footer-logo" src="assets/logos/logo-meet-dark-white.svg" alt="Pix3l LLC" class="h-7 w-auto opacity-60" loading="lazy">
+      </a>
+      <div class="flex flex-wrap justify-center gap-6">
+        <a href="bill3.html"              class="nav-link text-[13px]">BILL3</a>
+        <a href="bill3.html#how"          class="nav-link text-[13px]">How It Works</a>
+        <a href="bill3.html#capture"      class="nav-link text-[13px]">Capture Modes</a>
+        <a href="bill3-architecture.html" class="nav-link text-[13px]">Architecture</a>
+        <a href="bill3.html#contact"      class="nav-link text-[13px]">Contact</a>
+        <a href="index.html"              class="nav-link text-[13px]">Pix3l LLC</a>
+      </div>
+      <div class="text-center md:text-right">
+        <a href="mailto:trey@pix3l.co" class="text-[#FF1673] text-sm transition-colors duration-200 hover:text-[#FF1635]" style="font-family:'Space Grotesk',sans-serif;font-weight:500;letter-spacing:-0.005em;">trey@pix3l.co</a>
+      </div>
+    </div>
+    <div class="mt-8 pt-6 border-t border-white/[0.05] flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p class="font-mono text-[11px] text-white/25">© 2026 Pix3l LLC. All rights reserved.</p>
+      <p class="font-mono text-[11px] text-white/25">BILL3: AI-Powered Time Tracking &amp; Invoicing</p>
+    </div>
+  </div>
+</footer>
+
+<script src="theme.js"></script>
+<script src="nav.js"></script>
+</body>
+</html>

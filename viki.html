@@ -7,16 +7,16 @@
   <title>VIKI | Conversational Voice AI by Pix3l</title>
   <meta name="description" content="VIKI is Pix3l's voice AI agent. Natural conversation, real-time reasoning, and seamless integration for customer-facing and internal workflows.">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://pix3l.io/viki">
+  <link rel="canonical" href="https://pix3l.co/viki">
   <meta property="og:type"        content="website">
-  <meta property="og:url"         content="https://pix3l.io/viki">
+  <meta property="og:url"         content="https://pix3l.co/viki">
   <meta property="og:title"       content="VIKI | Conversational Voice AI by Pix3l">
   <meta property="og:description" content="VIKI is Pix3l's voice AI agent. Natural conversation, real-time reasoning, and seamless integration for customer-facing and internal workflows.">
-  <meta property="og:image"       content="https://pix3l.io/assets/images/hero/welcome-hero.png">
+  <meta property="og:image"       content="https://pix3l.co/assets/images/hero/welcome-hero.png">
   <meta name="twitter:card"        content="summary_large_image">
   <meta name="twitter:title"       content="VIKI | Conversational Voice AI by Pix3l">
   <meta name="twitter:description" content="VIKI is Pix3l's voice AI agent. Natural conversation, real-time reasoning, and seamless integration for customer-facing and internal workflows.">
-  <meta name="twitter:image"       content="https://pix3l.io/assets/images/hero/welcome-hero.png">
+  <meta name="twitter:image"       content="https://pix3l.co/assets/images/hero/welcome-hero.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -466,6 +466,18 @@
     html[data-theme="light"] #viki-shader { opacity: 0.12 !important; }
     html[data-theme="light"] header > div[style*="linear-gradient(135deg, rgba(255,22,115"] { opacity: 0.08 !important; }
   </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "VIKI",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "url": "https://pix3l.co/viki",
+    "description": "VIKI is Pix3l's voice AI agent. Natural conversation, real-time reasoning, and seamless integration for customer-facing and internal workflows.",
+    "author": { "@type": "Organization", "name": "Pix3l", "url": "https://pix3l.co" }
+  }
+  </script>
 </head>
 <body>
 
@@ -480,11 +492,12 @@
     </a>
     <!-- Global product links -->
     <div class="hidden lg:flex items-center gap-7">
-      <a href="cascade.html" class="global-nav-link">Cascade</a>
+      <a href="cascade.html" class="global-nav-link">CASCADE</a>
       <a href="crunch.html"  class="global-nav-link">CRUNCH</a>
-      <a href="agents.html"  class="global-nav-link">Agents</a>
       <a href="viki.html"    class="global-nav-link current">VIKI</a>
-        <a href="bill3.html"   class="global-nav-link">BILL3</a>
+      <a href="bill3.html"   class="global-nav-link">BILL3</a>
+      <a href="agents.html"  class="global-nav-link">Agents</a>
+      <a href="aix.html"     class="global-nav-link">AiX</a>
       <a href="bio.html"     class="global-nav-link">Founder</a>
     </div>
     <!-- Right: toggle + CTA + hamburger -->
@@ -522,11 +535,12 @@
   <!-- Mobile drawer -->
   <div id="mobile-drawer" class="hidden lg:hidden flex-col px-6 pb-5 pt-1 gap-0" style="background: rgba(0,6,35,0.97); border-bottom: 1px solid rgba(255,255,255,0.06);">
     <p class="drawer-label">Products</p>
-    <a href="cascade.html" class="nav-link py-2.5 border-b border-white/[0.07]">Cascade</a>
+    <a href="cascade.html" class="nav-link py-2.5 border-b border-white/[0.07]">CASCADE</a>
     <a href="crunch.html"  class="nav-link py-2.5 border-b border-white/[0.07]">CRUNCH</a>
-    <a href="agents.html"  class="nav-link py-2.5 border-b border-white/[0.07]">Agents</a>
     <a href="viki.html"    class="nav-link py-2.5 border-b border-white/[0.07]">VIKI</a>
-      <a href="bill3.html"   class="nav-link py-2.5 border-b border-white/[0.07]">BILL3</a>
+    <a href="bill3.html"   class="nav-link py-2.5 border-b border-white/[0.07]">BILL3</a>
+    <a href="agents.html"  class="nav-link py-2.5 border-b border-white/[0.07]">Agents</a>
+    <a href="aix.html"     class="nav-link py-2.5 border-b border-white/[0.07]">AiX</a>
     <a href="bio.html"    class="nav-link py-2.5 border-b border-white/[0.07]">Founder</a>
     <p class="drawer-label">On this page</p>
     <a href="#features"     class="nav-link py-2.5 border-b border-white/[0.07]">Features</a>
@@ -556,7 +570,7 @@
     </div>
 
     <div class="hero-v2-headline">
-      <span class="hero-v2-wordmark" id="viki-hero-heading" style="animation: fadeUp 0.5s cubic-bezier(0,0,0.2,1) 0.08s both;">VIKI.</span>
+      <div id="viki-hero-heading" style="animation: fadeUp 0.5s cubic-bezier(0,0,0.2,1) 0.08s both;"><span class="hero-v2-wordmark">VIKI.</span></div>
       <span class="hero-v2-sub" style="animation: fadeUp 0.5s cubic-bezier(0,0,0.2,1) 0.16s both;">Think it. Say it. Build it.</span>
     </div>
 
@@ -606,7 +620,7 @@
       <div class="red-rule mx-auto mb-7"></div>
       <h2 style="font-family:'Space Grotesk',sans-serif; font-size:clamp(2rem,4.5vw,3.5rem); font-weight:700; letter-spacing:-0.03em; line-height:1.1;">
         You move faster than you type.<br>
-        <span style="color: rgba(255,255,255,0.45);">VIKI keeps up.</span>
+        <span style="background: linear-gradient(135deg, #A100FF 0%, #8599FF 50%, #FF1673 100%); background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: gradientShift 5s ease infinite;">VIKI keeps up.</span>
       </h2>
       <p style="font-size:var(--text-base); color:var(--color-text-muted); line-height:1.75; margin-top:20px;">
         VIKI bridges the gap between raw creative thinking and real implementation. Brainstorm by voice, then push sessions directly into Claude Code as structured markdown references, turning conversations into buildable context.
@@ -657,13 +671,14 @@
       <div class="reveal" style="position:sticky; top:120px;">
         <div style="position:relative; display:inline-block;">
           <div style="position:absolute; inset:-16px; border-radius:50%; background: radial-gradient(ellipse at center, rgba(161,0,255,0.4) 0%, rgba(133,153,255,0.15) 50%, transparent 70%); filter:blur(20px);"></div>
-          <video id="viki-capabilities-video"
-               src="reference%20files/videos/combat_viki.mp4"
-               muted playsinline loop
-               style="position:relative; width:260px; height:260px; object-fit:cover; border-radius:50%;
-                      border: 1.5px solid rgba(161,0,255,0.4);
-                      box-shadow: 0 0 40px rgba(161,0,255,0.25), 0 0 80px rgba(133,153,255,0.1), 0 24px 48px rgba(0,0,0,0.5);">
-          </video>
+          <div class="portrait-ring" style="border-radius:50%; display:inline-block; width:260px; height:260px;">
+            <video id="viki-capabilities-video"
+                 src="assets/videos/combat_viki.mp4"
+                 muted playsinline loop
+                 style="width:100%; height:100%; object-fit:cover; border-radius:50%; display:block;
+                        box-shadow: 0 0 40px rgba(161,0,255,0.25), 0 0 80px rgba(133,153,255,0.1), 0 24px 48px rgba(0,0,0,0.5);">
+            </video>
+          </div>
         </div>
       </div>
 
@@ -899,8 +914,10 @@
       </a>
 
       <a href="agents/viki.html" class="agent-avatar-link" title="VIKI" aria-current="page">
-        <div class="agent-avatar-img" style="border-color: rgba(161,0,255,0.7); box-shadow: 0 0 20px rgba(161,0,255,0.35);">
-          <img src="assets/cascade/agents/viki.png" alt="VIKI" loading="lazy">
+        <div class="agent-avatar-img" style="border-color: rgba(161,0,255,0.7); box-shadow: 0 0 20px rgba(161,0,255,0.35); overflow: hidden;">
+          <video autoplay loop muted playsinline style="width:100%; height:100%; object-fit:cover; display:block;">
+            <source src="assets/videos/combat_viki.mp4" type="video/mp4">
+          </video>
         </div>
         <span class="agent-avatar-name" style="color:#A100FF;">VIKI</span>
       </a>
@@ -919,10 +936,12 @@
       <img id="footer-logo" src="assets/logos/logo-meet-dark-white.svg" alt="Pix3l LLC" class="h-7 w-auto opacity-60" loading="lazy">
 
       <div class="flex flex-wrap justify-center gap-6">
-        <a href="index.html#solutions" class="nav-link text-[13px]">Design Solutions</a>
-        <a href="index.html#products"  class="nav-link text-[13px]">AI Agents</a>
-        <a href="index.html#about"     class="nav-link text-[13px]">About</a>
-        <a href="index.html#contact"   class="nav-link text-[13px]">Contact</a>
+        <a href="#who-is-viki" class="nav-link text-[13px]">Overview</a>
+        <a href="#features"    class="nav-link text-[13px]">Features</a>
+        <a href="#how-it-works" class="nav-link text-[13px]">How It Works</a>
+        <a href="#tech-stack"  class="nav-link text-[13px]">Tech Stack</a>
+        <a href="#contact"     class="nav-link text-[13px]">Contact</a>
+        <a href="index.html"   class="nav-link text-[13px]">Pix3l LLC</a>
       </div>
 
       <div class="text-center md:text-right">

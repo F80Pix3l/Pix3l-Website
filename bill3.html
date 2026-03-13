@@ -3,7 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pix3l / BILL3 — Track it. Approve it. Send it.</title>
+  <title>BILL3 | Agentic Time Tracking by Pix3l</title>
+  <meta name="description" content="BILL3 is Pix3l's agentic time tracking system. Capture sessions, approve entries, and send invoices without the manual overhead.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://pix3l.co/bill3">
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://pix3l.co/bill3">
+  <meta property="og:title"       content="BILL3 | Agentic Time Tracking by Pix3l">
+  <meta property="og:description" content="BILL3 is Pix3l's agentic time tracking system. Capture sessions, approve entries, and send invoices without the manual overhead.">
+  <meta property="og:image"       content="https://pix3l.co/assets/images/hero/welcome-hero.png">
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="BILL3 | Agentic Time Tracking by Pix3l">
+  <meta name="twitter:description" content="BILL3 is Pix3l's agentic time tracking system. Capture sessions, approve entries, and send invoices without the manual overhead.">
+  <meta name="twitter:image"       content="https://pix3l.co/assets/images/hero/welcome-hero.png">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -52,7 +64,7 @@
       --text-2xl:       1.5rem;
       --text-3xl:       2rem;
       --text-4xl:       clamp(2.5rem, 5vw, 4rem);
-      --text-display:   clamp(3.5rem, 8vw, 7rem);
+      --text-display:   clamp(3rem, 6vw, 5.5rem);
 
       --space-1:  4px;
       --space-2:  8px;
@@ -251,9 +263,9 @@
       font-family: var(--font-mono);
       font-size: var(--text-xs);
       font-weight: 500;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--accent-blue);
+      color: #FF1673;
       margin-bottom: var(--space-6);
     }
     .eyebrow-dot {
@@ -284,6 +296,7 @@
       display: block;
     }
     .hero-headline .line-red {
+      display: block;
       background: linear-gradient(135deg, #FF1635 0%, #A100FF 60%, #FF1673 100%);
       background-size: 200% 200%;
       -webkit-background-clip: text;
@@ -1019,6 +1032,18 @@
       border-radius: var(--radius);
     }
   </style>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "BILL3",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "url": "https://pix3l.co/bill3",
+    "description": "BILL3 is Pix3l's agentic time tracking system. Capture sessions, approve entries, and send invoices without the manual overhead.",
+    "author": {"@type":"Organization","name":"Pix3l","url":"https://pix3l.co"}
+  }
+  </script>
 </head>
 <body>
 
@@ -1031,11 +1056,12 @@
       </a>
       <!-- Global product links -->
       <div class="hidden lg:flex items-center gap-7">
-        <a href="cascade.html" class="global-nav-link">Cascade</a>
+        <a href="cascade.html" class="global-nav-link">CASCADE</a>
         <a href="crunch.html"  class="global-nav-link">CRUNCH</a>
-        <a href="agents.html"  class="global-nav-link">Agents</a>
         <a href="viki.html"    class="global-nav-link">VIKI</a>
-        <a href="bill3.html"   class="global-nav-link">BILL3</a>
+        <a href="bill3.html"   class="global-nav-link current">BILL3</a>
+        <a href="agents.html"  class="global-nav-link">Agents</a>
+        <a href="aix.html"     class="global-nav-link">AiX</a>
         <a href="bio.html"     class="global-nav-link">Founder</a>
       </div>
       <!-- Right group: toggle + CTA + hamburger -->
@@ -1066,24 +1092,27 @@
       <div class="subnav-inner">
         <a href="#how"     class="subnav-link">How It Works</a>
         <a href="#capture" class="subnav-link">Capture Modes</a>
-        <a href="#agent"   class="subnav-link">The Agent</a>
-        <a href="#start"   class="subnav-link">Start</a>
+        <a href="#agent"        class="subnav-link">The Agent</a>
+        <a href="#architecture" class="subnav-link">Architecture</a>
+        <a href="#start"        class="subnav-link">Start</a>
       </div>
     </div>
     <!-- Mobile drawer -->
     <div id="mobile-drawer" class="hidden lg:hidden flex-col px-6 pb-5 pt-1 gap-0" style="background: rgba(0,6,35,0.97); border-bottom: 1px solid rgba(255,255,255,0.06);">
       <p class="drawer-label">Products</p>
-      <a href="cascade.html" class="nav-link py-2.5 border-b border-white/[0.07]">Cascade</a>
+      <a href="cascade.html" class="nav-link py-2.5 border-b border-white/[0.07]">CASCADE</a>
       <a href="crunch.html"  class="nav-link py-2.5 border-b border-white/[0.07]">CRUNCH</a>
-      <a href="agents.html"  class="nav-link py-2.5 border-b border-white/[0.07]">Agents</a>
       <a href="viki.html"    class="nav-link py-2.5 border-b border-white/[0.07]">VIKI</a>
-      <a href="bill3.html"   class="nav-link py-2.5 border-b border-white/[0.07]">BILL3</a>
+      <a href="bill3.html"   class="nav-link py-2.5 border-b border-white/[0.07] current">BILL3</a>
+      <a href="agents.html"  class="nav-link py-2.5 border-b border-white/[0.07]">Agents</a>
+      <a href="aix.html"     class="nav-link py-2.5 border-b border-white/[0.07]">AiX</a>
       <a href="bio.html"     class="nav-link py-2.5 border-b border-white/[0.07]">Founder</a>
       <p class="drawer-label">On this page</p>
       <a href="#how"     class="nav-link py-2.5 border-b border-white/[0.07]">How It Works</a>
       <a href="#capture" class="nav-link py-2.5 border-b border-white/[0.07]">Capture Modes</a>
-      <a href="#agent"   class="nav-link py-2.5 border-b border-white/[0.07]">The Agent</a>
-      <a href="#start"   class="btn btn-primary mt-4 justify-center" style="display:flex;">Start Tracking</a>
+      <a href="#agent"        class="nav-link py-2.5 border-b border-white/[0.07]">The Agent</a>
+      <a href="#architecture" class="nav-link py-2.5 border-b border-white/[0.07]">Architecture</a>
+      <a href="#start"        class="btn btn-primary mt-4 justify-center" style="display:flex;">Start Tracking</a>
     </div>
   </nav>
 
@@ -1102,11 +1131,11 @@
         <div class="hero-copy">
           <p class="hero-eyebrow animate-in" data-delay="1">
             <span class="eyebrow-dot" aria-hidden="true"></span>
-            Pix3l Suite &bull; Time Tracking
+            Pix3l &bull; Time Tracking
           </p>
           <h1 id="hero-heading" class="hero-headline animate-in" data-delay="2">
-            Track it.<br/>
-            <span class="line-accent">Approve it.</span><br/>
+            Track it.
+            <span class="line-accent">Approve it.</span>
             <span class="line-red">Send it.</span>
           </h1>
           <p class="hero-sub animate-in" data-delay="3">
@@ -1363,6 +1392,60 @@
     </div>
   </section>
 
+  <!-- ARCHITECTURE -->
+  <section id="architecture" style="padding: var(--space-32) 0; border-top: 1px solid var(--border);">
+    <div class="container">
+      <div class="reveal" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-16); align-items: center;">
+
+        <!-- Copy -->
+        <div>
+          <p class="section-label">Under the Hood</p>
+          <h2 class="section-title">Six layers.<br>One seamless flow.</h2>
+          <p class="section-sub" style="margin-bottom: var(--space-8);">From voice capture to delivered invoice, every step in BILL3 is a discrete, inspectable layer. No black boxes. See exactly how your time becomes money.</p>
+          <a href="bill3-architecture.html" class="btn-primary">
+            View the Architecture
+            <svg width="14" height="14" viewBox="0 0 15 15" fill="none" aria-hidden="true"><path d="M2 7.5h11M8.5 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+
+        <!-- Layer stack visual -->
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div class="arch-layer reveal" style="transition-delay: .05s; background: rgba(255,22,53,0.06); border: 1px solid rgba(255,22,53,0.2); border-radius: 10px; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between;">
+            <span class="arch-num" style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">01</span>
+            <span class="arch-name" style="font-family: var(--font-display); font-size: 13px; font-weight: 600;">Time Capture</span>
+            <span class="arch-detail" style="font-family: var(--font-mono); font-size: 10px; color: rgba(255,255,255,0.35);">Voice / Timer / AI / Manual</span>
+          </div>
+          <div class="arch-layer reveal" style="transition-delay: .10s; background: rgba(161,0,255,0.06); border: 1px solid rgba(161,0,255,0.2); border-radius: 10px; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between;">
+            <span class="arch-num" style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">02</span>
+            <span class="arch-name" style="font-family: var(--font-display); font-size: 13px; font-weight: 600;">AI Core</span>
+            <span class="arch-detail" style="font-family: var(--font-mono); font-size: 10px; color: rgba(255,255,255,0.35);">Claude 3.5 Sonnet</span>
+          </div>
+          <div class="arch-layer reveal" style="transition-delay: .15s; background: rgba(133,153,255,0.06); border: 1px solid rgba(133,153,255,0.2); border-radius: 10px; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between;">
+            <span class="arch-num" style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">03</span>
+            <span class="arch-name" style="font-family: var(--font-display); font-size: 13px; font-weight: 600;">Invoice Drafting</span>
+            <span class="arch-detail" style="font-family: var(--font-mono); font-size: 10px; color: rgba(255,255,255,0.35);">Auto-formatted PDF</span>
+          </div>
+          <div class="arch-layer reveal" style="transition-delay: .20s; background: rgba(255,22,115,0.06); border: 1px solid rgba(255,22,115,0.2); border-radius: 10px; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between;">
+            <span class="arch-num" style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">04</span>
+            <span class="arch-name" style="font-family: var(--font-display); font-size: 13px; font-weight: 600;">Review &amp; Approval</span>
+            <span class="arch-detail" style="font-family: var(--font-mono); font-size: 10px; color: rgba(255,255,255,0.35);">One-click confirm</span>
+          </div>
+          <div class="arch-layer reveal" style="transition-delay: .25s; background: rgba(255,100,0,0.06); border: 1px solid rgba(255,100,0,0.2); border-radius: 10px; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between;">
+            <span class="arch-num" style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">05</span>
+            <span class="arch-name" style="font-family: var(--font-display); font-size: 13px; font-weight: 600;">Delivery</span>
+            <span class="arch-detail" style="font-family: var(--font-mono); font-size: 10px; color: rgba(255,255,255,0.35);">Email / PDF export</span>
+          </div>
+          <div class="arch-layer reveal" style="transition-delay: .30s; background: rgba(0,200,100,0.06); border: 1px solid rgba(0,200,100,0.2); border-radius: 10px; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between;">
+            <span class="arch-num" style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5);">06</span>
+            <span class="arch-name" style="font-family: var(--font-display); font-size: 13px; font-weight: 600;">Tracking</span>
+            <span class="arch-detail" style="font-family: var(--font-mono); font-size: 10px; color: rgba(255,255,255,0.35);">Status dashboard</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- CTA -->
   <section class="section-cta" id="start" aria-labelledby="cta-heading">
     <div class="container">
@@ -1391,11 +1474,11 @@
           <img id="footer-logo" src="assets/logos/logo-meet-dark-white.svg" alt="Pix3l LLC" class="h-7 w-auto opacity-60" loading="lazy">
         </a>
         <div class="flex flex-wrap justify-center gap-6">
-          <a href="cascade.html" class="nav-link text-[13px]">Cascade</a>
-          <a href="crunch.html"  class="nav-link text-[13px]">CRUNCH</a>
-          <a href="agents.html"  class="nav-link text-[13px]">Agents</a>
-          <a href="viki.html"    class="nav-link text-[13px]">VIKI</a>
-          <a href="index.html"   class="nav-link text-[13px]">Pix3l LLC</a>
+          <a href="#how"                    class="nav-link text-[13px]">How It Works</a>
+          <a href="#capture"                class="nav-link text-[13px]">Capture Modes</a>
+          <a href="bill3-architecture.html" class="nav-link text-[13px]">Architecture</a>
+          <a href="#start"                  class="nav-link text-[13px]">Start</a>
+          <a href="index.html"              class="nav-link text-[13px]">Pix3l LLC</a>
         </div>
         <div class="text-center md:text-right">
           <a href="mailto:trey@pix3l.co" class="text-[#FF1673] text-sm transition-colors duration-200 hover:text-[#FF1635]" style="font-family:'Space Grotesk',sans-serif;font-weight:500;letter-spacing:-0.005em;">trey@pix3l.co</a>

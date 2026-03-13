@@ -7,16 +7,16 @@
   <title>AiX Philosophy | Human-First AI Design by Pix3l</title>
   <meta name="description" content="Pix3l AiX is a design philosophy for creating experiences that put people first while preparing products for the future. 8 principles for human-centered AI.">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://pix3l.io/aix">
+  <link rel="canonical" href="https://pix3l.co/aix">
   <meta property="og:type"        content="website">
-  <meta property="og:url"         content="https://pix3l.io/aix">
+  <meta property="og:url"         content="https://pix3l.co/aix">
   <meta property="og:title"       content="AiX Philosophy | Human-First AI Design by Pix3l">
   <meta property="og:description" content="Pix3l AiX is a design philosophy for creating experiences that put people first while preparing products for the future.">
-  <meta property="og:image"       content="https://pix3l.io/assets/images/hero/welcome-hero.png">
+  <meta property="og:image"       content="https://pix3l.co/assets/images/hero/welcome-hero.png">
   <meta name="twitter:card"        content="summary_large_image">
   <meta name="twitter:title"       content="AiX Philosophy | Human-First AI Design by Pix3l">
   <meta name="twitter:description" content="Pix3l AiX is a design philosophy for creating experiences that put people first while preparing products for the future.">
-  <meta name="twitter:image"       content="https://pix3l.io/assets/images/hero/welcome-hero.png">
+  <meta name="twitter:image"       content="https://pix3l.co/assets/images/hero/welcome-hero.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -302,6 +302,7 @@
     }
 
     .aix-hero-wordmark {
+      display: block;
       font-family: var(--font-display);
       font-size: var(--text-display);
       font-weight: 700;
@@ -499,17 +500,6 @@
       overflow: hidden;
       transition: border-color 0.22s var(--ease-standard), box-shadow 0.22s var(--ease-standard), background 0.22s var(--ease-standard);
     }
-    .principle-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 3px;
-      height: 100%;
-      background: var(--card-accent, var(--purple));
-      border-radius: 2px 0 0 2px;
-      opacity: 0.6;
-      transition: opacity 0.22s var(--ease-standard);
-    }
     .principle-card:hover {
       border-color: var(--color-border-strong);
       box-shadow:
@@ -550,7 +540,7 @@
 
     .principle-title {
       font-family: var(--font-display);
-      font-size: var(--text-lg);
+      font-size: var(--text-xl);
       font-weight: 700;
       letter-spacing: -0.02em;
       color: var(--color-text-primary);
@@ -641,6 +631,16 @@
   <link rel="stylesheet" href="glow.css">
   <link rel="stylesheet" href="theme.css">
   <link rel="stylesheet" href="nav.css">
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "AiX Philosophy | Human-First AI Design by Pix3l",
+    "url": "https://pix3l.co/aix",
+    "description": "Pix3l AiX is a design philosophy for creating experiences that put people first while preparing products for the future.",
+    "author": {"@type":"Organization","name":"Pix3l","url":"https://pix3l.co"}
+  }
+  </script>
 </head>
 <body>
 
@@ -653,11 +653,12 @@
       </a>
       <!-- Global product links -->
       <div class="hidden lg:flex items-center gap-7">
-        <a href="cascade.html" class="global-nav-link">Cascade</a>
+        <a href="cascade.html" class="global-nav-link">CASCADE</a>
         <a href="crunch.html"  class="global-nav-link">CRUNCH</a>
-        <a href="agents.html"  class="global-nav-link">Agents</a>
         <a href="viki.html"    class="global-nav-link">VIKI</a>
         <a href="bill3.html"   class="global-nav-link">BILL3</a>
+        <a href="agents.html"  class="global-nav-link">Agents</a>
+        <a href="aix.html"     class="global-nav-link current">AiX</a>
         <a href="bio.html"     class="global-nav-link">Founder</a>
       </div>
       <!-- Right group: toggle + CTA + hamburger -->
@@ -694,11 +695,12 @@
     <!-- Mobile drawer -->
     <div id="mobile-drawer" class="hidden lg:hidden flex-col px-6 pb-5 pt-1 gap-0" style="background: rgba(0,6,35,0.97); border-bottom: 1px solid rgba(255,255,255,0.06);">
       <p class="drawer-label">Products</p>
-      <a href="cascade.html" class="nav-link py-2.5 border-b border-white/[0.07]">Cascade</a>
+      <a href="cascade.html" class="nav-link py-2.5 border-b border-white/[0.07]">CASCADE</a>
       <a href="crunch.html"  class="nav-link py-2.5 border-b border-white/[0.07]">CRUNCH</a>
       <a href="agents.html"  class="nav-link py-2.5 border-b border-white/[0.07]">Agents</a>
       <a href="viki.html"    class="nav-link py-2.5 border-b border-white/[0.07]">VIKI</a>
       <a href="bill3.html"   class="nav-link py-2.5 border-b border-white/[0.07]">BILL3</a>
+      <a href="aix.html"     class="nav-link py-2.5 border-b border-white/[0.07] current">AiX</a>
       <a href="bio.html"     class="nav-link py-2.5 border-b border-white/[0.07]">Founder</a>
       <p class="drawer-label">On this page</p>
       <a href="#philosophy" class="nav-link py-2.5 border-b border-white/[0.07]">Philosophy</a>
@@ -726,7 +728,7 @@
         </div>
 
         <h1 class="aix-hero-headline" id="aix-hero-heading">
-          <span class="aix-hero-wordmark" style="animation: fadeUp 0.5s var(--ease-out) 0.08s both;">AiX.</span>
+          <div style="animation: fadeUp 0.5s var(--ease-out) 0.08s both;"><span class="aix-hero-wordmark">AiX.</span></div>
           <span class="aix-hero-sub" style="animation: fadeUp 0.5s var(--ease-out) 0.16s both;">Human-first design<br>for an AI-powered world.</span>
         </h1>
 
@@ -930,7 +932,7 @@
     <!-- ══════════════════════════════════════════════
          CTA
     ══════════════════════════════════════════════ -->
-    <section class="cta-section" id="contact-cta" style="padding-block-start: calc(var(--space-24) + var(--space-16));" aria-labelledby="cta-heading">
+    <section class="cta-section" id="contact-cta" style="padding-block-start: calc(var(--space-24) + var(--space-16)); padding-block-end: calc(var(--space-24) + var(--space-16));" aria-labelledby="cta-heading">
       <div class="container" style="position: relative; z-index: 1;">
         <p class="section-label" style="display: block; text-align: center; margin-bottom: var(--space-4);" data-reveal>Let's Connect</p>
         <h2 class="cta-section-heading" id="cta-heading" data-reveal>Want to chat?</h2>

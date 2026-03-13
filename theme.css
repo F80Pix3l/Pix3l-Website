@@ -765,9 +765,13 @@ html[data-theme="light"] .timer-label { color: rgba(13,0,32,0.45) !important; }
 html[data-theme="light"] .timer-value { color: #0D0020 !important; }
 html[data-theme="light"] .timer-client { color: rgba(13,0,32,0.45) !important; }
 html[data-theme="light"] .recent-entry { border-bottom-color: rgba(161,0,255,0.08) !important; }
-html[data-theme="light"] .entry-project { color: rgba(13,0,32,0.45) !important; }
-html[data-theme="light"] .entry-name { color: #0D0020 !important; }
-html[data-theme="light"] .entry-hours { color: #0D0020 !important; }
+html[data-theme="light"] .entry-project  { color: rgba(13,0,32,0.45) !important; }
+html[data-theme="light"] .entry-name     { color: #0D0020 !important; }
+html[data-theme="light"] .entry-hours    { color: #0D0020 !important; }
+html[data-theme="light"] .entry-item     { background: rgba(161,0,255,0.04) !important; border-color: rgba(161,0,255,0.12) !important; }
+html[data-theme="light"] .entry-desc     { color: #0D0020 !important; }
+html[data-theme="light"] .entry-meta     { color: rgba(13,0,32,0.45) !important; }
+html[data-theme="light"] .entry-duration { color: #6B00CC !important; }
 
 /* Section backgrounds */
 html[data-theme="light"] .section-how     { background: linear-gradient(180deg, #F2EFFF 0%, #EDE8FF 55%, #E8E2FF 100%) !important; }
@@ -862,5 +866,18 @@ html[data-theme="light"] .cta-box {
 }
 html[data-theme="light"] .cta-title { color: #0D0020 !important; }
 html[data-theme="light"] .cta-sub   { color: #5A5270 !important; }
+
+/* Architecture section (bill3.html) */
+html[data-theme="light"] #architecture {
+  background: linear-gradient(180deg, #F2EFFF 0%, #EDE8FF 55%, #F2EFFF 100%) !important;
+  border-top-color: rgba(161,0,255,0.12) !important;
+}
+html[data-theme="light"] .arch-layer {
+  background: rgba(255,255,255,0.75) !important;
+  border-color: rgba(161,0,255,0.18) !important;
+}
+html[data-theme="light"] .arch-num    { color: rgba(13,0,32,0.35) !important; }
+html[data-theme="light"] .arch-name   { color: #0D0020 !important; }
+html[data-theme="light"] .arch-detail { color: rgba(13,0,32,0.40) !important; }
 
 /* Footer: uses shared Tailwind classes + existing footer rules in theme.css */

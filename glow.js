@@ -18,11 +18,13 @@
     '.agent-thumb',
     '.agent-avatar-img',
     '.aix-card',
+    '.principle-card',
     '.step-card',
     '.capture-card',
     '.invoice-mockup',
     '.cta-box',
     '.portrait-ring',
+    '.mockup-shell',
   ];
 
   function fixImageContainerRadius(card) {

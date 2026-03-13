@@ -6,7 +6,8 @@
 .agent-portrait,
 .feature-card,
 .cap-card,
-.aix-card {
+.aix-card,
+.principle-card {
   overflow: visible !important;
 }
 
@@ -25,10 +26,13 @@
 .cta-box .pix3l-glow,
 .step-card .pix3l-glow,
 .capture-card .pix3l-glow,
-.portrait-ring .pix3l-glow {
+.portrait-ring .pix3l-glow,
+.mockup-shell .pix3l-glow {
   inset: 0;
   padding: 2px;
 }
+
+.portrait-ring .pix3l-glow { padding: 4px; }
 
 .agent-portrait {
   border-radius: 1rem; /* matches rounded-2xl on the portrait <img> */
