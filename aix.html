@@ -7,6 +7,8 @@
   <title>AiX Philosophy | Human-First AI Design by Pix3l</title>
   <meta name="description" content="Pix3l AiX is a design philosophy for creating experiences that put people first while preparing products for the future. 8 principles for human-centered AI.">
   <meta name="robots" content="index, follow">
+  <meta name="author" content="Trey | Pix3l LLC">
+  <meta name="theme-color" content="#000623">
   <link rel="canonical" href="https://pix3l.co/aix">
   <meta property="og:type"        content="website">
   <meta property="og:url"         content="https://pix3l.co/aix">
@@ -14,6 +16,8 @@
   <meta property="og:description" content="Pix3l AiX is a design philosophy for creating experiences that put people first while preparing products for the future.">
   <meta property="og:image"       content="https://pix3l.co/assets/images/hero/welcome-hero.png">
   <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:site"        content="@pix3lco">
+  <meta name="twitter:creator"     content="@pix3lco">
   <meta name="twitter:title"       content="AiX Philosophy | Human-First AI Design by Pix3l">
   <meta name="twitter:description" content="Pix3l AiX is a design philosophy for creating experiences that put people first while preparing products for the future.">
   <meta name="twitter:image"       content="https://pix3l.co/assets/images/hero/welcome-hero.png">
@@ -636,15 +640,69 @@
   <link rel="stylesheet" href="theme.css">
   <link rel="stylesheet" href="nav.css">
 <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "AiX Philosophy | Human-First AI Design by Pix3l",
-    "url": "https://pix3l.co/aix",
-    "description": "Pix3l AiX is a design philosophy for creating experiences that put people first while preparing products for the future.",
-    "author": {"@type":"Organization","name":"Pix3l","url":"https://pix3l.co"}
-  }
-  </script>
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://pix3l.co/aix#webpage",
+      "url": "https://pix3l.co/aix",
+      "name": "AiX Philosophy | Human-First AI Design by Pix3l",
+      "description": "Pix3l AiX is a design philosophy for creating experiences that put people first while preparing products for the future. 8 principles for human-centered AI.",
+      "inLanguage": "en-US",
+      "isPartOf": {"@id": "https://pix3l.co/#website"},
+      "author": {"@id": "https://pix3l.co/#person"},
+      "publisher": {"@id": "https://pix3l.co/#organization"},
+      "breadcrumb": {"@id": "https://pix3l.co/aix#breadcrumb"}
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://pix3l.co/aix#breadcrumb",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://pix3l.co/"},
+        {"@type":"ListItem","position":2,"name":"AiX Philosophy","item":"https://pix3l.co/aix"}
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://pix3l.co/#website",
+      "url": "https://pix3l.co/",
+      "name": "Pix3l LLC",
+      "publisher": {"@id": "https://pix3l.co/#organization"}
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://pix3l.co/#organization",
+      "name": "Pix3l LLC",
+      "url": "https://pix3l.co",
+      "logo": {"@type":"ImageObject","url":"https://pix3l.co/assets/logos/logo-meet-dark-white.svg"}
+    },
+    {
+      "@type": "Person",
+      "@id": "https://pix3l.co/#person",
+      "name": "Trey",
+      "url": "https://pix3l.co/bio",
+      "worksFor": {"@id": "https://pix3l.co/#organization"}
+    },
+    {
+      "@type": "ItemList",
+      "name": "AiX Design Principles",
+      "description": "8 principles for human-centered AI design by Pix3l",
+      "numberOfItems": 8,
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Empathize and Define"},
+        {"@type":"ListItem","position":2,"name":"Responsible Data Stewardship"},
+        {"@type":"ListItem","position":3,"name":"Mental Models and Expectations"},
+        {"@type":"ListItem","position":4,"name":"Transparency and Trust"},
+        {"@type":"ListItem","position":5,"name":"User Autonomy and Control"},
+        {"@type":"ListItem","position":6,"name":"Adaptive Feedback Loop"},
+        {"@type":"ListItem","position":7,"name":"Safety and Resilience"},
+        {"@type":"ListItem","position":8,"name":"Delight and Creativity"}
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -733,7 +791,7 @@
         </div>
 
         <h1 class="aix-hero-headline" id="aix-hero-heading">
-          <div style="animation: fadeUp 0.5s var(--ease-out) 0.08s both;"><span class="aix-hero-wordmark">AiX.</span></div>
+          <span style="display:block; animation: fadeUp 0.5s var(--ease-out) 0.08s both;"><span class="aix-hero-wordmark">AiX.</span></span>
           <span class="aix-hero-sub" style="animation: fadeUp 0.5s var(--ease-out) 0.16s both;">Human-first design<br>for an AI-powered world.</span>
         </h1>
 
@@ -775,7 +833,7 @@
     <section class="philosophy-section section" id="philosophy" aria-labelledby="philosophy-heading">
       <div class="container" style="position: relative; z-index: 1;">
 
-        <p class="section-label" data-reveal>The Foundation</p>
+        <p class="section-label" id="philosophy-heading" data-reveal>The Foundation</p>
         <div class="accent-divider" data-reveal></div>
 
         <blockquote class="philosophy-quote" data-reveal>
