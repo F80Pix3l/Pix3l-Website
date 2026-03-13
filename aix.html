@@ -276,23 +276,27 @@
     .aix-hero-eyebrow {
       display: inline-flex;
       align-items: center;
-      gap: var(--space-2);
+      gap: 10px;
+      padding: 6px 16px;
+      border-radius: 99px;
       font-family: var(--font-mono);
       font-size: 11px;
       font-weight: 500;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--vista-blue);
+      color: rgba(133,153,255,0.75);
       margin-bottom: var(--space-6);
     }
     .aix-hero-eyebrow-dot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: var(--purple);
+      background: rgba(133,153,255,0.85);
+      box-shadow: 0 0 8px rgba(161,0,255,0.4);
       animation: pulseDot 2.4s ease-in-out infinite;
       flex-shrink: 0;
     }
+    .aix-hero-eyebrow-divider { width: 1px; height: 12px; background: rgba(133,153,255,0.2); flex-shrink: 0; }
 
     .aix-hero-headline {
       display: flex;
@@ -724,6 +728,7 @@
       <div class="container aix-hero-content">
         <div class="aix-hero-eyebrow" style="animation: fadeUp 0.5s var(--ease-out) both;">
           <span class="aix-hero-eyebrow-dot"></span>
+          <span class="aix-hero-eyebrow-divider"></span>
           Pix3l · Design Philosophy
         </div>
 
@@ -739,7 +744,6 @@
         <div class="aix-hero-actions" style="animation: fadeUp 0.5s var(--ease-out) 0.32s both;">
           <a href="#principles" class="btn btn-purple btn-lg">
             Explore the Principles
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 2v12M2 8l6 6 6-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
           <a href="bio.html" class="btn btn-outline btn-lg">
             About Trey

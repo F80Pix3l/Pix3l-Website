@@ -259,29 +259,26 @@
     .hero-eyebrow {
       display: inline-flex;
       align-items: center;
-      gap: var(--space-2);
+      gap: 10px;
+      padding: 6px 16px;
+      border-radius: 99px;
       font-family: var(--font-mono);
       font-size: var(--text-xs);
       font-weight: 500;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: #FF1673;
+      color: rgba(255,86,107,0.75);
       margin-bottom: var(--space-6);
     }
     .eyebrow-dot {
       width: 6px; height: 6px;
-      background: var(--accent-red);
+      background: rgba(255,86,107,0.85);
       border-radius: 50%;
-      position: relative;
+      box-shadow: 0 0 8px rgba(255,22,53,0.4);
+      animation: pulse-ring 2s ease-in-out infinite;
+      flex-shrink: 0;
     }
-    .eyebrow-dot::after {
-      content: '';
-      position: absolute;
-      inset: -4px;
-      border-radius: 50%;
-      border: 1px solid var(--accent-red);
-      animation: pulse-ring 1.5s var(--ease) infinite;
-    }
+    .eyebrow-divider { width: 1px; height: 12px; background: rgba(255,22,53,0.2); flex-shrink: 0; }
 
     .hero-headline {
       font-family: var(--font-display);
@@ -1131,6 +1128,7 @@
         <div class="hero-copy">
           <p class="hero-eyebrow animate-in" data-delay="1">
             <span class="eyebrow-dot" aria-hidden="true"></span>
+            <span class="eyebrow-divider" aria-hidden="true"></span>
             Pix3l &bull; Time Tracking
           </p>
           <h1 id="hero-heading" class="hero-headline animate-in" data-delay="2">
@@ -1144,7 +1142,6 @@
           <div class="hero-ctas animate-in" data-delay="4">
             <a href="#start" class="btn-primary">
               Start Tracking
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </a>
             <a href="#how" class="btn-secondary">See how it works</a>
           </div>

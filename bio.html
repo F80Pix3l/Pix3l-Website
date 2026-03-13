@@ -133,6 +133,30 @@
     }
     .red-rule { width: 44px; height: 3px; background: linear-gradient(90deg, #FF1635, #FF1673); border-radius: 2px; }
 
+    /* ── HERO EYEBROW ── */
+    .bio-hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 6px 16px; border-radius: 99px;
+      font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(255,86,107,0.75); margin-bottom: 24px;
+    }
+    .bio-hero-eyebrow-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(255,86,107,0.85);
+      box-shadow: 0 0 8px rgba(255,22,53,0.4);
+      animation: pulseDot 2.4s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    .bio-hero-eyebrow-divider { width: 1px; height: 12px; background: rgba(255,22,53,0.2); flex-shrink: 0; }
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(0.75); }
+    }
+    html[data-theme="light"] .bio-hero-eyebrow         { color: rgba(153,0,51,0.70) !important; }
+    html[data-theme="light"] .bio-hero-eyebrow-dot     { background: rgba(153,0,51,0.65) !important; box-shadow: 0 0 6px rgba(204,0,85,0.2) !important; }
+    html[data-theme="light"] .bio-hero-eyebrow-divider { background: rgba(204,0,85,0.22) !important; }
+
     /* ── HERO ── */
     .hero-bg-img { display: none; }
     .hero-overlay { display: none; }
@@ -381,9 +405,11 @@
   </div>
 
   <div class="relative max-w-4xl mx-auto" style="z-index:10;">
-    <p style="font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:#FF1673; margin-bottom:24px; animation: fadeUp 0.6s var(--ease) .05s both;">
+    <div class="bio-hero-eyebrow" style="animation: fadeUp 0.6s var(--ease) .05s both;">
+      <span class="bio-hero-eyebrow-dot" aria-hidden="true"></span>
+      <span class="bio-hero-eyebrow-divider" aria-hidden="true"></span>
       Principal UX Designer &nbsp;/&nbsp; Founder &amp; CEO, Pix3l LLC
-    </p>
+    </div>
     <h1 style="font-family:'Space Grotesk',sans-serif; font-size:clamp(2.6rem,6.5vw,5rem); font-weight:700; letter-spacing:-0.04em; line-height:1.05; animation: fadeUp 0.6s var(--ease) .12s both;">
       Designing the Future of<br>
       <span style="background:linear-gradient(135deg, #A100FF 0%, #8599FF 50%, #FF1673 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">

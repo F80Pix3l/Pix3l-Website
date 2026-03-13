@@ -376,17 +376,20 @@
     }
     .hero-v2-content { position: relative; z-index: 2; }
     .hero-v2-eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 6px 16px; border-radius: 99px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 11px; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase;
-      color: #FF1673; margin-bottom: 24px;
+      font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(255,86,107,0.75); margin-bottom: 24px;
     }
     .hero-v2-eyebrow-dot {
       width: 6px; height: 6px; border-radius: 50%;
-      background: #FF1635;
+      background: rgba(255,86,107,0.85);
+      box-shadow: 0 0 8px rgba(255,22,53,0.4);
       animation: pulseDot 2s ease-in-out infinite;
       flex-shrink: 0;
     }
+    .hero-v2-eyebrow-divider { width: 1px; height: 12px; background: rgba(255,22,53,0.2); flex-shrink: 0; }
     .hero-v2-headline { margin-bottom: 32px; }
     .hero-v2-wordmark {
       font-family: 'Space Grotesk', sans-serif;
@@ -566,6 +569,7 @@
   <div class="hero-v2-content max-w-7xl mx-auto px-6 w-full">
     <div class="hero-v2-eyebrow" style="animation: fadeUp 0.5s cubic-bezier(0,0,0.2,1) both;">
       <span class="hero-v2-eyebrow-dot"></span>
+      <span class="hero-v2-eyebrow-divider"></span>
       Pix3l · Voice AI
     </div>
 
