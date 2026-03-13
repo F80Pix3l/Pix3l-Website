@@ -484,6 +484,7 @@
       <a href="crunch.html"  class="global-nav-link">CRUNCH</a>
       <a href="agents.html"  class="global-nav-link">Agents</a>
       <a href="viki.html"    class="global-nav-link current">VIKI</a>
+        <a href="bill3.html"   class="global-nav-link">BILL3</a>
       <a href="bio.html"     class="global-nav-link">Founder</a>
     </div>
     <!-- Right: toggle + CTA + hamburger -->
@@ -525,6 +526,7 @@
     <a href="crunch.html"  class="nav-link py-2.5 border-b border-white/[0.07]">CRUNCH</a>
     <a href="agents.html"  class="nav-link py-2.5 border-b border-white/[0.07]">Agents</a>
     <a href="viki.html"    class="nav-link py-2.5 border-b border-white/[0.07]">VIKI</a>
+      <a href="bill3.html"   class="nav-link py-2.5 border-b border-white/[0.07]">BILL3</a>
     <a href="bio.html"    class="nav-link py-2.5 border-b border-white/[0.07]">Founder</a>
     <p class="drawer-label">On this page</p>
     <a href="#features"     class="nav-link py-2.5 border-b border-white/[0.07]">Features</a>
@@ -646,7 +648,7 @@
     <div class="text-center mb-16 reveal">
       <p class="cap-pill mb-3">Capabilities</p>
       <div class="red-rule mx-auto mb-7"></div>
-      <h2 style="font-family:'Space Grotesk',sans-serif; font-size:clamp(2rem,4.5vw,3.5rem); font-weight:700; letter-spacing:-0.03em;">Everything VIKI can do</h2>
+      <h2 style="font-family:'Space Grotesk',sans-serif; font-size:clamp(2rem,4.5vw,3.5rem); font-weight:700; letter-spacing:-0.03em;">VIKI battles projects, not <span style="background: linear-gradient(135deg, #FF1673 0%, #A100FF 100%); background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: gradientShift 4s ease infinite;">humans</span>.</h2>
     </div>
 
     <div style="display:grid; grid-template-columns:auto 1fr; align-items:start; gap:64px;" class="capabilities-layout">
@@ -655,10 +657,13 @@
       <div class="reveal" style="position:sticky; top:120px;">
         <div style="position:relative; display:inline-block;">
           <div style="position:absolute; inset:-16px; border-radius:50%; background: radial-gradient(ellipse at center, rgba(161,0,255,0.4) 0%, rgba(133,153,255,0.15) 50%, transparent 70%); filter:blur(20px);"></div>
-          <img src="assets/cascade/agents/viki.png" alt="VIKI"
+          <video id="viki-capabilities-video"
+               src="reference%20files/videos/combat_viki.mp4"
+               muted playsinline loop
                style="position:relative; width:260px; height:260px; object-fit:cover; border-radius:50%;
                       border: 1.5px solid rgba(161,0,255,0.4);
                       box-shadow: 0 0 40px rgba(161,0,255,0.25), 0 0 80px rgba(133,153,255,0.1), 0 24px 48px rgba(0,0,0,0.5);">
+          </video>
         </div>
       </div>
 
@@ -1107,5 +1112,27 @@
 })();
 </script>
 <script src="glow.js"></script>
+<script>
+  (function () {
+    const video = document.getElementById('viki-capabilities-video');
+    const section = document.getElementById('features');
+    if (!video || !section) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(section);
+  })();
+</script>
 </body>
 </html>

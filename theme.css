@@ -735,3 +735,132 @@ html[data-theme="light"] footer [style*="color:#A3A3A3"],
 html[data-theme="light"] footer [style*="opacity:0.6"] { color: #5A5270 !important; opacity: 1 !important; }
 html[data-theme="light"] footer a { color: #5A5270 !important; }
 html[data-theme="light"] footer a:hover { color: #0D0020 !important; }
+
+/* ══════════════════════════════════════════════════════════════════
+   BILL3.HTML — Light mode overrides
+══════════════════════════════════════════════════════════════════ */
+
+/* Hero */
+html[data-theme="light"] .hero { background: linear-gradient(160deg, #F2EFFF 0%, #EDE8FF 50%, #E8E2FF 100%) !important; }
+html[data-theme="light"] .hero-eyebrow { color: #6B00CC !important; }
+html[data-theme="light"] .hero-headline { color: #0D0020 !important; }
+html[data-theme="light"] .hero-headline .line-accent { color: #4A55C0 !important; -webkit-text-fill-color: #4A55C0 !important; }
+html[data-theme="light"] .hero-sub { color: #5A5270 !important; }
+html[data-theme="light"] .btn-secondary { color: #0D0020 !important; border-color: rgba(13,0,32,0.22) !important; }
+html[data-theme="light"] .btn-secondary:hover { color: #0D0020 !important; border-color: rgba(13,0,32,0.45) !important; }
+
+/* Hero mockup shell */
+html[data-theme="light"] .mockup-shell {
+  background: #fff !important;
+  border-color: rgba(161,0,255,0.18) !important;
+  box-shadow: 0 8px 40px rgba(100,60,180,0.14), 0 2px 10px rgba(0,0,0,0.06) !important;
+}
+html[data-theme="light"] .mockup-topbar {
+  background: rgba(242,239,255,0.95) !important;
+  border-bottom-color: rgba(161,0,255,0.12) !important;
+}
+html[data-theme="light"] .mockup-title { color: rgba(13,0,32,0.38) !important; }
+html[data-theme="light"] .timer-display { border-bottom-color: rgba(161,0,255,0.10) !important; }
+html[data-theme="light"] .timer-label { color: rgba(13,0,32,0.45) !important; }
+html[data-theme="light"] .timer-value { color: #0D0020 !important; }
+html[data-theme="light"] .timer-client { color: rgba(13,0,32,0.45) !important; }
+html[data-theme="light"] .recent-entry { border-bottom-color: rgba(161,0,255,0.08) !important; }
+html[data-theme="light"] .entry-project { color: rgba(13,0,32,0.45) !important; }
+html[data-theme="light"] .entry-name { color: #0D0020 !important; }
+html[data-theme="light"] .entry-hours { color: #0D0020 !important; }
+
+/* Section backgrounds */
+html[data-theme="light"] .section-how     { background: linear-gradient(180deg, #F2EFFF 0%, #EDE8FF 55%, #E8E2FF 100%) !important; }
+html[data-theme="light"] .section-capture { background: linear-gradient(180deg, #E8E2FF 0%, #EDE8FF 55%, #E8E2FF 100%) !important; }
+html[data-theme="light"] .section-agent   { background: linear-gradient(180deg, #E8E2FF 0%, #EDE8FF 55%, #F2EFFF 100%) !important; }
+html[data-theme="light"] .section-cta     { background: linear-gradient(180deg, #F2EFFF 0%, #EDE8FF 55%, #F2EFFF 100%) !important; }
+html[data-theme="light"] .stats-bar {
+  border-top-color: rgba(161,0,255,0.10) !important;
+  border-bottom-color: rgba(161,0,255,0.10) !important;
+}
+
+/* Section text */
+html[data-theme="light"] .section-label { color: #6B00CC !important; }
+html[data-theme="light"] .section-title { color: #0D0020 !important; }
+html[data-theme="light"] .section-sub   { color: #5A5270 !important; }
+html[data-theme="light"] .stat-val      { color: #0D0020 !important; }
+html[data-theme="light"] .stat-label    { color: rgba(13,0,32,0.38) !important; }
+
+/* Step cards */
+html[data-theme="light"] .step-card {
+  background: rgba(255,255,255,0.90) !important;
+  border-color: rgba(161,0,255,0.12) !important;
+  box-shadow: 0 4px 20px rgba(100,60,180,0.07), 0 1px 4px rgba(0,0,0,0.04) !important;
+}
+html[data-theme="light"] .step-card:hover {
+  border-color: rgba(161,0,255,0.25) !important;
+  box-shadow: 0 10px 36px rgba(100,60,180,0.12), 0 2px 8px rgba(0,0,0,0.05) !important;
+}
+html[data-theme="light"] .step-title { color: #0D0020 !important; }
+html[data-theme="light"] .step-desc  { color: #5A5270 !important; }
+
+/* Capture cards */
+html[data-theme="light"] .capture-card {
+  background: rgba(255,255,255,0.90) !important;
+  border-color: rgba(161,0,255,0.12) !important;
+  box-shadow: 0 4px 20px rgba(100,60,180,0.07), 0 1px 4px rgba(0,0,0,0.04) !important;
+}
+html[data-theme="light"] .capture-card:hover {
+  border-color: rgba(161,0,255,0.25) !important;
+  box-shadow: 0 10px 36px rgba(100,60,180,0.12) !important;
+}
+html[data-theme="light"] .capture-title { color: #0D0020 !important; }
+html[data-theme="light"] .capture-desc  { color: #5A5270 !important; }
+html[data-theme="light"] .badge-timer   { background: rgba(255,22,53,0.08) !important;  border-color: rgba(255,22,53,0.18) !important; }
+html[data-theme="light"] .badge-manual  { background: rgba(133,153,255,0.10) !important; border-color: rgba(133,153,255,0.20) !important; }
+html[data-theme="light"] .badge-cal     { background: rgba(161,0,255,0.08) !important;  border-color: rgba(161,0,255,0.18) !important; }
+html[data-theme="light"] .badge-idle    { background: rgba(255,94,8,0.08) !important;   border-color: rgba(255,94,8,0.18) !important; }
+
+/* Agent section text */
+html[data-theme="light"] .section-agent .section-title { color: #0D0020 !important; }
+html[data-theme="light"] .section-agent .section-sub   { color: #5A5270 !important; }
+html[data-theme="light"] .point-title { color: #0D0020 !important; }
+html[data-theme="light"] .point-desc  { color: #5A5270 !important; }
+html[data-theme="light"] .point-icon  { background: rgba(161,0,255,0.08) !important; border-color: rgba(161,0,255,0.14) !important; }
+
+/* Invoice mockup */
+html[data-theme="light"] .invoice-mockup {
+  background: #fff !important;
+  border-color: rgba(161,0,255,0.18) !important;
+  box-shadow: 0 8px 40px rgba(100,60,180,0.12), 0 2px 10px rgba(0,0,0,0.05) !important;
+}
+html[data-theme="light"] .invoice-header {
+  background: rgba(242,239,255,0.95) !important;
+  border-bottom-color: rgba(161,0,255,0.10) !important;
+}
+html[data-theme="light"] .invoice-id          { color: rgba(13,0,32,0.38) !important; }
+html[data-theme="light"] .invoice-client-name { color: #0D0020 !important; }
+html[data-theme="light"] .invoice-client-email { color: rgba(13,0,32,0.42) !important; }
+html[data-theme="light"] .invoice-lines       { border-color: rgba(161,0,255,0.10) !important; }
+html[data-theme="light"] .invoice-line-head   { background: rgba(161,0,255,0.04) !important; border-bottom-color: rgba(161,0,255,0.08) !important; }
+html[data-theme="light"] .invoice-line        { border-bottom-color: rgba(161,0,255,0.08) !important; }
+html[data-theme="light"] .col-label           { color: rgba(13,0,32,0.38) !important; }
+html[data-theme="light"] .col-val             { color: #0D0020 !important; }
+html[data-theme="light"] .col-val-mono        { color: #5A5270 !important; }
+html[data-theme="light"] .invoice-total {
+  background: rgba(161,0,255,0.04) !important;
+  border-color: rgba(161,0,255,0.14) !important;
+}
+html[data-theme="light"] .total-label  { color: #5A5270 !important; }
+html[data-theme="light"] .total-amount { color: #0D0020 !important; }
+html[data-theme="light"] .btn-edit {
+  color: rgba(13,0,32,0.55) !important;
+  border-color: rgba(13,0,32,0.18) !important;
+}
+html[data-theme="light"] .btn-edit:hover { color: #0D0020 !important; border-color: rgba(13,0,32,0.40) !important; }
+
+/* CTA box */
+html[data-theme="light"] .cta-box {
+  background: rgba(255,255,255,0.85) !important;
+  border-color: rgba(161,0,255,0.16) !important;
+  box-shadow: 0 8px 40px rgba(100,60,180,0.09), 0 2px 10px rgba(0,0,0,0.04) !important;
+}
+html[data-theme="light"] .cta-title { color: #0D0020 !important; }
+html[data-theme="light"] .cta-sub   { color: #5A5270 !important; }
+
+/* Footer: uses shared Tailwind classes + existing footer rules in theme.css */

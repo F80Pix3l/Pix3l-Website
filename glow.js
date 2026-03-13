@@ -14,6 +14,15 @@
     '.workflow-card',
     '.tech-chip',
     '.cap-card',
+    '.lifecycle-step',
+    '.agent-thumb',
+    '.agent-avatar-img',
+    '.aix-card',
+    '.step-card',
+    '.capture-card',
+    '.invoice-mockup',
+    '.cta-box',
+    '.portrait-ring',
   ];
 
   function fixImageContainerRadius(card) {

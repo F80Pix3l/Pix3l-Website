@@ -5,8 +5,29 @@
 .agent-card,
 .agent-portrait,
 .feature-card,
-.cap-card {
+.cap-card,
+.aix-card {
   overflow: visible !important;
+}
+
+/* lifecycle-step cards live inside overflow-x:auto scroll containers —
+   keep overflow:hidden (default) so the glow ring stays inset and never
+   gets clipped at the scroll container edge */
+.lifecycle-step {
+  overflow: hidden;
+}
+
+/* Inner glow ring: inset 0 so it never bleeds outside the card */
+.lifecycle-step .pix3l-glow,
+.agent-thumb .pix3l-glow,
+.agent-avatar-img .pix3l-glow,
+.invoice-mockup .pix3l-glow,
+.cta-box .pix3l-glow,
+.step-card .pix3l-glow,
+.capture-card .pix3l-glow,
+.portrait-ring .pix3l-glow {
+  inset: 0;
+  padding: 2px;
 }
 
 .agent-portrait {
@@ -51,8 +72,9 @@
   opacity: 1;
 }
 
-/* Suppress crunch.html's original top-stroke hover effect — replaced by glow */
-.feature-card:hover::before {
+/* Suppress original top-stroke hover effects — replaced by glow */
+.feature-card:hover::before,
+.step-card:hover::before {
   opacity: 0 !important;
 }
 
