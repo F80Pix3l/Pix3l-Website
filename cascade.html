@@ -856,9 +856,11 @@
           </div>
         </a>
 
-        <a href="viki.html" class="agent-card reveal" style="transition-delay:.24s; text-decoration:none; display:block;">
+        <a href="viki.html" class="agent-card reveal" style="transition-delay:.24s; text-decoration:none; display:block;"
+           onmouseenter="this.querySelector('video').play()"
+           onmouseleave="this.querySelector('video').pause(); this.querySelector('video').currentTime=0;">
           <div class="agent-img-wrap">
-            <video autoplay loop muted playsinline>
+            <video loop muted playsinline>
               <source src="assets/videos/combat_viki.mp4" type="video/mp4">
             </video>
           </div>

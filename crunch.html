@@ -1248,6 +1248,88 @@
     }
 
     /* ============================================================
+       ARCHITECTURE TEASER
+    ============================================================ */
+    .arch-teaser {
+      padding-block: 160px;
+      background: linear-gradient(180deg, #020014 0%, #000623 60%, #000830 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .arch-teaser-glow {
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(255,22,53,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .arch-teaser-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: var(--space-8);
+      flex-wrap: wrap;
+      margin-block-end: var(--space-16);
+    }
+    .arch-layers-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+    @media (min-width: 640px)  { .arch-layers-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .arch-layers-grid { grid-template-columns: repeat(5, 1fr); } }
+
+    .arch-layer-card {
+      position: relative;
+      padding: var(--space-8) var(--space-6);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+      overflow: hidden;
+      transition: border-color 0.25s var(--ease-standard), transform 0.25s var(--ease-standard);
+    }
+    .arch-layer-card:hover {
+      transform: translateY(-4px);
+    }
+    .arch-layer-accent {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .arch-layer-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-text-tertiary);
+      margin-block-end: var(--space-4);
+    }
+    .arch-layer-name {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--color-text-primary);
+      margin-block-end: var(--space-3);
+    }
+    .arch-layer-desc {
+      font-size: var(--text-sm);
+      color: var(--color-text-secondary);
+      line-height: 1.65;
+    }
+    .arch-teaser-cta {
+      margin-block-start: var(--space-16);
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+      flex-wrap: wrap;
+    }
+
+    /* ============================================================
        CTA FINAL
     ============================================================ */
     .cta-section {
@@ -1440,6 +1522,7 @@
         <a href="#features"     class="subnav-link">Features</a>
         <a href="#how-it-works" class="subnav-link">Process</a>
         <a href="#pricing"      class="subnav-link">Pricing</a>
+        <a href="#architecture" class="subnav-link">Architecture</a>
         <a href="#contact"      class="subnav-link">Contact</a>
       </div>
     </div>
@@ -1741,6 +1824,72 @@
             </div>
             <p class="philosophy-sig">Trey Secord, Founder, Pix3l LLC</p>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ARCHITECTURE TEASER -->
+    <section id="architecture" class="arch-teaser" aria-labelledby="arch-teaser-heading">
+      <div class="arch-teaser-glow" aria-hidden="true"></div>
+      <div class="container" style="position:relative;z-index:1;">
+        <div class="arch-teaser-header">
+          <div data-reveal>
+            <p class="section-label">Under the hood</p>
+            <div class="red-rule"></div>
+            <h2 class="section-headline" id="arch-teaser-heading">Five layers.<br/>One pipeline.</h2>
+          </div>
+          <p class="arch-teaser-intro" data-reveal style="max-width:440px; font-size:var(--text-base); color:var(--color-text-secondary); line-height:1.75; padding-bottom:0.25rem;">
+            CRUNCH processes your data through five discrete layers, each purpose-built for a single job. Nothing skips a step. Nothing runs blind.
+          </p>
+        </div>
+
+        <div class="arch-layers-grid">
+
+          <!-- Layer 1: Ingestion -->
+          <div class="arch-layer-card" data-reveal>
+            <div class="arch-layer-accent" style="background: linear-gradient(90deg, #FF1635, rgba(255,22,53,0.3));"></div>
+            <p class="arch-layer-num">Layer 01</p>
+            <p class="arch-layer-name">Ingestion</p>
+            <p class="arch-layer-desc">Accepts CSV, Excel, JSON, and database exports. Normalizes encoding, schema, and structure before anything else runs.</p>
+          </div>
+
+          <!-- Layer 2: AI Planning -->
+          <div class="arch-layer-card" data-reveal style="transition-delay:0.05s;">
+            <div class="arch-layer-accent" style="background: linear-gradient(90deg, #A100FF, rgba(161,0,255,0.3));"></div>
+            <p class="arch-layer-num">Layer 02</p>
+            <p class="arch-layer-name">AI Planning</p>
+            <p class="arch-layer-desc">Claude analyzes your dataset, detects anomalies, and generates a ranked transformation plan before touching a single row.</p>
+          </div>
+
+          <!-- Layer 3: Human Review -->
+          <div class="arch-layer-card" data-reveal style="transition-delay:0.10s;">
+            <div class="arch-layer-accent" style="background: linear-gradient(90deg, #FF1673, rgba(255,22,115,0.3));"></div>
+            <p class="arch-layer-num">Layer 03</p>
+            <p class="arch-layer-name">Human Review</p>
+            <p class="arch-layer-desc">You approve, reject, or edit the plan before any processing begins. Full visibility, full control, zero surprises.</p>
+          </div>
+
+          <!-- Layer 4: Processing -->
+          <div class="arch-layer-card" data-reveal style="transition-delay:0.15s;">
+            <div class="arch-layer-accent" style="background: linear-gradient(90deg, #8599FF, rgba(133,153,255,0.3));"></div>
+            <p class="arch-layer-num">Layer 04</p>
+            <p class="arch-layer-name">Processing</p>
+            <p class="arch-layer-desc">Databricks distributed compute executes approved transformations at scale, handling datasets that break local tooling.</p>
+          </div>
+
+          <!-- Layer 5: Output -->
+          <div class="arch-layer-card" data-reveal style="transition-delay:0.20s;">
+            <div class="arch-layer-accent" style="background: linear-gradient(90deg, #FF5E08, rgba(255,94,8,0.3));"></div>
+            <p class="arch-layer-num">Layer 05</p>
+            <p class="arch-layer-name">Output</p>
+            <p class="arch-layer-desc">Clean, validated data delivered in your preferred format with a full audit trail of every change made.</p>
+          </div>
+
+        </div>
+
+        <div class="arch-teaser-cta" data-reveal>
+          <a href="crunch-architecture.html" class="btn btn-primary btn-lg">View Full Architecture</a>
+          <span style="font-size:var(--text-sm); color:var(--color-text-tertiary);">Detailed diagrams, data flows, and integration specs</span>
         </div>
       </div>
     </section>
