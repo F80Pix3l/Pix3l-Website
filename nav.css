@@ -4,8 +4,8 @@
    Light-mode overrides live in theme.css — do not duplicate here.
 ══════════════════════════════════════════════════════ */
 
-/* ── Scroll offset ── */
-html { scroll-padding-top: 100px; }
+/* ── Scroll offset + prevent scrollbar layout shift ── */
+html { scroll-padding-top: 100px; scrollbar-gutter: stable; }
 
 /* ── Global product nav links ── */
 .global-nav-link {

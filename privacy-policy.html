@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <title>Privacy Policy | Cascade by Pix3l</title>
+  <meta name="description" content="Privacy Policy for Cascade, Pix3l's multi-agent AI orchestration platform. Learn how we collect, use, and protect your data.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://pix3l.co/privacy-policy">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'big-red':      '#FF1635',
+            'pinky':        '#FF1673',
+            'purple-spark': '#A100FF',
+            'vista-blue':   '#8599FF',
+            'navy':         '#000947',
+            'dark-navy':    '#000623',
+            'night':        '#0A0A0A',
+            'silver':       '#A3A3A3',
+          },
+          fontFamily: {
+            display: ['Space Grotesk', 'sans-serif'],
+            body:    ['Inter', 'sans-serif'],
+            mono:    ['JetBrains Mono', 'monospace'],
+          },
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="nav.css">
+  <link rel="stylesheet" href="glow.css">
+  <link rel="stylesheet" href="theme.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── GRAIN ── */
+    .grain::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.028;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.01em;
+      color: #fff;
+      background: linear-gradient(135deg, #FF1635 0%, #FF1673 100%);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 4px 24px rgba(255,22,53,0.28), 0 1px 6px rgba(255,22,53,0.12);
+      transition-property: opacity, transform, box-shadow;
+      transition-duration: 200ms;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .btn-primary:hover  { opacity: 0.88; transform: translateY(-1px); box-shadow: 0 6px 28px rgba(255,22,53,0.35), 0 2px 8px rgba(255,22,53,0.18); }
+    .btn-primary:active { opacity: 1; transform: translateY(0); }
+    .btn-primary:focus-visible { outline: 2px solid #FF1673; outline-offset: 3px; }
+
+    /* ── HERO GLOW ── */
+    .hero-glow {
+      background:
+        radial-gradient(ellipse 80% 70% at 10% 15%, rgba(161,0,255,0.11) 0%, transparent 65%),
+        radial-gradient(ellipse 60% 60% at 90% 60%, rgba(133,153,255,0.07) 0%, transparent 65%),
+        radial-gradient(ellipse 100% 80% at 50% 110%, rgba(0,9,71,0.85) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 50% 50%, rgba(255,22,115,0.04) 0%, transparent 70%);
+    }
+
+    /* ── GRADIENT TEXT ── */
+    .gradient-text {
+      background: linear-gradient(135deg, #FF1673 0%, #A100FF 50%, #8599FF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── LABEL ── */
+    .label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* ── PROSE STYLES ── */
+    .prose-policy h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.25rem, 2.5vw, 1.6rem);
+      letter-spacing: -0.02em;
+      color: #fff;
+      margin-top: 2.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .prose-policy h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 1.05rem;
+      letter-spacing: -0.01em;
+      color: rgba(255,255,255,0.85);
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .prose-policy p {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 1rem;
+    }
+    .prose-policy ul {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 1rem;
+    }
+    .prose-policy ul li {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.6);
+      padding-left: 1.25rem;
+      position: relative;
+      margin-bottom: 0.35rem;
+    }
+    .prose-policy ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.65em;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #FF1673;
+    }
+    .prose-policy a {
+      color: #8599FF;
+      text-decoration: none;
+      transition-property: color;
+      transition-duration: 150ms;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .prose-policy a:hover { color: #FF1673; }
+    .prose-policy a:focus-visible { outline: 2px solid #FF1673; outline-offset: 2px; border-radius: 2px; }
+
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      margin: 2rem 0;
+    }
+
+    /* ── TOC ── */
+    .toc-link {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+      display: block;
+      padding: 5px 0;
+      border-left: 2px solid transparent;
+      padding-left: 12px;
+      transition-property: color, border-color;
+      transition-duration: 150ms;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .toc-link:hover { color: #fff; border-left-color: rgba(255,22,115,0.5); }
+    .toc-link:focus-visible { outline: 2px solid #FF1673; outline-offset: 2px; border-radius: 2px; }
+
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition-property: opacity, transform;
+      transition-duration: 520ms;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .btn-primary { transition: none; }
+      .global-nav-link, .nav-link, .toc-link { transition: none; }
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #000623; }
+    ::-webkit-scrollbar-thumb { background: #000947; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #FF1635; }
+
+    /* ── LIGHT MODE ── */
+    html[data-theme="light"] body { background: #f5f4ff !important; color: #0D0020 !important; }
+    html[data-theme="light"] .label { color: rgba(13,0,32,0.35) !important; }
+    html[data-theme="light"] .prose-policy h2 { color: #0D0020 !important; }
+    html[data-theme="light"] .prose-policy h3 { color: rgba(13,0,32,0.80) !important; }
+    html[data-theme="light"] .prose-policy p,
+    html[data-theme="light"] .prose-policy ul li { color: rgba(13,0,32,0.65) !important; }
+    html[data-theme="light"] .toc-link { color: rgba(13,0,32,0.45) !important; }
+    html[data-theme="light"] .toc-link:hover { color: #0D0020 !important; }
+    html[data-theme="light"] .divider { border-color: rgba(13,0,32,0.08) !important; }
+    html[data-theme="light"] .policy-card { background: rgba(255,255,255,0.7) !important; border-color: rgba(13,0,32,0.08) !important; }
+    html[data-theme="light"] footer { background: #e8e6f8 !important; }
+    html[data-theme="light"] #footer-logo { filter: invert(1) !important; opacity: 0.45 !important; }
+    html[data-theme="light"] ::-webkit-scrollbar-track { background: #F2EFFF; }
+    html[data-theme="light"] ::-webkit-scrollbar-thumb { background: #C8BEFF; }
+    html[data-theme="light"] ::-webkit-scrollbar-thumb:hover { background: #FF1635; }
+    html[data-theme="light"] #hero-fade { background: linear-gradient(to bottom, transparent 0%, #f5f4ff 100%) !important; }
+    html[data-theme="light"] .hero-glow {
+      background:
+        radial-gradient(ellipse 80% 70% at 10% 15%, rgba(161,0,255,0.06) 0%, transparent 65%),
+        radial-gradient(ellipse 60% 60% at 90% 60%, rgba(133,153,255,0.05) 0%, transparent 65%) !important;
+    }
+    html[data-theme="light"] .font-mono.text-white\/30 { color: rgba(13,0,32,0.4) !important; }
+  </style>
+</head>
+<body class="bg-[#000623] text-white font-body overflow-x-hidden">
+
+  <!-- ═══════════════════════════════════════════════
+       NAVBAR
+  ═══════════════════════════════════════════════ -->
+  <nav id="navbar" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
+    <!-- Primary bar -->
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
+
+      <a href="index.html" aria-label="Pix3l Home" class="shrink-0 focus-visible:outline-2 focus-visible:outline-[#FF1673] focus-visible:outline-offset-4 rounded">
+        <img id="nav-logo" src="assets/logos/logo-meet-dark-white.svg" alt="PIX3L" class="h-7 w-auto">
+      </a>
+
+      <!-- Global product links -->
+      <div class="hidden lg:flex items-center gap-7">
+        <a href="cascade.html" class="global-nav-link">CASCADE</a>
+        <a href="crunch.html"  class="global-nav-link">CRUNCH</a>
+        <a href="viki.html"    class="global-nav-link">VIKI</a>
+        <a href="bill3.html"   class="global-nav-link">BILL3</a>
+        <a href="agents.html"  class="global-nav-link">Agents</a>
+        <a href="aix.html"     class="global-nav-link">AiX</a>
+        <a href="bio.html"     class="global-nav-link">Founder</a>
+      </div>
+
+      <!-- Right: toggle + CTA + hamburger -->
+      <div class="flex items-center gap-6 shrink-0">
+        <button id="theme-toggle" aria-label="Switch to light mode">
+          <svg id="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+          <svg id="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+        <a href="agents.html" class="hidden lg:inline-flex btn-primary py-2.5 px-5 text-sm">
+          Agentic Solutions
+        </a>
+        <button id="hamburger" class="lg:hidden flex flex-col gap-[5px] p-2 rounded focus-visible:outline-2 focus-visible:outline-[#FF1673]" aria-label="Toggle menu" aria-expanded="false">
+          <span id="h1" class="block w-6 h-[2px] bg-white rounded-full origin-center transition-transform duration-300"></span>
+          <span id="h2" class="block w-6 h-[2px] bg-white rounded-full transition-opacity duration-300"></span>
+          <span id="h3" class="block w-6 h-[2px] bg-white rounded-full origin-center transition-transform duration-300"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div id="mobile-drawer" class="hidden lg:hidden flex-col px-6 pb-5 pt-1 gap-0" style="background: rgba(0,6,35,0.97); border-bottom: 1px solid rgba(255,255,255,0.06);">
+      <p class="drawer-label">Products</p>
+      <a href="cascade.html" class="nav-link py-2.5 border-b border-white/[0.07]">CASCADE</a>
+      <a href="crunch.html"  class="nav-link py-2.5 border-b border-white/[0.07]">CRUNCH</a>
+      <a href="viki.html"    class="nav-link py-2.5 border-b border-white/[0.07]">VIKI</a>
+      <a href="bill3.html"   class="nav-link py-2.5 border-b border-white/[0.07]">BILL3</a>
+      <a href="agents.html"  class="nav-link py-2.5 border-b border-white/[0.07]">Agents</a>
+      <a href="aix.html"     class="nav-link py-2.5 border-b border-white/[0.07]">AiX</a>
+      <a href="bio.html"     class="nav-link py-2.5 border-b border-white/[0.07]">Founder</a>
+      <p class="drawer-label">This page</p>
+      <a href="#information"  class="nav-link py-2.5 border-b border-white/[0.07]">Information We Collect</a>
+      <a href="#third-party"  class="nav-link py-2.5 border-b border-white/[0.07]">Third-Party Integrations</a>
+      <a href="#use"          class="nav-link py-2.5 border-b border-white/[0.07]">How We Use Data</a>
+      <a href="#sharing"      class="nav-link py-2.5 border-b border-white/[0.07]">Data Sharing</a>
+      <a href="#retention"    class="nav-link py-2.5 border-b border-white/[0.07]">Retention</a>
+      <a href="#contact"      class="nav-link py-2.5">Contact</a>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════ -->
+  <section class="grain relative pt-36 pb-32 overflow-hidden">
+    <div class="absolute inset-0 hero-glow pointer-events-none"></div>
+    <div id="hero-fade" class="absolute inset-x-0 bottom-0 h-48 pointer-events-none" style="background: linear-gradient(to bottom, transparent 0%, #000623 100%);"></div>
+    <div class="relative z-10 max-w-7xl mx-auto px-6">
+      <p class="label mb-4 reveal">Legal</p>
+      <h1 class="reveal font-display font-bold text-[clamp(2.2rem,5vw,4rem)] tracking-[-0.03em] leading-[1.06] mb-5" style="transition-delay:.06s;">
+        Privacy Policy
+        <span class="block gradient-text">for Cascade</span>
+      </h1>
+      <p class="reveal font-body text-white/55 text-lg leading-relaxed max-w-xl mb-2" style="transition-delay:.12s;">
+        How Pix3l collects, uses, and protects your data when you use Cascade.
+      </p>
+      <p class="reveal font-mono text-[12px] text-white/30 mt-4" style="transition-delay:.16s;">
+        Effective January 1, 2026
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       CONTENT
+  ═══════════════════════════════════════════════ -->
+  <section class="relative pt-16 pb-24">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="flex flex-col lg:flex-row gap-12 lg:gap-16">
+
+        <!-- Table of contents (sticky sidebar) -->
+        <aside class="lg:w-56 shrink-0">
+          <div class="lg:sticky lg:top-28">
+            <p class="label mb-4">On this page</p>
+            <nav aria-label="Table of contents">
+              <a href="#overview"     class="toc-link">Overview</a>
+              <a href="#information"  class="toc-link">Information We Collect</a>
+              <a href="#third-party"  class="toc-link">Third-Party Integrations</a>
+              <a href="#use"          class="toc-link">How We Use Data</a>
+              <a href="#sharing"      class="toc-link">Data Sharing</a>
+              <a href="#retention"    class="toc-link">Retention</a>
+              <a href="#security"     class="toc-link">Security</a>
+              <a href="#children"     class="toc-link">Children</a>
+              <a href="#changes"      class="toc-link">Policy Changes</a>
+              <a href="#contact"      class="toc-link">Contact</a>
+            </nav>
+          </div>
+        </aside>
+
+        <!-- Policy body -->
+        <div class="flex-1 min-w-0">
+          <div class="policy-card reveal rounded-2xl border border-white/[0.06] p-8 md:p-12" style="background: rgba(255,255,255,0.03);">
+            <div class="prose-policy">
+
+              <section id="overview">
+                <h2>Overview</h2>
+                <p>
+                  Pix3l LLC ("Pix3l," "we," "us," or "our") operates Cascade, a multi-agent AI orchestration platform. This Privacy Policy describes how we collect, use, and handle information when you access or use Cascade.
+                </p>
+                <p>
+                  By using Cascade, you agree to the practices described in this policy. If you do not agree, please discontinue use of the platform.
+                </p>
+              </section>
+
+              <hr class="divider">
+
+              <section id="information">
+                <h2>Information We Collect</h2>
+                <p>We collect information in two ways: automatically through your use of the platform, and through the integrations you connect.</p>
+
+                <h3>Usage and Analytics Data</h3>
+                <p>When you interact with Cascade, we automatically collect:</p>
+                <ul>
+                  <li>Platform interactions: which agents you activate, workflow configurations, task inputs and outputs, and session activity</li>
+                  <li>Performance data: response times, error rates, and throughput metrics across your agent pipelines</li>
+                  <li>Device and browser information: browser type, operating system, and general geographic region (country/region level)</li>
+                  <li>Log data: IP addresses, access timestamps, and referral URLs for security and abuse prevention</li>
+                </ul>
+                <p>We do not use usage data to build advertising profiles or sell it to third parties.</p>
+
+                <h3>Account Information</h3>
+                <p>If you create a Cascade account, we collect the email address and credentials you provide during registration. You may optionally provide a name or organization.</p>
+              </section>
+
+              <hr class="divider">
+
+              <section id="third-party">
+                <h2>Third-Party Integrations</h2>
+                <p>Cascade connects to external platforms to execute agent workflows on your behalf. When you authorize an integration, we receive and process data from that platform as needed to fulfill your workflow instructions.</p>
+
+                <h3>Social Platforms</h3>
+                <p>When you connect social accounts (such as LinkedIn, Instagram, X, or TikTok), Cascade may access:</p>
+                <ul>
+                  <li>Profile information required to authenticate and identify your account</li>
+                  <li>Content you explicitly direct agents to read, draft, schedule, or publish</li>
+                  <li>Engagement metrics for posts managed through Cascade</li>
+                </ul>
+                <p>Cascade agents act only on the permissions you grant. We do not access content outside the scope of your active workflow instructions. You can revoke social platform access at any time through that platform's settings.</p>
+
+                <h3>Databricks</h3>
+                <p>When you connect a Databricks workspace, Cascade may access:</p>
+                <ul>
+                  <li>Workspace metadata required to discover and connect to the correct environment</li>
+                  <li>Data assets (tables, notebooks, jobs) that you explicitly configure agents to read from or write to</li>
+                  <li>Job execution logs relevant to your Cascade pipeline</li>
+                </ul>
+                <p>Cascade does not store copies of your Databricks data beyond what is necessary to complete a given workflow step. Credentials you provide for Databricks access are encrypted at rest.</p>
+
+                <h3>Other Third-Party Services</h3>
+                <p>Cascade may use infrastructure providers (such as cloud hosting, monitoring, and error tracking services) that process limited technical data on our behalf. These providers are contractually bound to use data only for the services they provide to us.</p>
+              </section>
+
+              <hr class="divider">
+
+              <section id="use">
+                <h2>How We Use Data</h2>
+                <p>We use the data we collect to:</p>
+                <ul>
+                  <li>Operate, maintain, and improve Cascade's platform and agent capabilities</li>
+                  <li>Execute the workflows and automation tasks you configure</li>
+                  <li>Diagnose errors, monitor performance, and ensure platform reliability</li>
+                  <li>Detect and prevent fraudulent, abusive, or unauthorized activity</li>
+                  <li>Communicate with you about your account, updates, or changes to this policy</li>
+                  <li>Analyze aggregate, anonymized usage patterns to guide product development</li>
+                </ul>
+                <p>We do not use your workflow data to train AI models without your explicit consent.</p>
+              </section>
+
+              <hr class="divider">
+
+              <section id="sharing">
+                <h2>Data Sharing</h2>
+                <p>We do not sell your personal information. We share data only in the following circumstances:</p>
+                <ul>
+                  <li>With infrastructure and service providers who process data on our behalf, under confidentiality agreements</li>
+                  <li>With the third-party platforms you connect, as required to execute your workflow instructions</li>
+                  <li>When required by law, regulation, or valid legal process</li>
+                  <li>To protect the rights, property, or safety of Pix3l, our users, or the public</li>
+                  <li>In connection with a merger, acquisition, or sale of assets, provided the successor entity honors this policy</li>
+                </ul>
+              </section>
+
+              <hr class="divider">
+
+              <section id="retention">
+                <h2>Retention</h2>
+                <p>We retain usage and analytics data for as long as your account is active or as needed to provide services. Workflow execution logs are retained for 90 days by default and then deleted unless you configure a longer retention period.</p>
+                <p>You may request deletion of your account and associated data at any time by contacting us at the address below. We will process deletion requests within 30 days, except where retention is required by law or legitimate security purposes.</p>
+              </section>
+
+              <hr class="divider">
+
+              <section id="security">
+                <h2>Security</h2>
+                <p>We implement technical and organizational measures to protect your data, including encryption in transit (TLS) and at rest, access controls, and regular security reviews. No system is completely secure, and we cannot guarantee absolute security of your information.</p>
+                <p>If you believe your account has been compromised, contact us immediately at <a href="mailto:trey@pix3l.co">trey@pix3l.co</a>.</p>
+              </section>
+
+              <hr class="divider">
+
+              <section id="children">
+                <h2>Children</h2>
+                <p>Cascade is not directed to children under 13. We do not knowingly collect personal information from children under 13. If you believe we have inadvertently collected such information, contact us and we will delete it promptly.</p>
+              </section>
+
+              <hr class="divider">
+
+              <section id="changes">
+                <h2>Policy Changes</h2>
+                <p>We may update this Privacy Policy from time to time. When we make material changes, we will update the effective date at the top of this page and, where appropriate, notify you by email or in-platform notice. Continued use of Cascade after changes take effect constitutes acceptance of the updated policy.</p>
+              </section>
+
+              <hr class="divider">
+
+              <section id="contact">
+                <h2>Contact</h2>
+                <p>Questions about this policy or your data? Reach us at:</p>
+                <ul>
+                  <li>Email: <a href="mailto:trey@pix3l.co">trey@pix3l.co</a></li>
+                  <li>Platform: <a href="https://pix3l.co">pix3l.co</a></li>
+                </ul>
+                <p>We aim to respond to all privacy inquiries within 5 business days.</p>
+              </section>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════ -->
+  <footer class="relative py-12 border-t border-white/[0.06]" style="background: #000623;">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+        <a href="index.html" class="focus-visible:outline-2 focus-visible:outline-[#FF1673] focus-visible:outline-offset-4 rounded">
+          <img id="footer-logo" src="assets/logos/logo-meet-dark-white.svg" alt="Pix3l LLC" class="h-7 w-auto opacity-60" loading="lazy">
+        </a>
+        <div class="flex flex-wrap justify-center gap-6">
+          <a href="cascade.html"       class="nav-link text-[13px]">Cascade</a>
+          <a href="crunch.html"        class="nav-link text-[13px]">CRUNCH</a>
+          <a href="viki.html"          class="nav-link text-[13px]">VIKI</a>
+          <a href="agents.html"        class="nav-link text-[13px]">Agents</a>
+          <a href="index.html"         class="nav-link text-[13px]">Pix3l LLC</a>
+          <a href="privacy-policy.html" class="nav-link text-[13px]" style="color: rgba(255,255,255,0.75);">Privacy Policy</a>
+        </div>
+        <div class="text-center md:text-right">
+          <a href="mailto:trey@pix3l.co" class="text-[#FF1673] text-sm transition-colors duration-200 hover:text-[#FF1635]" style="font-family:'Space Grotesk',sans-serif;font-weight:500;letter-spacing:-0.005em;">trey@pix3l.co</a>
+        </div>
+      </div>
+      <div class="mt-8 pt-6 border-t border-white/[0.05] flex flex-col sm:flex-row items-center justify-between gap-2">
+        <p class="font-mono text-[11px] text-white/25">© 2026 Pix3l LLC. All rights reserved.</p>
+        <p class="font-mono text-[11px] text-white/18">Cascade: AI Agent Orchestration</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════
+       JAVASCRIPT
+  ═══════════════════════════════════════════════ -->
+  <script src="theme.js"></script>
+  <script src="nav.js"></script>
+  <script>
+    // Scroll-reveal
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.06, rootMargin: '0px 0px -24px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // Trigger hero immediately
+    setTimeout(() => {
+      document.querySelectorAll('section.grain .reveal').forEach(el => el.classList.add('visible'));
+    }, 80);
+
+</script>
+  <script src="glow.js"></script>
+</body>
+</html>
