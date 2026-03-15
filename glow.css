@@ -46,17 +46,29 @@
   pointer-events: none;
   z-index: 10;
 
-  /* 140-deg arc of Pix3l brand colors that tracks the cursor */
-  background: conic-gradient(
-    from calc(var(--glow-start, 0deg) - 10deg) at var(--glow-x, 50%) var(--glow-y, 50%),
-    transparent 0deg,
-    #A100FF 30deg,
-    #8599FF 70deg,
-    #FF1673 110deg,
-    #FF1635 145deg,
-    transparent 180deg,
-    transparent 360deg
-  );
+  /* ── Aceternity-inspired: rich multi-layer Pix3l gradient ──
+     Radial blobs from each brand color add depth, layered under a
+     conic sweep. The conic has transparent shoulders (0–4% and 16–100%)
+     so only a ~65° arc of color is visible on the border ring — this
+     arc rotates to chase the cursor via --glow-start, animated with
+     a smooth lerp in glow.js. */
+  background:
+    /* Outer radial depth blobs — subtle, add color warmth to the ring */
+    radial-gradient(ellipse at 30% 30%, rgba(161,0,255,0.55)   0%, transparent 55%),
+    radial-gradient(ellipse at 75% 20%, rgba(255,22,53,0.45)   0%, transparent 50%),
+    radial-gradient(ellipse at 75% 80%, rgba(133,153,255,0.50) 0%, transparent 55%),
+    radial-gradient(ellipse at 25% 75%, rgba(255,22,115,0.45)  0%, transparent 50%),
+    /* Conic arc: transparent except for a ~65° sweep of brand colors */
+    conic-gradient(
+      from calc(var(--glow-start, 0) * 1deg) at 50% 50%,
+      transparent  0%,
+      #A100FF      4%,
+      #FF1673      8%,
+      #8599FF     11%,
+      #FF1635     14%,
+      transparent 18%,
+      transparent 100%
+    );
 
   /* Padding = visible border ring thickness */
   padding: 3px;
@@ -69,7 +81,7 @@
   mask-composite: exclude;
 
   opacity: 0;
-  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .pix3l-glow.glow-visible {

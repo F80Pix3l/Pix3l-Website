@@ -31,7 +31,6 @@
     // When the card switches to overflow:visible, inner image containers
     // need their own border-radius to maintain rounded corners on images.
     if (card.classList.contains('product-card')) {
-      // First child div is the image area (h-44)
       var imgDiv = card.querySelector('.h-44');
       if (imgDiv) {
         imgDiv.style.borderRadius = '17px 17px 0 0';
@@ -50,61 +49,71 @@
     if (card.dataset.glowInit) return;
     card.dataset.glowInit = '1';
 
-    // Ensure the card has position so absolute children work
     var pos = getComputedStyle(card).position;
     if (pos === 'static') card.style.position = 'relative';
 
-    // Fix inner image container clipping before overflow changes
     fixImageContainerRadius(card);
 
-    // Insert glow element as first child
     var glow = document.createElement('div');
     glow.className = 'pix3l-glow';
     glow.setAttribute('aria-hidden', 'true');
     card.insertBefore(glow, card.firstChild);
 
-    var rafId = null;
-    var cursorX = 0;
-    var cursorY = 0;
+    // Smooth angle tracking — lerp toward target each animation frame
+    // (mirrors Aceternity's motion/animate but in vanilla JS)
+    var currentAngle = 0;
+    var targetAngle  = 0;
+    var isHovered    = false;
+    var rafId        = null;
 
-    function applyGlow() {
+    // Return the shortest angular path to avoid wrap-around spinning
+    function shortestDest(from, to) {
+      var diff = ((to - from) % 360 + 540) % 360 - 180;
+      return from + diff;
+    }
+
+    function tick() {
+      if (!isHovered) { rafId = null; return; }
+
+      var dest = shortestDest(currentAngle, targetAngle);
+      currentAngle += (dest - currentAngle) * 0.09;   // lerp — lower = smoother chase
+      glow.style.setProperty('--glow-start', currentAngle.toFixed(2));
+
+      if (Math.abs(dest - currentAngle) > 0.05) {
+        rafId = requestAnimationFrame(tick);
+      } else {
+        currentAngle = targetAngle % 360;
+        glow.style.setProperty('--glow-start', currentAngle.toFixed(2));
+        rafId = null;
+      }
+    }
+
+    function updateAngle(e) {
       var rect = card.getBoundingClientRect();
+      var cx = rect.left + rect.width  / 2;
+      var cy = rect.top  + rect.height / 2;
+      var dx = e.clientX - cx;
+      var dy = e.clientY - cy;
+      // +90 so angle 0 = top, matching CSS conic-gradient convention
+      targetAngle = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
 
-      // Cursor as % within the card
-      var px = ((cursorX - rect.left) / rect.width) * 100;
-      var py = ((cursorY - rect.top) / rect.height) * 100;
-
-      // Angle from card center to cursor (controls arc position)
-      var dx = cursorX - (rect.left + rect.width / 2);
-      var dy = cursorY - (rect.top + rect.height / 2);
-      var angleDeg = Math.atan2(dy, dx) * (180 / Math.PI);
-
-      glow.style.setProperty('--glow-x', px.toFixed(2) + '%');
-      glow.style.setProperty('--glow-y', py.toFixed(2) + '%');
-      glow.style.setProperty('--glow-start', angleDeg.toFixed(2) + 'deg');
-
-      rafId = null;
+      if (!rafId && isHovered) {
+        rafId = requestAnimationFrame(tick);
+      }
     }
 
     card.addEventListener('mouseenter', function (e) {
-      cursorX = e.clientX;
-      cursorY = e.clientY;
+      isHovered = true;
       glow.classList.add('glow-visible');
-      if (!rafId) rafId = requestAnimationFrame(applyGlow);
+      updateAngle(e);
     });
 
-    card.addEventListener('mousemove', function (e) {
-      cursorX = e.clientX;
-      cursorY = e.clientY;
-      if (!rafId) rafId = requestAnimationFrame(applyGlow);
-    });
+    card.addEventListener('mousemove', updateAngle);
 
     card.addEventListener('mouseleave', function () {
+      isHovered = false;
       glow.classList.remove('glow-visible');
-      if (rafId) {
-        cancelAnimationFrame(rafId);
-        rafId = null;
-      }
+      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
     });
   }
 
