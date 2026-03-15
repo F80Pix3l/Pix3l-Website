@@ -776,9 +776,13 @@
           </div>
         </a>
 
-        <a href="agents/oracle.html" class="agent-card reveal" style="transition-delay:.08s; text-decoration:none; display:block;">
+        <a href="agents/oracle.html" class="agent-card reveal" style="transition-delay:.08s; text-decoration:none; display:block;"
+           onmouseenter="this.querySelector('video').play()"
+           onmouseleave="this.querySelector('video').pause(); this.querySelector('video').currentTime=0;">
           <div class="agent-img-wrap">
-            <img src="assets/cascade/agents/oracle.png" alt="Oracle: The Empath" loading="lazy">
+            <video loop muted playsinline>
+              <source src="assets/videos/oracle-emotions.mp4" type="video/mp4">
+            </video>
           </div>
           <div class="p-5">
             <p class="font-mono text-[10px] text-[#FF1635] tracking-widest uppercase mb-1">Ingestion</p>
@@ -802,9 +806,13 @@
           </div>
         </a>
 
-        <a href="agents/nikola.html" class="agent-card reveal" style="transition-delay:.16s; text-decoration:none; display:block;">
+        <a href="agents/nikola.html" class="agent-card reveal" style="transition-delay:.16s; text-decoration:none; display:block;"
+           onmouseenter="this.querySelector('video').play()"
+           onmouseleave="this.querySelector('video').pause(); this.querySelector('video').currentTime=0;">
           <div class="agent-img-wrap">
-            <img src="assets/cascade/agents/nikola.png" alt="Nikola: The Visionary" loading="lazy">
+            <video loop muted playsinline>
+              <source src="assets/videos/nikola-animation.mp4" type="video/mp4">
+            </video>
           </div>
           <div class="p-5">
             <p class="font-mono text-[10px] text-[#8599FF] tracking-widest uppercase mb-1">Brand Voice</p>
